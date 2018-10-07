@@ -1,17 +1,17 @@
 #1 Prints the line counts for each of the 3 FASTA files and the total lines
-wc -l 407228326.fasta 407228412.fasta E.coli.fasta 
+wc -l ../Data/407228326.fasta ../Data/407228412.fasta ../Data/E.coli.fasta 
 
 #2 Prints the file E.coli.fasta except the header line
-tail -n +2 E.coli.fasta
+tail -n +2 ../Data/E.coli.fasta
 
 #3 Prints the sequence length of the E.coli genome
-tail -n +2 E.coli.fasta | tr -d '\n' | wc -m
+tail -n +2 ../Data/E.coli.fasta | tr -d '\n' | wc -m
 
 #4 Removes the header line and places the sequence data onto one line. Then searches for instances of "ATGC" and counts them.
-tail -n +2 E.coli.fasta | tr -d '\n' | grep -o "ATGC" | wc -l
+tail -n +2 ../Data/E.coli.fasta | tr -d '\n' | grep -o "ATGC" | wc -l
 
 #5 Gives the ratio of AT to GC in the E.coli Genome
 
 #Currently just gives the number of AT. 
-tail -n +2 E.coli.fasta | tr -d '\n' | grep -o ["A""T"] | wc -l 
+tail -n +2 ../Data/E.coli.fasta | tr -d '\n' | grep -o ["A""T"] | wc -l 
 
