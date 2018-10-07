@@ -13,13 +13,13 @@ Shell Scrips:
 
 Boilerplate.sh - Basic boilerplate file that simply prints "This is a shell script!"
 
+CompileLaTeX.sh - Allows a LaTeX script (minus the .tex extension) to be converted to a PDF and a bibtex file of the same name to be added as a bibliography to the document.
+
 ConcatenateTwoFiles - Copies the data from two input files into a singular specified output file, one after the other.
 
 CountLines.sh - Counts the number of lines in a text file
 
 csvtospace.sh - Converts a comma delimited file into a space delimited file and places the output into a new file (this does not alter the original file).
-
-FirstExample.tex - CHECK
 
 MyExampleScript.sh - Showcases the ability to use variables or manually input text for printed statements.
 
