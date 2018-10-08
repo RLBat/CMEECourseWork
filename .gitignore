@@ -1,2 +1,9 @@
 *~ 
 *.tmp
+*.aux 
+*.dvi 
+*.log 
+*.nav 
+*.out 
+*.snm 
+*.toc
