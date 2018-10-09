@@ -1,14 +1,14 @@
 #!/bin/bash
 #Author: Rachel Bates RLB18@Imperial.ac.uk
 #Script: tiff2png.sh
-#Desc: Converts a .tif file to a .png
+#Desc: Creates .png versions of any .tif file in the Data directory and places them in the output directory
 #Arguments: 
 #Date: 06.10.18
 
-for f in ../Sandbox/*.tif; 
+for f in ../Data/*.tif; 
     do  
         echo "Converting $f"; 
-        convert "$f"  "$(basename "$f" .tif).jpg";
-        mv $f.tif.jpg ../Code/ ../Sandbox/
+        convert "$f"  "$(basename "$f" .tif).png";
+        mv *.png ../Output/ #Moves the created png to the output directory
         echo "Conversion complete"
     done

@@ -12,7 +12,8 @@ bibtex $1
 pdflatex $1.tex
 pdflatex $1.tex
 evince $1.pdf &
-## Cleanup - removes unnessesary files
+
+# Cleanup - removes unnessesary files
 rm *~
 rm *.aux
 rm *.dvi

@@ -11,7 +11,12 @@ if [ $# -eq 0 ]
         echo "No input file entered. Please try again"
         exit
     else
-        cat $1 | tr -s "\t" "," >> $1.csv #Removes the tabs from the file and replaces them with commas. Creates a new csv file named the same as $1.
+#        File=$(echo "$1" | cut -f 1 -d '.')
+#        cat $File | tr -s "\t" "," >> $File.csv
+        cat $1 | tr -s "\t" "," >> $1.csv
+        #Removes the tabs from the file and replaces them with commas. Creates a new csv file named the same as $1.
+        mv $1.csv ../Output/
+        #Moves the resulting file into the Output directory
         echo "Done!"
         exit
 fi

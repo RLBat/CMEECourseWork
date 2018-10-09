@@ -5,7 +5,8 @@
 #Arguments: none
 #Date: 02.10.18
 
-echo "Creating a space delimited versions of temperature files ..."
+echo "Creating space delimited versions of temperature files ..."
+# Copies the csv, replaces all instances of commas with spaces, and saves the resulting file.
 cat ../Data/1800.csv | tr -s "," " " >> ../Output/1800.txt
 cat ../Data/1801.csv | tr -s "," " " >> ../Output/1801.txt
 cat ../Data/1802.csv | tr -s "," " " >> ../Output/1802.txt
