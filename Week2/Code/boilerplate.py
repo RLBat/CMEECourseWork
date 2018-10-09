@@ -4,7 +4,7 @@
     You can use several lines"""
 
 __appname__ = '[application name here]'
-__author__ = 'Your Name (your@email.address)'
+__author__ = 'Rachel Bates r.bates18@imperial.ac.uk'
 __version__ = '0.0.1'
 __license__ = "Licence for this code/program"
 
@@ -21,7 +21,8 @@ def main(argv):
     print ('This is a boilerplate') # NOTE:indented using two tabs or 4 spaces
     return 0
 
-if __name__ == "__main__":
+if __name__ == "__main__": #Makes sure the first system argument is the 
+                            #name of the program
     """ Makes sure the "main" function is called from command line"""
     status = main(sys.argv)
     sys.exit(status)
