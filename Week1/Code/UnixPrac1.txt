@@ -1,4 +1,8 @@
-#1 Prints the line counts for each of the 3 FASTA files and the total lines
+##########
+FASTA Scripts
+##########
+
+#1 Prints the line counts for each of the 3 FASTA files
 wc -l ../Data/407228326.fasta ../Data/407228412.fasta ../Data/E.coli.fasta 
 
 #######
@@ -20,6 +24,5 @@ tail -n +2 ../Data/E.coli.fasta | tr -d '\n' | grep -o "ATGC" | wc -l
 
 #5 Gives the ratio of AT to GC in the E.coli Genome
 
-#Currently just gives the number of AT. 
-tail -n +2 ../Data/E.coli.fasta | tr -d '\n' | grep -o ["A""T"] | wc -l 
+echo $(tail -n +2 ../Data/E.coli.fasta | tr -d '\n' | grep -o ["A""T"] | wc -l)/$(tail -n +2 ../Data/E.coli.fasta | tr -d '\n' | grep -o ["G""C"] | wc -l) | bc -l
 
