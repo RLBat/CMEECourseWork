@@ -2,27 +2,38 @@
 FASTA Scripts
 ##########
 
-#1 Prints the line counts for each of the 3 FASTA files
+#1 
+	#Prints the line counts for each of the 3 FASTA files
 wc -l ../Data/407228326.fasta ../Data/407228412.fasta ../Data/E.coli.fasta 
 
 #######
 
-#2 Prints the file E.coli.fasta except the header line
+#2 	
+	#Prints the file E.coli.fasta except the header line
 tail -n +2 ../Data/E.coli.fasta
 
 ######
 
-#3 Prints the sequence length of the E.coli genome
+#3 
+	#Prints the sequence length of the E.coli genome by counting the characters in the file
+	#Header line and newline characters are removed prior to counting
 tail -n +2 ../Data/E.coli.fasta | tr -d '\n' | wc -m
 
 #######
 
-#4 Removes the header line and places the sequence data onto one line. Then searches for instances of "ATGC" and counts them.
+#4 
+	#Removes the header line and places the sequence data onto one line. 
+	#Then searches for instances of the squence "ATGC", places each instance onto a new line
+	#it then counts the number of lines to give a count of the instances.
 tail -n +2 ../Data/E.coli.fasta | tr -d '\n' | grep -o "ATGC" | wc -l
 
 #######
 
 #5 Gives the ratio of AT to GC in the E.coli Genome
+	#For each of A/T and G/C first the header line and newline characters are removed
+	#Then the instances of each character are counted as in #4
+	#The number of bases are divided to give a ratio, using bc -l to allow non-integer division
+	#Echo is used to print the ratio
 
 echo $(tail -n +2 ../Data/E.coli.fasta | tr -d '\n' | grep -o ["A""T"] | wc -l)/$(tail -n +2 ../Data/E.coli.fasta | tr -d '\n' | grep -o ["G""C"] | wc -l) | bc -l
 
