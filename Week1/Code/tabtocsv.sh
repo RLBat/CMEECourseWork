@@ -6,6 +6,12 @@
 #Date: 02.10.18
 
 echo "Creating a comma delimited verson of $1 ..."
-cat $1 | tr -s "\t" "," >> $1.csv #Removes the tabs from the file and replaces them with commas. Creates a new csv file named the same as $1.
-echo "Done!"
-exit
+if [ $# -eq 0 ]
+    then
+        echo "No input file entered. Please try again"
+        exit
+    else
+        cat $1 | tr -s "\t" "," >> $1.csv #Removes the tabs from the file and replaces them with commas. Creates a new csv file named the same as $1.
+        echo "Done!"
+        exit
+fi
