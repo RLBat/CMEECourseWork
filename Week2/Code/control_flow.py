@@ -11,6 +11,8 @@ import sys # module to interface out program with the operating system
 
 ## constants ##
 
+#None
+
 ## functions ##
 
 def even_or_odd(x=0):
@@ -62,7 +64,9 @@ def main(argv):
     print(is_prime(60))
     print(is_prime(59))
     print(find_all_primes(100))
-    return 0 ## GIves a value for status
+    return 0 ## Gives a value for status
+
+#####################
 
 if __name__ == "__main__":
     """ Makes sure the "main" function is called from command line"""
