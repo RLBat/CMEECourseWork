@@ -62,9 +62,9 @@ def main(argv):
     print(is_prime(60))
     print(is_prime(59))
     print(find_all_primes(100))
-    return 0
+    return 0 ## GIves a value for status
 
 if __name__ == "__main__":
     """ Makes sure the "main" function is called from command line"""
     status = main(sys.argv)
-    sys.exit(status)
+    sys.exit(status) ## 0 causes the program to terminate
