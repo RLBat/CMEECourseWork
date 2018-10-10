@@ -11,3 +11,5 @@
 *.class
 _pycache_
 *.pyc
+*.bbl
+*.blg
