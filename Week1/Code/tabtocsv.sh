@@ -5,17 +5,14 @@
 #Arguments: 1-> tab delimited file
 #Date: 02.10.18
 
-echo "Creating a comma delimited verson of $1 ..."
-if [ $# -eq 0 ]
+if [ $# -eq 0 ]  #Checks there is an input file
     then
-        echo "No input file entered. Please try again"
+        echo "No input file detected. Please try again"
         exit
     else
-#        File=$(echo "$1" | cut -f 1 -d '.')
-#        cat $File | tr -s "\t" "," >> $File.csv
-        cat $1 | tr -s "\t" "," >> $1.csv
+        echo "Creating a comma delimited verson of $1 ..."
+        cat $1 | tr -s "\t" "," >> $1.csv | mv $1.csv ../Output/
         #Removes the tabs from the file and replaces them with commas. Creates a new csv file named the same as $1.
-        mv $1.csv ../Output/
         #Moves the resulting file into the Output directory
         echo "Done!"
         exit
