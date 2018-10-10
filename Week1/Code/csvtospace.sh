@@ -5,11 +5,15 @@
 #Arguments: none
 #Date: 02.10.18
 
-echo "Creating space delimited versions of temperature files ..."
-# Copies the csv, replaces all instances of commas with spaces, and saves the resulting file.
-cat ../Data/1800.csv | tr -s "," " " >> ../Output/1800.txt
-cat ../Data/1801.csv | tr -s "," " " >> ../Output/1801.txt
-cat ../Data/1802.csv | tr -s "," " " >> ../Output/1802.txt
-cat ../Data/1803.csv | tr -s "," " " >> ../Output/1803.txt
-echo "Conversion Complete. Please find the new files in the Output folder"
-exit
+if [ $# -eq 0 ]  #Checks there is an input file
+    then
+        echo "No input file detected. Please try again"
+        exit
+    else
+        echo "Creating a comma delimited verson of $1 ..."
+        cat $1 | tr -s "," " " >> $1.txt | mv $1.txt ../Output/
+        #Removes the tabs from the file and replaces them with commas. Creates a new csv file named the same as $1.
+        #Moves the resulting file into the Output directory
+        echo "Done!"
+        exit
+fi
