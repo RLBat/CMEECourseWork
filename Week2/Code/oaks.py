@@ -20,7 +20,6 @@ taxa = [ 'Quercus robur',
 
 ## Functions ##
 
-
 # Returns the species name (lower case) if it is an oak
 def is_an_oak(name):
     return name.lower().startswith('quercus ')

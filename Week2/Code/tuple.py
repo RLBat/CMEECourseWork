@@ -1,3 +1,16 @@
+#!/usr/bin/env python3
+
+""" Prints the latin name, common name and mass of various bird species """
+
+__author__ = 'Rachel Bates r.bates18@imperial.ac.uk'
+__version__ = '0.0.1'
+
+## Imports ##
+
+# None
+
+## Constants ##
+
 birds = ( ('Passerculus sandwichensis','Savannah sparrow',18.7),
           ('Delichon urbica','House martin',19),
           ('Junco phaeonotus','Yellow-eyed junco',19.5),
@@ -5,11 +18,15 @@ birds = ( ('Passerculus sandwichensis','Savannah sparrow',18.7),
           ('Tachycineata bicolor','Tree swallow',20.2),
         )
 
-# Birds is a tuple of tuples of length three: latin name, common name, mass.
-# write a (short) script to print these on a separate line or output block by species 
-# Hints: use the "print" command! You can use list comprehension!
+## Functions ##
 
-# ANNOTATE WHAT EVERY BLOCK OR IF NECESSARY, LINE IS DOING! 
+# None
 
-# ALSO, PLEASE INCLUDE A DOCSTRING AT THE BEGINNING OF THIS FILE THAT 
-# SAYS WHAT THE SCRIPT DOES AND WHO THE AUTHOR IS
+###############
+
+# Prints the attributes for each species using loops
+for species in birds:
+    print (species)
+
+# Prints the attributes for each species using list comprehension
+all_birds = [print(species) for species in birds]
