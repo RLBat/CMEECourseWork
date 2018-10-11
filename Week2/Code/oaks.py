@@ -5,6 +5,10 @@
 __author__ = 'Rachel Bates r.bates18@imperial.ac.uk'
 __version__ = '0.0.1'
 
+## Imports ##
+
+# None
+
 ## Constants ##
 
 taxa = [ 'Quercus robur',
