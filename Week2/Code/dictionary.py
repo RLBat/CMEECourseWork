@@ -1,3 +1,16 @@
+#!/usr/bin/env python3
+
+""" Creates a dictionary of Species sorted by Order """
+
+__author__ = 'Rachel Bates r.bates18@imperial.ac.uk'
+__version__ = '0.0.1'
+
+## Imports ##
+
+# None
+
+## Constants ##
+
 taxa = [ ('Myotis lucifugus','Chiroptera'),
          ('Gerbillus henleyi','Rodentia',),
          ('Peromyscus crinitus', 'Rodentia'),
@@ -10,13 +23,15 @@ taxa = [ ('Myotis lucifugus','Chiroptera'),
          ('Canis lupus', 'Carnivora'),
         ]
 
-# Write a short python script to populate a dictionary called taxa_dic 
-# derived from  taxa so that it maps order names to sets of taxa. 
-# E.g. 'Chiroptera' : set(['Myotis lucifugus']) etc. 
+## Functions ##
 
-# ANNOTATE WHAT EVERY BLOCK OR IF NECESSARY, LINE IS DOING! 
+# None
 
-# ALSO, PLEASE INCLUDE A DOCSTRING AT THE BEGINNING OF THIS FILE THAT 
-# SAYS WHAT THE SCRIPT DOES AND WHO THE AUTHOR IS
+###############
+taxa_dic = {} # Creates an empty dictionary
+for species in taxa:
+        # For each species, appends the Order as a new key if it does not exist
+        # Attaches latin name to correct Order 
+        taxa_dic.setdefault(species[1], []).append(species[0])
+print (taxa_dic)
 
-# Write your script here:
