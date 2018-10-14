@@ -183,7 +183,7 @@ This is a shell script!
 
 Code ran without errors
 
-Time consumed = 0.00825s
+Time consumed = 0.00551s
 
 ======================================================================
 Inspecting script file CountLines.sh...
@@ -217,7 +217,7 @@ No input file detected. Please try again
 
 Code ran without errors
 
-Time consumed = 0.00656s
+Time consumed = 0.00443s
 
 ======================================================================
 Inspecting script file variables.sh...
@@ -326,29 +326,29 @@ rm: cannot remove '*.out': No such file or directory
 rm: cannot remove '*.snm': No such file or directory
 rm: cannot remove '*.toc': No such file or directory
 
-** (evince:23876): WARNING **: Error when getting information for file '/home/mhasoba/Documents/Teaching/IC_CMEE/2018-19/Coursework/StudentRepos/RachelLoreleiBates_RLB18/Week1/Output/.pdf': No such file or directory
+** (evince:26620): WARNING **: Error when getting information for file '/home/mhasoba/Documents/Teaching/IC_CMEE/2018-19/Coursework/StudentRepos/RachelLoreleiBates_RLB18/Week1/Output/.pdf': No such file or directory
 
-** (evince:23876): WARNING **: Error setting file metadata: No such file or directory
+** (evince:26620): WARNING **: Error setting file metadata: No such file or directory
 
-** (evince:23876): WARNING **: Error setting file metadata: No such file or directory
+** (evince:26620): WARNING **: Error setting file metadata: No such file or directory
 
-** (evince:23876): WARNING **: Error setting file metadata: No such file or directory
+** (evince:26620): WARNING **: Error setting file metadata: No such file or directory
 
-** (evince:23876): WARNING **: Error setting file metadata: No such file or directory
+** (evince:26620): WARNING **: Error setting file metadata: No such file or directory
 
-** (evince:23876): WARNING **: Error setting file metadata: No such file or directory
+** (evince:26620): WARNING **: Error setting file metadata: No such file or directory
 
-** (evince:23876): WARNING **: Error setting file metadata: No such file or directory
+** (evince:26620): WARNING **: Error setting file metadata: No such file or directory
 
-** (evince:23876): WARNING **: Error setting file metadata: No such file or directory
+** (evince:26620): WARNING **: Error setting file metadata: No such file or directory
 
-** (evince:23876): WARNING **: Error setting file metadata: No such file or directory
+** (evince:26620): WARNING **: Error setting file metadata: No such file or directory
 
-** (evince:23876): WARNING **: Error setting file metadata: No such file or directory
+** (evince:26620): WARNING **: Error setting file metadata: No such file or directory
 
-** (evince:23876): WARNING **: Error setting file metadata: No such file or directory
+** (evince:26620): WARNING **: Error setting file metadata: No such file or directory
 
-** (evince:23876): WARNING **: Error setting file metadata: No such file or directory
+** (evince:26620): WARNING **: Error setting file metadata: No such file or directory
 
 ======================================================================
 Inspecting script file tiff2png.sh...
@@ -382,7 +382,7 @@ Conversion complete, files placed in ../Output/
 
 Code ran without errors
 
-Time consumed = 0.20274s
+Time consumed = 0.18325s
 
 ======================================================================
 Inspecting script file csvtospace.sh...
@@ -420,7 +420,7 @@ No input file detected. Please try again
 
 Code ran without errors
 
-Time consumed = 0.00577s
+Time consumed = 0.00481s
 
 ======================================================================
 Inspecting script file FirstExample.tex...
@@ -486,7 +486,7 @@ Hello mhasoba
 
 Code ran without errors
 
-Time consumed = 0.00637s
+Time consumed = 0.00901s
 
 ======================================================================
 Inspecting script file FirstBiblio.bib...
@@ -592,7 +592,7 @@ No input file detected. Please try again
 
 Code ran without errors
 
-Time consumed = 0.00558s
+Time consumed = 0.00652s
 
 ======================================================================
 ======================================================================
