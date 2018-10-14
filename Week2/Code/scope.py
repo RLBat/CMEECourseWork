@@ -1,3 +1,6 @@
+
+""" A script exemplifyig the theory of variable scope by using local and global variables in various ways """
+
 ## First try this
 
 _a_global = 10

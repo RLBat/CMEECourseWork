@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-""" Some functions exemplifying the use of control statements"""
+""" Some functions exemplifying the use of control statements """
 
 __author__ = 'Rachel Bates r.bates18@imperial.ac.uk'
 __version__ = '0.0.1'

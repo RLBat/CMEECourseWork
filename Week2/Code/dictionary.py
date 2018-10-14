@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-""" Creates a dictionary of Species sorted by Order """
+""" Creates a dictionary of species' latin names sorted by Order """
 
 __author__ = 'Rachel Bates r.bates18@imperial.ac.uk'
 __version__ = '0.0.1'

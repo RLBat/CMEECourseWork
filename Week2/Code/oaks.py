@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-"""Finds just those taxa that are oak trees from a list of species"""
+""" Finds just those species that are oaks from a list of species' latin names """
 
 __author__ = 'Rachel Bates r.bates18@imperial.ac.uk'
 __version__ = '0.0.1'

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-""" Compares two DNA base sequences and finds the position at which they most closely match """
+""" Compares two base sequences and finds the position at which they most closely match """
 
 __author__ = 'Rachel Bates r.bates18@imperial.ac.uk'
 __version__ = '0.0.1'

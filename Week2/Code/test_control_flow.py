@@ -1,20 +1,20 @@
 #!/usr/bin/env python3
 
-""" Some functions exemplifying the use of control statements"""
+""" Some functions exemplifying the use of control statements """
 
 __author__ = 'Rachel Bates r.bates18@imperial.ac.uk'
 __version__ = '0.0.1'
 
-## imports ##
+## IMPORTS ##
 
 import sys # module to interface out program with the operating system
 import doctest
 
-## constants ##
+## CONSTANTS ##
 
-#None
+# None
 
-## functions ##
+## FUNCTIONS ##
 
 def even_or_odd(x=0):
     """Find whether a number x is even or odd.
