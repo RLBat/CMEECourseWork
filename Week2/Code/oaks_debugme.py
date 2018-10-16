@@ -58,11 +58,11 @@ def main(argv):
     f = open('../Data/TestOaksData.csv','r')
     g = open('../Output/JustOaksData.csv','w')
     taxa = csv.reader(f)
+    header = next(taxa)
     csvwrite = csv.writer(g)
     oaks = set()
-    csvwrite.writerow(taxa[0,0], taxa[0,1])
+    csvwrite.writerow(header)
     for row in taxa:
-    #for row in taxa(:1):
         print(row)
         print ("The genus is: ") 
         print(row[0] + '\n')
