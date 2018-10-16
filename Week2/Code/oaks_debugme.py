@@ -1,9 +1,23 @@
+#!/usr/bin/env python3
+
+""" Module that checks a list of latin names to see which are oaks, 
+    and exports all oak species to a text file """
+
+__author__ = 'Rachel Bates r.bates18@imperial.ac.uk'
+__version__ = '0.0.1'
+
+## IMPORTS ##
+
 import csv
 import sys
 import doctest
-import ipdb
 
-#Define function
+## CONSTANTS ##
+
+# None
+
+## FUNCTIONS ##
+
 def is_an_oak(name):
     """ Tests to see if the function can correctly identify oaks
 
@@ -31,9 +45,6 @@ def is_an_oak(name):
     >>> is_an_oak("quercus, robor")
     True
 
-    >>> is_an_oak("Quercus")
-    True
-
     >>> is_an_oak(365)
     False
 
@@ -47,30 +58,31 @@ def is_an_oak(name):
     True
 
     """
-    name = str(name).lower()
-    name = name.lstrip()
-    name = name.split(",")[0]
-    if len(name)!=7:
+    name = str(name).lower() # Turns the name into a string
+    name = name.lstrip() # Strips any spaces from the beginning of the string
+    name = name.split(",")[0] # Removes anything after the comma in the name
+    if len(name)!=7: # Ensures any name of the incorrect length returns false
         return False
-    return name.startswith("quercus")
+    return name.startswith("quercus") # Returns true if the name begins with "quercus"
 
-def main(argv): 
-    f = open('../Data/TestOaksData.csv','r')
-    g = open('../Output/JustOaksData.csv','w')
-    taxa = csv.reader(f)
-    header = next(taxa)
-    csvwrite = csv.writer(g)
-    oaks = set()
-    csvwrite.writerow(header)
+def main(argv):
+    """ Main entry point of the program """ 
+
+    taxa = csv.reader(open('../Data/TestOaksData.csv','r'))
+    header = next(taxa) # Skips the header line and outputs it to header
+    csvwrite = csv.writer(open('../Output/JustOaksData.csv','w'))
+    csvwrite.writerow(header) # Appends the header to the output file   
+    oaks = set() # Creates an empty set
     for row in taxa:
         print(row)
         print ("The genus is: ") 
         print(row[0] + '\n')
-        if is_an_oak(row[0]):
+        if is_an_oak(row[0]): # Sends the row to is_an_oak, if True then run this
             print('FOUND AN OAK!\n')
-            csvwrite.writerow([row[0], row[1]])
+            csvwrite.writerow([row[0], row[1]]) # Writes the name to the output file
     return 0
 
-#doctest.testmod()
+#doctest.testmod() #Commented out doctest, uncomment to allow the doctests to run
 if (__name__ == "__main__"):
+    # Runs main(argv) if this is run directly rather than being imported
     status = main(sys.argv)
