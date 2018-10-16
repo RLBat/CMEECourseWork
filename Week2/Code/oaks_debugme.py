@@ -1,13 +1,58 @@
 import csv
 import sys
-import pdb
 import doctest
+import ipdb
 
 #Define function
 def is_an_oak(name):
-    """ Returns True if name is starts with 'quercus' """
-    if name.lower().startswith('quercus'):
-        return 0
+    """ Tests to see if the function can correctly identify oaks
+
+    >>> is_an_oak("Quercus, robur")
+    True
+
+    >>> is_an_oak("Fraxinus, excelsior")
+    False
+
+    >>> is_an_oak("Quercus robur")
+    False
+
+    >>> is_an_oak("Quercs, robur")
+    False
+
+    >>> is_an_oak("Quercusoba, rubinous")
+    False
+
+    >>> is_an_oak("robor, Quercus")
+    False
+
+    >>> is_an_oak("QUERCUS, ROBOR")
+    True
+
+    >>> is_an_oak("quercus, robor")
+    True
+
+    >>> is_an_oak("Quercus")
+    True
+
+    >>> is_an_oak(365)
+    False
+
+    >>> is_an_oak(True)
+    False
+
+    >>> is_an_oak("Pseudoquercus, confiscuous")
+    False
+
+    >>> is_an_oak(" Quercus, robor")
+    True
+
+    """
+    name = str(name).lower()
+    name = name.lstrip()
+    name = name.split(",")[0]
+    if len(name)!=7:
+        return False
+    return name.startswith("quercus")
 
 def main(argv): 
     f = open('../Data/TestOaksData.csv','r')
@@ -15,14 +60,17 @@ def main(argv):
     taxa = csv.reader(f)
     csvwrite = csv.writer(g)
     oaks = set()
+    csvwrite.writerow(taxa[0,0], taxa[0,1])
     for row in taxa:
+    #for row in taxa(:1):
         print(row)
-        print ("The genus is: " + row[0] + '\n') 
+        print ("The genus is: ") 
+        print(row[0] + '\n')
         if is_an_oak(row[0]):
             print('FOUND AN OAK!\n')
-            csvwrite.writerow([row[0], row[1]])    
-
+            csvwrite.writerow([row[0], row[1]])
     return 0
-    
+
+#doctest.testmod()
 if (__name__ == "__main__"):
     status = main(sys.argv)
