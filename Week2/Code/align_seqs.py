@@ -7,7 +7,7 @@ __version__ = '0.0.1'
 
 ## Imports ##
 
-import pandas
+import pandas # Imports pandas, a library that interacts with csvs
 
 ## Constants ##
 
@@ -20,13 +20,13 @@ seq2 = seqs.loc[0][1]
 
 ## Functions ##
 
-# A function that computes a score by returning the number of matches starting
-# from arbitrary startpoint (chosen by user)
 def calculate_score(s1, s2, l1, l2, startpoint):
+    """ Computes a score by returning the number of matches between two sequences
+    starting an from arbitrary startpoint (chosen by user)"""
     matched = "" # to hold string displaying alignements
     score = 0
-    for i in range(l2):
-        if (i + startpoint) < l1:
+    for i in range(l2): # Runs the loop as many times as the l2
+        if (i + startpoint) < l1: # Checks to see if l1 has been exceeded
             if s1[i + startpoint] == s2[i]: # if the bases match
                 matched = matched + "*"
                 score = score + 1
@@ -34,8 +34,8 @@ def calculate_score(s1, s2, l1, l2, startpoint):
                 matched = matched + "-"
 
     # some formatted output
-    print("." * startpoint + matched)           
-    print("." * startpoint + s2)
+    print("." * startpoint + matched) # Shows where the base matches are       
+    print("." * startpoint + s2) # Shows where s1 is being compared to s2
     print(s1)
     print(score) 
     print(" ")
@@ -63,8 +63,8 @@ my_best_score = -1
 
 for i in range(l1): # Note that you just take the first alignment with the highest score
     z = calculate_score(s1, s2, l1, l2, i)
-    if z > my_best_score:
-        my_best_align = "." * i + s2 
+    if z > my_best_score: # Only runs if the best score is exceeded
+        my_best_align = "." * i + s2 # Makes a visual representation of match position
         my_best_score = z 
 print(my_best_align)
 print(s1)

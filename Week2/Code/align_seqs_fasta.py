@@ -1,33 +1,46 @@
 #!/usr/bin/env python3
 
-""" Compares two base sequences and finds the position at which they most closely match """
+""" Compares two DNA base sequences from two input files
+    and finds the position at which they most closely match """
 
 __author__ = 'Rachel Bates r.bates18@imperial.ac.uk'
 __version__ = '0.0.1'
 
 ## Imports ##
 
-#import pandas
+import csv
+import sys
 
 ## Constants ##
 
 if len(sys.argv) == 3:
-    file1 = open(sys.argv[1], 'r')
-    file2 = open(sys.argv[2], "r")
+    with open (sys.argv[1]) as f:
+        seq1 = [line.rstrip('\n') for line in f]
+    
+    seq1[0:len(seq1)] = [''.join(seq1[0:len(seq1)])]
+    seq1 = seq1[0]
+
+    with open (sys.argv[2]) as g:
+        seq2 = [line.rstrip('\n') for line in g]
+
+    seq2[0:len(seq2)] = [''.join(seq2[0:len(seq2)])]
+    seq2 = seq2[0]
+    #file1 = open(sys.argv[1], 'r')
+    #file2 = open(sys.argv[2], "r")
 else:
-    file1 = open('../Data/407228326.fasta', 'r')
-    file2 = open('../Data/407228412.fasta', 'r')
+    with open ('../Data/407228326.fasta') as f:
+        seq1 = [line.rstrip('\n') for line in f]
+    
+    seq1[0:len(seq1)] = [''.join(seq1[0:len(seq1)])]
+    seq1 = seq1[0]
+
+    with open ('../Data/407228412.fasta') as g:
+        seq2 = [line.rstrip('\n') for line in g]
+
+    seq2[0:len(seq2)] = [''.join(seq2[0:len(seq2)])]
+    seq2 = seq2[0]
 
 
-
-
-seq1 = 
-# Creates a data frame from the csv with the two sequences in it
-#seqs = pandas.read_csv('../Data/SeqShort.csv', sep = ',', header = None)
-
-# Assigns each sequence to be matched to a variable
-#seq1 = seqs.loc[0][0]
-#seq2 = seqs.loc[0][1]
 
 ## Functions ##
 
@@ -45,11 +58,11 @@ def calculate_score(s1, s2, l1, l2, startpoint):
                 matched = matched + "-"
 
     # some formatted output
-    print("." * startpoint + matched)           
-    print("." * startpoint + s2)
-    print(s1)
-    print(score) 
-    print(" ")
+    #print("." * startpoint + matched)           
+    #print("." * startpoint + s2)
+    #print(s1)
+    #print(score) 
+    #print(" ")
 
     return score
 
