@@ -20,7 +20,7 @@ align_seqs.py - Compares the DNA base sequences contained within a specified csv
 
 align_seqs_better.py - UNDER CONSTRUCTION
 
-align_seqs_fasta.py - IN PROGRESS - Compares the DNA base sequences from any two input files and finds the position at which they most closely match
+align_seqs_fasta.py - Compares two DNA base sequences from two input files and finds the position at which they most closely match
 
 basic_csv.py - Demonstates the usage of the csv library to read, manipulate and write to csv files
 
