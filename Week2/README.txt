@@ -22,9 +22,9 @@ align_seqs_better.py - UNDER CONSTRUCTION
 
 align_seqs_fasta.py - IN PROGRESS - Compares the DNA base sequences from any two input files and finds the position at which they most closely match
 
-basic_csv.py - CHECK
+basic_csv.py - Demonstates the usage of the csv library to read, manipulate and write to csv files
 
-basic_io.py - CHECK
+basic_io.py - Several blocks of script demonsrating the ways to input and output data from files into python, or to files out of python
 
 boilerplate.py - Placeholder script for correctly formatting modules in a pythonic fashion
 
@@ -42,17 +42,17 @@ lc1.py - Creates lists of one attribute for several bird species in one tuple
 
 lc2.py - Creates lists of both months in 1910 where rainfall was less than 50mm and month, rainfall tuples where rainfall exceeded 100mm. This is done via both loops and list comprehensions
 
-loops.py - CHECK
+loops.py - Some functions exemplifying the use of loops statements
 
 oaks.py - Finds just those species that are oaks from a list of species' latin names
 
-oaks_debugme.py - IN PROGRESS
+oaks_debugme.py - Module that checks a list of latin names to see which are oaks, and exports all oak species to a text file. Contains docstrings for debugging
 
-scope.py - CHECK FORMTTING - A script exemplifyig the theory of variable scope by using local and global variables in various ways
+scope.py - A script exemplifyig the theory of variable scope by using local and global variables in various ways
 
 sysargv.py - A script exemplifing the use of sys.arg and how it behaves
 
-test_control_flow.py - Some functions exemplifying the use of control statements
+test_control_flow.py - Some functions exemplifying the use of control statements with embedded docscripts for debugging
 
 tuple.py - Prints the latin name, common name and mass of various bird species
 
