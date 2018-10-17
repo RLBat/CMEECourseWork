@@ -1,3 +1,24 @@
+#!/usr/bin/env python3
+
+""" Some functions exemplifying the use of loops statements """
+
+__author__ = 'Rachel Bates r.bates18@imperial.ac.uk'
+__version__ = '0.0.1'
+
+## IMPORTS ##
+
+# None
+
+## CONSTANTS ##
+
+# None
+
+## FUNCTIONS ##
+
+# None
+
+#################
+
 ## FOR loops in python
 
 # Prints 0-4 on newlines

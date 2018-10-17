@@ -20,8 +20,8 @@ __version__ = '0.0.1'
 ###############
 
 
-if __name__ == '__main__': # If the name of this programe is the same as the name of the main program
-				# being run
+if __name__ == '__main__': # If the name of this programe is the same as the\
+    # name of the main program being run
     print ('This program is being run by itself')
 else:
     print ('I am being imported from another module')

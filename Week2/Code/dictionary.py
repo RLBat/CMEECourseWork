@@ -11,6 +11,7 @@ __version__ = '0.0.1'
 
 ## Constants ##
 
+# A list of (latin name, Order) tuples
 taxa = [ ('Myotis lucifugus','Chiroptera'),
          ('Gerbillus henleyi','Rodentia',),
          ('Peromyscus crinitus', 'Rodentia'),
@@ -30,7 +31,7 @@ taxa = [ ('Myotis lucifugus','Chiroptera'),
 ###############
 taxa_dic = {} # Creates an empty dictionary
 for species in taxa:
-        # For each species, appends the Order as a new key if it does not exist
+        # For each species, appends the Order as a new key if it does not exist\
         # Attaches latin name to correct Order 
         taxa_dic.setdefault(species[1], []).append(species[0])
 print (taxa_dic)

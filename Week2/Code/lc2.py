@@ -48,28 +48,31 @@ def is_rainfall_high(month):
 # Creates a list of the month and amount of rainfall for months where rainfall
 # exceeded 100mm using loops
 
-High_rainfall = []
+High_rainfall = [] # Creates an empty list
 for month in rainfall:
-    if is_rainfall_high(month):
-        High_rainfall.append(month)
-print (High_rainfall)
+    if is_rainfall_high(month): # Sends to is_rainfall_high
+        High_rainfall.append(month) # Appends the month and rainfall to list where True
+print (High_rainfall) # Prints the new list
 
 # Creates a list of all months in 1910 where rainfall was below 50mm using loops
 
 Low_rainfall = []
 for month in rainfall:
     if is_rainfall_low(month):
-        Low_rainfall.append(month[0])
+        Low_rainfall.append(month[0]) # Appends only the month not rainfall
 print (Low_rainfall)
 
 # Creates a list of the month and amount of rainfall for months where rainfall
 # exceeded 100mm using list comprehension
 
+# Sends the month to is_rainfall_high for each month in the tuple, and creates a 
+# list of the returned months
 High_rainfall_lc = [month for month in rainfall if is_rainfall_high(month)]
 print (High_rainfall)
 
 # Creates a list of all months in 1910 where rainfall was below 50mm 
 # using list comprehension
 
+# Same as above, but sends to is_rainfall_low and returns only the month name
 Low_rainfall_lc = [month[0] for month in rainfall if is_rainfall_low(month)]
 print (Low_rainfall_lc)

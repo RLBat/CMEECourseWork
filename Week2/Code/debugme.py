@@ -7,7 +7,7 @@ __version__ = '0.0.1'
 
 ## imports ##
 
-#None
+import ipdb
 
 ## constants ##
 
@@ -16,10 +16,12 @@ __version__ = '0.0.1'
 ## functions ##
 
 def createabug(x):
+    """ A function that creates an impossible number. Contains a breakpoint
+    for debuging """
     y = x**4
     z = 0.
-    import ipdb; ipdb.set_trace() # Adds a breakpoint at which to start debugging
-    y = y/z
+    ipdb.set_trace() # Adds a breakpoint at which to start debugging
+    y = y/z # Creates an impossible number
     return y
 
 ##############

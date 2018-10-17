@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
 """ Module that checks a list of latin names to see which are oaks, 
-    and exports all oak species to a text file """
+    and exports all oak species to a text file. 
+    Contains docstrings for debugging """
 
 __author__ = 'Rachel Bates r.bates18@imperial.ac.uk'
 __version__ = '0.0.1'
@@ -67,10 +68,11 @@ def is_an_oak(name):
 
 def main(argv):
     """ Main entry point of the program """ 
-
-    taxa = csv.reader(open('../Data/TestOaksData.csv','r'))
+    f = open('../Data/TestOaksData.csv','r')
+    g = open('../Output/JustOaksData.csv','w') # Creates an output csv
+    taxa = csv.reader(f) # Reads the data from a csv into the object taxa
     header = next(taxa) # Skips the header line and outputs it to header
-    csvwrite = csv.writer(open('../Output/JustOaksData.csv','w'))
+    csvwrite = csv.writer(g) # Makes an object for the output csv
     csvwrite.writerow(header) # Appends the header to the output file   
     oaks = set() # Creates an empty set
     for row in taxa:
@@ -80,6 +82,8 @@ def main(argv):
         if is_an_oak(row[0]): # Sends the row to is_an_oak, if True then run this
             print('FOUND AN OAK!\n')
             csvwrite.writerow([row[0], row[1]]) # Writes the name to the output file
+    f.close()
+    g.close()
     return 0
 
 #doctest.testmod() #Commented out doctest, uncomment to allow the doctests to run

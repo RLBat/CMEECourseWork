@@ -5,27 +5,27 @@
 __author__ = 'Rachel Bates r.bates18@imperial.ac.uk'
 __version__ = '0.0.1'
 
-## imports ##
+## IMPORTS ##
 
 import sys # module to interface out program with the operating system
 
-## constants ##
+## CONSTANTS ##
 
 #None
 
-## functions ##
+## FUNCTIONS ##
 
-def even_or_odd(x=0):
+def even_or_odd(x=0): # x = num gives a difault value if there's no input
     """Find whether a number (x) is even or odd."""
-    if x % 2 == 0:
+    if x % 2 == 0: # is x exactly divisible by 2
         return "%d is Even!" % x
     return "%d is Odd!" % x
 
 def largest_divisor_five(x=120):
     """Find which is he largest divisor of x among 2,3,4,5."""
-    largest = 0
-    if x % 5 == 0:
-        largest = 5
+    largest = 0 
+    if x % 5 == 0: # Is x exactly divisible by 5
+        largest = 5 # If so, set largest as 5
     elif x % 4 == 0:
         largest = 4
     elif x % 3 == 0:
@@ -33,13 +33,13 @@ def largest_divisor_five(x=120):
     elif x % 2 == 0:
         largest = 2
     else:
-        return "No divisor found for %d!" % x
+        return "No divisor found for %d!" % x # If no divisor <=5 found
     return "The largest divisor of %d is %d" % (x, largest)
 
 def is_prime(x=70):
     """Find whether an interger is prime"""
-    for i in range(2, x):
-        if x % i == 0:
+    for i in range(2, x): # Starts the loop at 2
+        if x % i == 0: # If x divides exactly by i
             print("%d is not a prime: %d is a divisor" % (x,i))
                 #Print formatted text "%d %s %f %e" % (20, "30", 0.0003, 0.00003)
             return False
@@ -48,10 +48,10 @@ def is_prime(x=70):
 
 def find_all_primes (x=22):
     """Find all the primes up to x"""
-    allprimes = []
+    allprimes = [] # Creates an empty list
     for i in range(2, x + 1):
-        if is_prime(i):
-            allprimes.append(i)
+        if is_prime(i): # Sends i to is_prime function
+            allprimes.append(i) # Appends to list if i_prime returns True
     print("There are %d primes between 2 and %d" % (len(allprimes), x))
     return allprimes
 
