@@ -1,5 +1,19 @@
-library(lattice)
-library(plyr)
+##
+
+# Author: Rachel Bates (r.bates18@imperial.ac.uk)
+# Version: 0.0.1
+
+## Clear the directory ##
+
+rm(list=ls())
+
+## Packages ##
+
+require(lattice)
+require(plyr)
+
+###############
+
 MyDF <- read.csv("../Data/EcolArchives-E089-51-D1.csv")
 dim(MyDF) #check the size of the data frame you loaded
 
