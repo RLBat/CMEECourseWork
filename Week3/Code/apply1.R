@@ -1,8 +1,13 @@
-# Script to show example usage of apply
+## Script to show example usage of apply
 
 # Author: Rachel Bates (r.bates18@imperial.ac.uk)
 # Version: 0.0.1
 
+## Clear the directory ##
+
+rm(list=ls())
+
+###############
 
 ## apply: applying the same function to rows/columns of a matrix
 

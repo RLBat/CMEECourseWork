@@ -3,6 +3,11 @@
 # Author: Rachel Bates (r.bates18@imperial.ac.uk)
 # Version: 0.0.1
 
+## Clear the directory ##
+
+rm(list=ls())
+
+###############
 
 ##If statement 
 a <- TRUE
@@ -12,20 +17,19 @@ if (a == TRUE){
     print ("a is FALSE")
 }
 
-## On a single line
-z <- runif(1) ##random number
+z <- runif(1) # generates a random number
 if (z <= 0.5) {
-    print ("Less than a quarter")
+    print ("Less than a half")
 }
 
 ## For loop using a sequence
-for (i in 1:100){
+for (i in 1:100){ # Runs for values 1 through to 100
     j <- i * i
     print (paste (i, " squared is", j ))
 }
 
 ## For loop over vector of strings
-for (species in c('Heliodoxa rubinoides', 
+for (species in c('Heliodoxa rubinoides', # Implicit loop
                  'Boissonneaua jardini', 
                  'Sula nebouxii'))
 {
@@ -40,7 +44,7 @@ for (i in v1){
 
 ## While loop
 i <- 0
-while (i<100){
+while (i<100){ # Runs only if the conditions are met
     i <- i+1
     print(i^2)
 }

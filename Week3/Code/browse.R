@@ -1,7 +1,13 @@
-# Demonstrates the use of browse() 
+## Demonstrates the use of browse() 
 
 # Author: Rachel Bates (r.bates18@imperial.ac.uk)
 # Version: 0.0.1
+
+## Clear the directory ##
+
+rm(list=ls())
+
+###############
 
 Exponential <- function(N0 = 1, r = 1, generations = 10){
   # Runs a simulation of exponential growth
@@ -12,7 +18,7 @@ Exponential <- function(N0 = 1, r = 1, generations = 10){
   N[1] <- N0
   for (t in 2:generations){
     N[t] <- N[t-1] * exp(r)
-    browser()
+    browser() # Called the browser debug
   }
   return (N)
 }

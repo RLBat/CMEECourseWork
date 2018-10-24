@@ -1,9 +1,14 @@
-# Shows the speed differences between using loops in R 
-# and pre-defined functions that call from C
+## Shows the speed differences between using loops in R 
+## and pre-defined functions that call from C
 
 # Author: Rachel Bates (r.bates18@imperial.ac.uk)
 # Version: 0.0.1
 
+## Clear the directory ##
+
+rm(list=ls())
+
+###############
 M <- matrix(runif(1000000),1000,1000)
 
 SumAllElements <- function(M){

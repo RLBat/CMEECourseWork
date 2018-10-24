@@ -1,7 +1,21 @@
-# A boilerplate R script
+## A boilerplate R script
 
 # Author: Rachel Bates (r.bates18@imperial.ac.uk)
 # Version: 0.0.1
+
+## Clear the directory ##
+
+rm(list=ls())
+
+## Packages ##
+
+#require()
+
+## Load Data ##
+
+
+
+###############
 
 
 MyFunction <- function(Arg1, Arg2){

@@ -1,10 +1,17 @@
-# A simple script to illustrate R input-output.
+## A simple script to illustrate R input-output.
 
 # Author: Rachel Bates (r.bates18@imperial.ac.uk)
 # Version: 0.0.1
 
+## Clear the directory ##
+
+rm(list=ls())
+
+## Load Data ##
 
 MyData <- read.csv("../Data/trees.csv", header = TRUE) # import with headers
+
+###############
 
 write.csv(MyData, "../Output/MyData.csv") #write it out as a new file
 

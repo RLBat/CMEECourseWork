@@ -1,7 +1,13 @@
-# Runs a simulation that involves sampling from a population with try
+## Demonstrates usage of the try function
 
 # Author: Rachel Bates (r.bates18@imperial.ac.uk)
 # Version: 0.0.1
+
+## Clear the directory ##
+
+rm(list=ls())
+
+###############
 
 x <- rnorm(50) #Generate your population
 doit <- function(x){
@@ -14,11 +20,11 @@ doit <- function(x){
 		}
 	}
 
-## Try using "try" with vectorization:
-result <- lapply(1:100, function(i) try(doit(x), FALSE))
+print("Using vectorisation:")
+result <- lapply(1:100, function(i) try(doit(x), FALSE)) # try stops stop() from exiting the whole programme
 
-## Or using a for loop:
+print("Using loops:")
 result <- vector("list", 100) #Preallocate/Initialize
 for(i in 1:100) {
-	result[[i]] <- try(doit(x), FALSE)
+	result[[i]] <- try(doit(x), FALSE) # try stops stop() from exiting the whole programme
 	}

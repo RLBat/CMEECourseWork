@@ -1,4 +1,6 @@
-##
+## Generates density plots and key descriptive stats for predator/prey masses
+## Per type of feeding interaction. Outputs the results as a pdf for the graphs
+## and a csv file of descriptive stats
 
 # Author: Rachel Bates (r.bates18@imperial.ac.uk)
 # Version: 0.0.1
