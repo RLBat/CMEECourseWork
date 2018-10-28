@@ -31,7 +31,7 @@ control.R - Some code exemlifying control flow constructs in R
 
 DataWrang.R - Using base R functions to wrangle a dataset from wide to long format
 
-DataWrangTidy.R - IN PROGRESS
+DataWrangTidy.R - Wrangles a badly formatted dataset into a long format with correct datatypes using Tidyr and Dplyr
 
 get_TreeHeight.R - This function calculates heights of trees given distance of each tree from its base and angle to its top, using  the trigonometric formula 
 
