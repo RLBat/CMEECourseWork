@@ -1,4 +1,5 @@
-## 
+## Wrangles a badly formatted dataset into a long format with correct datatypes 
+## Using Tidyr and Dplyr
 
 # Author: Rachel Bates (r.bates18@imperial.ac.uk)
 # Version: 0.0.1
