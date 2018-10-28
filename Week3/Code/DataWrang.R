@@ -45,7 +45,7 @@ MyData[MyData == ""] = 0
 ############# Convert raw matrix to data frame ###############
 
 TempData <- as.data.frame(MyData[-1,],stringsAsFactors = F) #stringsAsFactors = F is important!
-colnames(TempData) <- MyData[1,] # assign column names from original data
+colnaheadmes(TempData) <- MyData[1,] # assign column names from original data
 
 ############# Convert from wide to long format  ###############
 
@@ -55,7 +55,6 @@ colnames(TempData) <- MyData[1,] # assign column names from original data
 
 # Places the edited dataframe into a properly formatted one
 MyWrangledData <- melt(TempData, id=c("Cultivation", "Block", "Plot", "Quadrat"), variable.name = "Species", value.name = "Count")
-
 
 # Block that sets the data types for each column
 MyWrangledData[, "Cultivation"] <- as.factor(MyWrangledData[, "Cultivation"])
