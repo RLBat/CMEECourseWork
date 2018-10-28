@@ -29,29 +29,44 @@ graphics.off(); #you can also use dev.off()
 pdf("../Output/Prey_Lattice.pdf", # Open blank pdf page using a relative path
     11.7, 8.3) # These numbers are page dimensions in inches
 print (densityplot(~log(Prey.mass) | Type.of.feeding.interaction, data=MyDF))    
-graphics.off(); #you can also use dev.off()
+graphics.off(); 
 
 pdf("../Output/SizeRatio_Lattice.pdf", # Open blank pdf page using a relative path
     11.7, 8.3) # These numbers are page dimensions in inches
 print (densityplot(~log(SizeRatio) | Type.of.feeding.interaction, data=MyDF))    
-graphics.off(); #you can also use dev.off()
+graphics.off();
 
-OutputDF<-ddply(MyDF, "Type.of.feeding.interaction", function(MyDF){
-    Pred.Mean = mean(MyDF$Predator.mass) 
-    Prey.Mean = mean(MyDF$Prey.mass)
-    Pred.Median = median(MyDF$Predator.mass) 
-    Prey.Median = median(MyDF$Prey.mass)
-    Ratio.Mean = mean(MyDF$SizeRatio)
-    Ratio.Median = median(MyDF$SizeRatio)
-    data.frame(Pred.Mean, Prey.Mean, Ratio.Mean, Pred.Median, Prey.Median, Ratio.Median)
+# Creates a dataframe of the predator mass means and medians by feeding interaction
+PredDF<-ddply(MyDF, "Type.of.feeding.interaction", function(MyDF){
+    Mean = mean(MyDF$Predator.mass) 
+    Median = median(MyDF$Predator.mass) 
+    data.frame(Mean, Median)
 })
+# Adds a column detailing that these are all predator masses
+PredDF$Type<-"Predator.mass"
 
+# Creates a dataframe of the prey mass means and medians by feeding interaction
+PreyDF<-ddply(MyDF, "Type.of.feeding.interaction", function(MyDF){
+    Mean = mean(MyDF$Prey.mass) 
+    Median = median(MyDF$Prey.mass) 
+    data.frame(Mean, Median)
+})
+# Adds a column detailing that these are all prey masses
+PreyDF$Type<-"Prey.mass"
+
+# Creates a dataframe of the size ratio means and medians by feeding interaction
+RatioDF<-ddply(MyDF, "Type.of.feeding.interaction", function(MyDF){
+    Mean = mean(MyDF$SizeRatio) 
+    Median = median(MyDF$SizeRatio) 
+    data.frame(Mean, Median)
+})
+# Adds a column detailing that these are all size ratios
+RatioDF$Type<-"Size.Ratio"
+
+# Bind all three dataframes together
+OutputDF<-rbind(PredDF, PreyDF, RatioDF)
+# Place type of mass as the first column
+OutputDF<-select(OutputDF, Type, everything())
+
+# Export the dataframe as a csv to the output folder
 write.csv(OutputDF, ("../Output/PP_Results.csv"))
-
-
-#print(log(by(MyDF[,9], MyDF$Type.of.feeding.interaction, mean)))
-#print(log(by(MyDF[,9], MyDF$Type.of.feeding.interaction, median)))
-#print(log(by(MyDF[,13], MyDF$Type.of.feeding.interaction, mean)))
-#print(log(by(MyDF[,13], MyDF$Type.of.feeding.interaction, median)))
-#print(log(by(MyDF[,16], MyDF$Type.of.feeding.interaction, mean)))
-#print(log(by(MyDF[,16], MyDF$Type.of.feeding.interaction, median)))
