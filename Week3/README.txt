@@ -49,6 +49,8 @@ plotLin.R - TO BE ADDED
 
 PP_Lattice.R - Generates density plots and key descriptive stats for predator/prey masses per type of feeding interaction. Outputs the results as a pdf for the graphs and a csv file of descriptive stats
 
+PP_Regress.R - Plots predator mass against prey mass for each feeding interaction type, and gives lm estimates for each lifestage. Calculates true lm values for each lifestage, for each feeding interaction and outputs to a csv.
+
 preallocate.R - Script demonstarting the speed benefits of pre-allocating variables
 
 run_get_TreeHeight.sh - Runs get_TreeHeight.sh
