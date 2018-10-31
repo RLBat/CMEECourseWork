@@ -12,7 +12,9 @@ rm(list=ls())
 ## Packages ##
 
 require(lattice)
+require(tidyr)
 require(plyr)
+require(dplyr)
 
 ###############
 
@@ -38,35 +40,36 @@ graphics.off();
 
 # Creates a dataframe of the predator mass means and medians by feeding interaction
 PredDF<-ddply(MyDF, "Type.of.feeding.interaction", function(MyDF){
-    Mean = mean(MyDF$Predator.mass) 
-    Median = median(MyDF$Predator.mass) 
+    Mean = mean(log(MyDF$Predator.mass)) 
+    Median = median(log(MyDF$Predator.mass))
     data.frame(Mean, Median)
 })
 # Adds a column detailing that these are all predator masses
-PredDF$Type<-"Predator.mass"
+PredDF$"Log(Type)"<-"Predator.mass"
 
 # Creates a dataframe of the prey mass means and medians by feeding interaction
 PreyDF<-ddply(MyDF, "Type.of.feeding.interaction", function(MyDF){
-    Mean = mean(MyDF$Prey.mass) 
-    Median = median(MyDF$Prey.mass) 
+    Mean = mean(log(MyDF$Prey.mass)) 
+    Median = median(log(MyDF$Prey.mass))
     data.frame(Mean, Median)
 })
 # Adds a column detailing that these are all prey masses
-PreyDF$Type<-"Prey.mass"
+PreyDF$"Log(Type)"<-"Prey.mass"
 
 # Creates a dataframe of the size ratio means and medians by feeding interaction
 RatioDF<-ddply(MyDF, "Type.of.feeding.interaction", function(MyDF){
-    Mean = mean(MyDF$SizeRatio) 
-    Median = median(MyDF$SizeRatio) 
+    Mean = mean(log(MyDF$SizeRatio)) 
+    Median = median(log(MyDF$SizeRatio)) 
     data.frame(Mean, Median)
 })
 # Adds a column detailing that these are all size ratios
-RatioDF$Type<-"Size.Ratio"
+RatioDF$"Log(Type)"<-"Size.Ratio"
 
 # Bind all three dataframes together
 OutputDF<-rbind(PredDF, PreyDF, RatioDF)
 # Place type of mass as the first column
-OutputDF<-select(OutputDF, Type, everything())
+OutputDF<-select(OutputDF, "Log(Type)", everything())
+
 
 # Export the dataframe as a csv to the output folder
-write.csv(OutputDF, ("../Output/PP_Results.csv"))
+write.csv(OutputDF, ("../Output/PP_Results.csv"), row.names=F)
