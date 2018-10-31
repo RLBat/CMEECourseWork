@@ -35,7 +35,7 @@ DataWrangTidy.R - Wrangles a badly formatted dataset into a long format with cor
 
 get_TreeHeight.R - This function calculates heights of trees given distance of each tree from its base and angle to its top, using  the trigonometric formula 
 
-get_TreeHeight.py - IN PROGRESS
+get_TreeHeight.py - TO BE ADDED
 
 Girko.R - Generates a girko plot of random data using ggplots
 
@@ -45,7 +45,7 @@ MyBars.R - Creates a bar plot using ggplots
 
 next.R - Simple code to demonstrate the use of next in loops
 
-plotLin.R - TO BE ADDED
+plotLin.R - Plots a scatterplot of random numbers and adds a regression line using ggplots
 
 PP_Lattice.R - Generates density plots and key descriptive stats for predator/prey masses per type of feeding interaction. Outputs the results as a pdf for the graphs and a csv file of descriptive stats
 
@@ -57,7 +57,7 @@ run_get_TreeHeight.sh - Runs get_TreeHeight.sh
 
 sample.R - Runs a simulation that involves sampling from a population
 
-TAutoCorr.R - IN PROGRESS - Looks at the correlation between temperatures in FLorida in subsequent years. Compares these correlations to those between non-sequential years to determine how independant they are. 
+TAutoCorr.R - Looks at the correlation between temperatures in FLorida in subsequent years. Compares these correlations to those between non-sequential years to determine how independant they are. 
 
 TreeHeight.R - This function calculates heights of trees given distance of each tree from its base and angle to its top, using  the trigonometric formula 
 
