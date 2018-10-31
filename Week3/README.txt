@@ -37,11 +37,11 @@ get_TreeHeight.R - This function calculates heights of trees given distance of e
 
 get_TreeHeight.py - IN PROGRESS
 
-Girko.R - CHECK - Generates a girko plot of random data
+Girko.R - Generates a girko plot of random data using ggplots
 
 Mapping.R - Loads a set of location data for various species, and plots these coordinates on a world map
 
-MyBars.R - TO BE ADDED
+MyBars.R - Creates a bar plot using ggplots
 
 next.R - Simple code to demonstrate the use of next in loops
 

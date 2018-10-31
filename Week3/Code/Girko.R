@@ -1,4 +1,4 @@
-## Generates a girko plot of random data
+## Generates a girko plot of random data using ggplots
 
 # Author: Rachel Bates (r.bates18@imperial.ac.uk)
 # Version: 0.0.1

@@ -1,4 +1,4 @@
-## 
+## Creates a bar plot using ggplots
 
 # Author: Rachel Bates (r.bates18@imperial.ac.uk)
 # Version: 0.0.1
@@ -16,10 +16,6 @@ require(ggplot2)
 a <- read.table("../Data/Results.txt", header = TRUE)
 
 ###############
-
-
-
-
 
 a$ymin <- rep(0, dim(a)[1]) # append a column of zeros
 
