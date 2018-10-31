@@ -13,8 +13,8 @@ rm(list=ls())
 
 require(lattice)
 require(tidyr)
-require(plyr)
-require(dplyr)
+library(plyr)
+library(dplyr)
 
 ###############
 
