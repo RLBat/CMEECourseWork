@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-""" An example script to show profiling optimisations (non-optimised) """
+""" An example script to show profiling optimisations (optimised) """
 
 __author__ = 'Rachel Bates r.bates18@imperial.ac.uk'
 __version__ = '0.0.1'
@@ -16,11 +16,9 @@ __version__ = '0.0.1'
 ## FUNCTIONS ##
 
 def my_squares(iters):
-    """ Creates a list of square numbers from 0 to iters (10,000,000) using loops """
-    out = []
-    #range is an iterator rather than making a vector with all values 0-10
-    for i in range(iters):
-        out.append(i ** 2)
+    """ Creates a list of square numbers from 0 to iters (10,000,000) 
+    using list comprehension """
+    out = [i ** 2 for i in range(iters)]
     return out
 
 def my_join(iters, string):
@@ -28,7 +26,7 @@ def my_join(iters, string):
         separated by commas, iters number of times """
     out = ''
     for i in range(iters):
-        out += string.join(", ") # out = out + string.join simplified
+        out += ", " + string
     return out
 
 def run_my_funcs(x,y):

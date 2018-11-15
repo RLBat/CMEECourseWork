@@ -29,6 +29,7 @@ RC0 = sc.array([R0, C0])
 ## FUNCTIONS ##
 
 def dCR_dt(pops, t=0):
+    """ """
     R = pops[0]
     C = pops[1]
     dRdt = r * R - a * R * C 
