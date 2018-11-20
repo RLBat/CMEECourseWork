@@ -1,0 +1,11 @@
+Possible Predictors of Biodiversity (3 different models of biodiversity):
+- Land use intensity
+- GDP of home country
+- Lattitude
+- Predominant Land use (9 cats)
+- Biome
+- Years since fragmentation
+- Distance to nearest habitat edge
+- Taxonomic diversity (no. of families)
+
+Random effect - Unique Study ID
