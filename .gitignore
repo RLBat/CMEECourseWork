@@ -14,3 +14,4 @@ _pycache_
 *.bbl
 *.blg
 -
+.ipynb_checkpoints
