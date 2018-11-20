@@ -24,8 +24,8 @@ home = subprocess.os.path.expanduser("~")
 # Use the subprocess.os module to get a list of files and  directories 
 # in your ubuntu home directory 
 
-p = subprocess.Popen(["ls", "-l", "~"], stdout=subprocess.PIPE)
-
+p = subprocess.Popen(["ls", "-l", "~"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+stdout, stderr = p.communicate()
 # Hint: look in subprocess.os and/or subprocess.os.path and/or 
 # subprocess.os.walk for helpful functions
 
@@ -37,26 +37,15 @@ p = subprocess.Popen(["ls", "-l", "~"], stdout=subprocess.PIPE)
 # Create a list to store the results.
 FileC = []
 
+# Use a for loop to walk through the home directory.
 for (directory, subdir, files) in subprocess.os.walk(home):
+    # Use lc to check for subdirs starting with C
     FileC += [name for name in subdir if re.match(r"^C+", name)!=None]
 
 for (directory, subdir, files) in subprocess.os.walk(home):
+    # Use lc to check for files starting with C
     FileC += [name for name in files if re.match(r"^C+", name)!=None]
 
-#     FileC += [name for name in subdir for name in files if re.match(r"^C+", name)!=None]
-# # Use a for loop to walk through the home directory.
-# for (directory, subdir, files) in subprocess.os.walk(home):
-#  #   FileC += [name for name in subdir if re.match(r"^C+", name)!=None]
-#     FileC += [name for name in files if re.match(r"^C+", name)!=None]
-# #    [FileC.append(name) for name in subdir if re.match(r"^C+", name)!=None]
-#     [FileC.append(name) for name in files if re.match(r"^C+", name)!=None]
-#     for name in subdir:
-#         if re.match(r"^C+", name):
-#             FileC.append(name)
-#     for name in files:
-#         if re.match(r"^C+", name):
-#             FileC.append(name)
-  
 #################################
 # Get files and directories in your home/ that start with either an 
 # upper or lower case 'C'

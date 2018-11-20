@@ -13,9 +13,11 @@ import sys
 import scipy as sc
 import scipy.integrate as integrate
 import matplotlib.pylab as p
+import ipdb
 
 ## CONSTANTS ##
 
+# ipdb.set_trace()
 if len(sys.argv) == 5:
      r = float(sys.argv[1])
      a = float(sys.argv[2])
@@ -25,7 +27,7 @@ else:
     print("ERROR: User did not supply 4 parameters for LV model (r a z e)")
     sys.exit()
 
-#print (str(sys.argv))
+#print (str(sys.argv[1:5]))
 
 t = sc.linspace(0, 15,  1000)
 
