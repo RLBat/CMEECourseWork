@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-""" An example script to show profiling optimisations (non-optimised) """
+""" An example script to show profiling optimisations (pre-optimisation) """
 
 __author__ = 'Rachel Bates r.bates18@imperial.ac.uk'
 __version__ = '0.0.1'

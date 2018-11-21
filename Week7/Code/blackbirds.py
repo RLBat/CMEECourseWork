@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
-""" Searches a text file and extracts the kingdom, phylum and species data """
+""" Uses regular expressions to search a text file and extracts the kingdom, 
+    phylum and species data """
 
 __author__ = 'Rachel Bates r.bates18@imperial.ac.uk'
 __version__ = '0.0.1'

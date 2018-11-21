@@ -34,6 +34,8 @@ Smaller<-subset(Smaller, Smaller[,31]!="Cannot decide")
 Smaller<-subset(Smaller, Smaller[,64]!="") # Remove data points that aren't IDd to species
 colnames(Smaller)
 
+
+
 sum(Smaller[,16]==" 52")
 unique(Smaller[,65] with(Smaller[,16]==" 52"))
 ################################

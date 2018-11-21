@@ -28,14 +28,14 @@ mystring = "mystring"
 ##############
 
 # Compares the time for both squares functions using timeit
-# Commented out to avoid errors when running
 
+# Commented out to avoid errors when running
 #%timeit my_squares_loops(iters)
 #%timeit my_squares_lc(iters)
 
 # Compares the time for both joins using timeit
-# Commented out to avoid errors when running
 
+# Commented out to avoid errors when running
 #%timeit my_join_join(iters, mystring)
 #%timeit my_join(iters, mystring)
 

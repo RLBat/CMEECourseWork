@@ -8,4 +8,6 @@ Possible Predictors of Biodiversity (3 different models of biodiversity):
 - Distance to nearest habitat edge
 - Taxonomic diversity (no. of families)
 
-Random effect - Unique Study ID
+Random effect - Unique Study ID/Site ID
+
+

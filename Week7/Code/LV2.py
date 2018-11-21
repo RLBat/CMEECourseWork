@@ -13,11 +13,9 @@ import sys
 import scipy as sc
 import scipy.integrate as integrate
 import matplotlib.pylab as p
-import ipdb
 
 ## CONSTANTS ##
 
-# ipdb.set_trace()
 if len(sys.argv) == 5:
      r = float(sys.argv[1])
      a = float(sys.argv[2])
@@ -26,8 +24,6 @@ if len(sys.argv) == 5:
 else:
     print("ERROR: User did not supply 4 parameters for LV model (r a z e)")
     sys.exit()
-
-#print (str(sys.argv[1:5]))
 
 t = sc.linspace(0, 15,  1000)
 
@@ -39,7 +35,8 @@ RC0 = sc.array([R0, C0])
 ## FUNCTIONS ##
 
 def dCR_dt(pops, t=0):
-    """ """
+    """ Defines the models for both species' growth in relation to one another 
+        in continuous time """
     R = pops[0]
     C = pops[1]
     dRdt = r * R * (1-(R / K)) - a * R * C 
@@ -48,10 +45,11 @@ def dCR_dt(pops, t=0):
 
 ##########################
 
+# Uses odeint to integrate the continuous differential equations
 pops, infodict = integrate.odeint(dCR_dt, RC0, t, full_output=True)
 
-f1 = p.figure()
-
+f1 = p.figure() # Creates an empty figure
+# Defines parameters and labels for the plot of both pops over time
 p.plot(t, pops[:,0], 'g-', label='Resource density') # Plot
 p.plot(t, pops[:,1]  , 'b-', label='Consumer density')
 p.grid()
@@ -61,10 +59,11 @@ p.ylabel('Population density')
 p.title('Consumer-Resource population dynamics. \n r=%.2f, a=%.2f, z=%.2f, e=%.2f K=%d' % (r, a, z, e, K))
 #p.show()# To display the figure
 
-f1.savefig('../Output/LV2_model.pdf') #Save figure
+f1.savefig('../Output/LV2_model.pdf') #Save figure to pfd
 
-f2 = p.figure()
 
+f2 = p.figure() #Creates an empty figure
+# Defines parameters and labels for the circle plot (each pop against each other)
 p.plot(pops[:,0], pops[:,1], 'r-')
 p.grid()
 p.xlabel('Resource density')
@@ -72,5 +71,5 @@ p.ylabel('Consumer density')
 p.title('Consumer-Resource population dynamics. \n r=%.2f, a=%.2f, z=%.2f, e=%.2f K=%d' % (r, a, z, e, K))
 #p.show()# To display the figure
 
-f2.savefig('../Output/LV2_model_circ.pdf')
+f2.savefig('../Output/LV2_model_circ.pdf') #Save figre to pdf
 

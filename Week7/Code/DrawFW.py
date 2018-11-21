@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """ Generates an food web with random body masses and associations
-    then plots a network map """
+    then plots a network map using networkx """
 
 __author__ = 'Rachel Bates r.bates18@imperial.ac.uk'
 __version__ = '0.0.1'
