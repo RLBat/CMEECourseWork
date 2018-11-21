@@ -1,6 +1,6 @@
 Week three of CMEE Course Work
 AUTHOR: Rachel Bates
-DATE CREATED: 22/10/18
+DATE CREATED: 15/10/18
 
 This directory contains R scripts used to learn the basics of the R language, as well as example data used to run those scripts.
 
