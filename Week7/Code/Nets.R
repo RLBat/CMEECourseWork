@@ -1,4 +1,4 @@
-## Build a network
+## Builds a network - used as a template to recreate in Python
 
 # Author: Rachel Bates (r.bates18@imperial.ac.uk)
 # Version: 0.0.1

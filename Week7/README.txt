@@ -12,10 +12,12 @@ Required packages:
 	- matplotlib
 	- re
 	- sys
+	- subprocess
 	
 R Version used: 3.2.3
 
-
+Required packages:
+	-igraph
 
 Sub-Directories:
 
@@ -36,9 +38,9 @@ LV1.py - Constructs a Lotka-Volterra Model given default inputs, and produces gr
 
 LV2.py - Constructs a Lotka-Volterra Model given user inputs, and produces graphs of both species over time and both species in relation to each other
 
-MyFirstJupyterNb.ipynb - 
+MyFirstJupyterNb.ipynb - Basic Jupyter notebook to demonstate its functionality
 
-Nets.R - 
+Nets.R - Builds a network - used as a template to recreate in Python
 
 profileme.py - An example script to show profiling optimisations (pre-optimisation)
 
