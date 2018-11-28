@@ -14,34 +14,34 @@ graphics.off()
 community <- c(1,5,3,7,2,3,1,1,2,1,6)
 
 # Function to calculate species richness of an input community
-species_richness <- function(community){
+species_richness <- function(community=c(1,5,3,7,2,3,1,1,2,1,6)){
     return(length(unique(community)))
 }
 
 # Gives a vector from 0 to size
-initialise_max <- function(size){
+initialise_max <- function(size=8){
     return (seq(size))
 }
 
 # Gives a vector of n 1s where n is size
-initialise_min <- function(size){
+initialise_min <- function(size=8){
     return(rep(1, size))
 }
 
 # Creates a vector of two random number from a given input vector
-choose_two <- function(x){
+choose_two <- function(x=c(1,5,3,7,2,3,1,1,2,1,6)){
     sample(x,2)
 }
 
 # Replaces one member of a community with another (simulates death and birth)
-neutral_step <- function(community){
+neutral_step <- function(community=c(1,5,3,7,2,3,1,1,2,1,6)){
     rand <- choose_two(seq(length(community)))
     community[rand[1]] <- community[rand[2]]
     return(community)
 }
 
 # Runs neutral_step on a community n/2 times
-neutral_generation <- function(community){
+neutral_generation <- function(community=c(1,5,3,7,2,3,1,1,2,1,6)){
     x <- length(community)
     if (x %%2 !=0){ # Checks to see if x is exactly divisible by 2 (i.e. even)
         x <- x+1
@@ -52,10 +52,9 @@ neutral_generation <- function(community){
     }
     return(community)
 }
-neutral_generation(community)
 
 # Creates a time series of species richness over duration generations of a community
-neutral_time_series <- function(initial, duration){
+neutral_time_series <- function(initial=c(1,5,3,7,2,3,1,1,2,1,6), duration=10){
     Rich <- c(species_richness(initial)) # Generates the initial species richness
     for (i in 1:duration){
         initial<-neutral_generation(initial) # Runs one generation's changes
@@ -73,7 +72,7 @@ question_8 <- function(){
 }
 
 # Describes one step of a zero sum neutral model with a chance for speciation
-neutral_step_speciation <- function(community, v=0.2){
+neutral_step_speciation <- function(community=c(1,5,3,7,2,3,1,1,2,1,6), v=0.2){
     rand <- choose_two(seq(length(community)))
     r <- runif(1, min=0, max=1)
     if (r <= v){
@@ -86,7 +85,7 @@ neutral_step_speciation <- function(community, v=0.2){
 }
 
 # Describes one generation of a zero sum neutral model with a chance for speciation
-neutral_generation_speciation <- function(community, v){
+neutral_generation_speciation <- function(community=c(1,5,3,7,2,3,1,1,2,1,6), v=0.2){
     x <- length(community)
     if (x %%2 !=0){ # Checks to see if x is exactly divisible by 2 (i.e. even)
         x <- x+1
@@ -100,7 +99,7 @@ neutral_generation_speciation <- function(community, v){
 
 # Describes the species richness of sucessive n(duration) generations of a 
 # zero sum neutral model with a chance for speciation
-neutral_time_series_speciation <- function(initial, v, duration){
+neutral_time_series_speciation <- function(initial=c(1,5,3,7,2,3,1,1,2,1,6), v=0.1, duration=20){
     Rich <- c(species_richness(initial)) # Generates the initial species richness
     for (i in 1:duration){
         initial<-neutral_generation_speciation(initial, v) # Runs one generation's changes
@@ -118,7 +117,7 @@ question_12 <- function(){
     return(p)
 }
 
-species_abundance <- function(community){
+species_abundance <- function(community=c(1,5,3,7,2,3,1,1,2,1,6)){
     return(as.vector(table(community)))
 }
 
@@ -141,12 +140,12 @@ species_abundance <- function(community){
 #     }
 # }
 
-octaves <- function(abundance){
+octaves <- function(abundance=c()){
     octav<-tabulate(floor(log2(abundance))+1)
     return(octav)
 }
 
-sum_vect <- function (x,y){
+sum_vect <- function (x=c(1,2,3,4),y=c(3,2,9,7,5,15,8)){
     len_x <- length(x)
     len_y <- length(y)
     if (len_x==len_y){
@@ -165,43 +164,97 @@ sum_vect <- function (x,y){
     return (sum)
 }
 
-question_16 <- function(v=0.1){
-    # Datamax<-neutral_time_series_speciation(initialise_max(100), 0.1, 200)
-    # Datamin<-neutral_time_series_speciation(initialise_min(100), 0.1, 200)
-    initial=initialise_max(100)
-    Rich <- c(species_richness(initial)) # Generates the initial species richness
+question_16 <- function(initial=initialise_max(100), v=0.1){
+    #Rich <- c(species_richness(initial)) # Generates the initial species richness
     for (i in 1:200){
         initial <- neutral_generation_speciation(initial, v) # Runs one generation's changes
-        Rich <- c(Rich, species_richness(initial))
+        #Rich <- c(Rich, species_richness(initial))
     }
     vect<- octaves(species_abundance(initial))
+    vect_mean=1
     for (i in 1:2000){
         initial <- neutral_generation_speciation(initial, v) # Runs one generation's changes
-        Rich <- c(Rich, species_richness(initial))
+        #Rich <- c(Rich, species_richness(initial))
         if (i %% 20 == 0){
             vect<-sum_vect(vect, octaves(species_abundance(initial)))
+            vect_mean=vect_mean+1
         }
     }
+    vect<-vect/vect_mean
     names(vect)<- 2^(seq(length(vect)))
-    p <- barplot(vect, xlab = "Abundance", ylab="No. of Species", ylim=c(0, 1000))
+    p <- barplot(vect, xlab = "Abundance", ylab="No. of Species", ylim=c(0, 10))
     return(p)
 }
 
-
-challenge_A <- function(){
-    initial=initialise_max(100)
-    v=0.1
-    Rich <- c(species_richness(initial)) # Generates the initial species richness
-    for (i in 1:200){
-        initial <- neutral_generation_speciation(initial, v) # Runs one generation's changes
-        Rich <- c(Rich, species_richness(initial))
+challenge_A <- function(initial=initialise_max(100), v=0.1, rep=10, burn=200, eq=2000){
+    Richness<-integer(burn+eq+1)
+    Richness_sum <- integer(burn+eq+1)
+    Community<-initial
+    for (i in 1:rep){
+        Rich <- c(species_richness(initial)) # Adds richness at t=0 to vector
+        Rich_sum <- c(Rich^2)
+        for (j in 1:burn){
+            Community <- neutral_generation_speciation(Community, v) # Runs one generation's changes
+            Rich <- c(Rich, species_richness(Community))
+            Rich_sum <- c(Rich_sum, Rich[length(Rich)]^2)
+        }
+        vect_mean=1
+        for (j in 1:eq){
+            Community <- neutral_generation_speciation(Community, v) # Runs one generation's changes
+            Rich <- c(Rich, species_richness(Community))
+            Rich_sum <- c(Rich_sum, Rich[length(Rich)]^2)
+        }
+        Richness <- Richness + Rich
+        Richness_sum <- Richness_sum + Rich_sum
     }
-    vect<- octaves(species_abundance(initial))
-    for (i in 1:2000){
-        initial <- neutral_generation_speciation(initial, v) # Runs one generation's changes
-        Rich <- c(Rich, species_richness(initial))
-        if (i %% 20 == 0){
-            vect<-sum_vect(vect, octaves(species_abundance(initial)))
+    mean_rich <- Richness/rep
+    Var <- (Richness_sum/rep)-mean_rich^2
+    SE <- sqrt(Var)/sqrt(rep)
+    CI <- integer(length(SE))
+    for (i in 1:length(SE)){
+         CI[i] <- qnorm(0.986)*SE[i]
+    }
+    CI_bott<-mean_rich-CI
+    CI_top<-mean_rich+CI
+
+    plot(mean_rich, type="l", xlab="Generations", ylab="Mean Species Richness")
+    lines(CI_top, type="l", col="green")
+    lines(CI_bott, type="l", col="blue")
+    proc.time()
+}
+
+## CHECK ALL ITERATIVE FUNCTIONS - DO THEY REUSE INITIAL IN A NEW LOOP? ##
+
+cluster_run <- function(speciation_rate=0.1, wall_time=2000, size=100, interval_rich=10, interval_oct=20, burn_in_generations=200, output_file_name="Hello"){
+    Community <- initialise_min(size)
+    generation=0
+    iter=0
+    Octs<-list()
+    Richness<-c()
+    #while (proc.time()[3] < wall_time){
+    while (generation < wall_time){
+        Community<-neutral_generation_speciation(community=Community, v=speciation_rate)
+        generation=generation+1
+        if (generation<burn_in_generations){
+            if (generation %% interval_rich == 0){
+                Richness <- c(Richness, species_richness(Community))
+            }
+        }
+        else{
+            if (generation %% interval_oct == 0){
+                iter<- iter+1
+                Octs[[iter]]<-octaves(species_abundance(Community))
+            }
         }
     }
+    cat ("Parameters:\nspeciation_rate = ", speciation_rate, "\nsize = ", size, 
+        "\nwall_time = ", wall_time, "\ninterval_rich = ", interval_rich, "\ninterval_oct = ", interval_oct,
+        "\nburn_in_generations = ", burn_in_generations, "\n\nEnd Community: ", Community, 
+        "\nSpecies Richness time series: ", Richness, "\nAbundance Octaves: \n",
+        file=output_file_name, append=FALSE)
+    lapply(Octs, write, output_file_name, append=TRUE)
+    return(Octs)
+    #If commented out above, returns a null list? Works fine otherwise
 }
+
+cluster_run()
