@@ -1,4 +1,5 @@
-## HPC Week Long practical code pertaining to neutral theory and
+## HPC Week Long practical code pertaining to neutral theory, to run a neutral 
+## theory system at equilibrium on the HPC
 
 # Author: Rachel Bates (r.bates18@imperial.ac.uk)
 # Version: 0.0.1
@@ -121,25 +122,6 @@ species_abundance <- function(community=c(1,5,3,7,2,3,1,1,2,1,6)){
     return(as.vector(table(community)))
 }
 
-# octaves <- function(community){
-#     abund<-species_abundance(community)
-#     n=1
-#     bins<-c(0)
-#     for (i in length(abund):1){
-#         if (abund[i]<2^n){
-#             bins[n]<-bins[n]+1
-#             print(bins)
-#         }
-#         else{
-#             n<-n+1
-#             bins[n]<-0
-#             bins[n]<-bins[n]+1
-#             print(bins)
-#         }
-#     return(bins)
-#     }
-# }
-
 octaves <- function(abundance=c()){
     octav<-tabulate(floor(log2(abundance))+1)
     return(octav)
@@ -165,16 +147,13 @@ sum_vect <- function (x=c(1,2,3,4),y=c(3,2,9,7,5,15,8)){
 }
 
 question_16 <- function(initial=initialise_max(100), v=0.1){
-    #Rich <- c(species_richness(initial)) # Generates the initial species richness
     for (i in 1:200){
         initial <- neutral_generation_speciation(initial, v) # Runs one generation's changes
-        #Rich <- c(Rich, species_richness(initial))
     }
     vect<- octaves(species_abundance(initial))
     vect_mean=1
     for (i in 1:2000){
         initial <- neutral_generation_speciation(initial, v) # Runs one generation's changes
-        #Rich <- c(Rich, species_richness(initial))
         if (i %% 20 == 0){
             vect<-sum_vect(vect, octaves(species_abundance(initial)))
             vect_mean=vect_mean+1
@@ -225,14 +204,15 @@ challenge_A <- function(initial=initialise_max(100), v=0.1, rep=10, burn=200, eq
 
 ## CHECK ALL ITERATIVE FUNCTIONS - DO THEY REUSE INITIAL IN A NEW LOOP? ##
 
-cluster_run <- function(speciation_rate=0.1, wall_time=2000, size=100, interval_rich=10, interval_oct=20, burn_in_generations=200, output_file_name="Hello"){
+cluster_run <- function(speciation_rate=0.1, wall_time=1, size=100, interval_rich=10, interval_oct=20, burn_in_generations=200, output_file_name="Test2.rda"){
     Community <- initialise_min(size)
     generation=0
     iter=0
     Octs<-list()
     Richness<-c()
-    #while (proc.time()[3] < wall_time){
-    while (generation < wall_time){
+    wall_time<-wall_time*60
+    start<-proc.time()[3]
+    while (proc.time()[3]-start < wall_time){
         Community<-neutral_generation_speciation(community=Community, v=speciation_rate)
         generation=generation+1
         if (generation<burn_in_generations){
@@ -247,14 +227,16 @@ cluster_run <- function(speciation_rate=0.1, wall_time=2000, size=100, interval_
             }
         }
     }
-    cat ("Parameters:\nspeciation_rate = ", speciation_rate, "\nsize = ", size, 
-        "\nwall_time = ", wall_time, "\ninterval_rich = ", interval_rich, "\ninterval_oct = ", interval_oct,
-        "\nburn_in_generations = ", burn_in_generations, "\n\nEnd Community: ", Community, 
-        "\nSpecies Richness time series: ", Richness, "\nAbundance Octaves: \n",
-        file=output_file_name, append=FALSE)
-    lapply(Octs, write, output_file_name, append=TRUE)
-    return(Octs)
-    #If commented out above, returns a null list? Works fine otherwise
+    wall_time<-wall_time/60
+    end_time<-proc.time()[3]-start
+    # Save all parameters and outputs to a .rda file that can be later loaded back in
+    save(speciation_rate, size, wall_time, interval_rich, interval_oct, burn_in_generations, end_time, Community, Richness, Octs, file=output_file_name)
 }
 
-cluster_run()
+iter <- as.numeric(Sys.getenv("PBS_ARRAY_INDEX"))
+set.seed(iter)
+filename=paste("RLB18_", as.character(iter), sep="")
+Speciation_rate <- 0.006621
+J <- c(5000, 500,1000,2500)
+J <- J[iter %% 4 +1]
+cluster_run(speciation_rate=Speciation_rate, wall_time=690, size=J, interval_rich=1, interval_oct=J/10, burn_in_generations=8*J, output_file_name=paste(filename,".rda",sep=""))
