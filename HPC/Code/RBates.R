@@ -207,7 +207,7 @@ challenge_A <- function(initial=initialise_max(100), v=0.1, rep=10, burn=200, eq
 cluster_run <- function(speciation_rate=0.1, wall_time=1, size=100, interval_rich=10, interval_oct=20, burn_in_generations=200, output_file_name="Test2.rda"){
     Community <- initialise_min(size)
     generation=0
-    iter=0
+    iter_oct=0
     Octs<-list()
     Richness<-c()
     wall_time<-wall_time*60
@@ -222,8 +222,8 @@ cluster_run <- function(speciation_rate=0.1, wall_time=1, size=100, interval_ric
         }
         else{
             if (generation %% interval_oct == 0){
-                iter<- iter+1
-                Octs[[iter]]<-octaves(species_abundance(Community))
+                iter_oct<- iter_oct+1
+                Octs[[iter_oct]]<-octaves(species_abundance(Community))
             }
         }
     }
@@ -240,3 +240,99 @@ Speciation_rate <- 0.006621
 J <- c(5000, 500,1000,2500)
 J <- J[iter %% 4 +1]
 cluster_run(speciation_rate=Speciation_rate, wall_time=690, size=J, interval_rich=1, interval_oct=J/10, burn_in_generations=8*J, output_file_name=paste(filename,".rda",sep=""))
+
+chaos_game <- function (A=c(0,0), B=c(3,4), C=c(4,1), X=c(0,0), reps=10000){
+    plot.new()
+    Points <- list(A, B, C)
+    plot (x=A[1], y=A[2], xlim=c(0,4), ylim=c(0,4), xlab="x", ylab="y", pch=0)
+    points(B[1], B[2], pch=0)
+    points(C[1], C[2], pch=0)
+    points(X[1], X[2], cex=0.00001)
+    for (i in 1:reps){
+        D<-sample(Points, 1)[[1]]
+        X_x<-((sqrt((D[1]-X[1])^2))/2)+(min(X[1], D[1]))
+        X_y<-((sqrt((D[2]-X[2])^2))/2)+(min(X[2], D[2]))
+        X<-c(X_x, X_y)
+        points(X[1], X[2], cex=0.01)
+    }
+}
+
+turtle <- function (Start=c(0,0), Direction, Length){
+    Angle = Direction
+    Y = cos(Angle)*Length
+    X = sin(Angle)*Length
+    segments(Start[1], Start[2], X+Start[1], Y+Start[2])
+    return(c(X+Start[1],Y+Start[2]))
+}
+
+plot.new()
+plot(x=NULL, ylim=c(-10,10), xlim=c(-10,10))
+elbow <- function (Start, Direction, Length){
+    Point_1<-turtle(Start=Start, Direction=Direction, Length=Length)
+    Point_2<-turtle(Start=c(Point_1), Direction=Direction+(pi/4), Length=0.95*Length)
+}
+
+
+
+plot.new()
+plot(x=NULL, ylim=c(-10,10), xlim=c(-10,10))
+
+spiral <- function (Start, Direction, Length){
+    Point_1<-turtle(Start=Start, Direction=Direction, Length=Length)
+    Point_2<-spiral(Start=c(Point_1), Direction=Direction+(pi/4), Length=0.95*Length)
+}
+
+spiral_2 <- function (Start, Direction, Length){
+    if (Length > 0.01){
+        Point_1<-turtle(Start=Start, Direction=Direction, Length=Length)
+        Point_2<-spiral_2(Start=c(Point_1), Direction=Direction+(pi/4), Length=0.95*Length)
+    }
+    else {
+        return("ended")
+    }
+}
+
+tree <- function (Start, Direction, Length){
+    if (Length > 0.01){
+        Point_1<-turtle(Start=Start, Direction=Direction, Length=Length)
+        Point_2<-tree(Start=c(Point_1), Direction=Direction+(pi/4), Length=0.65*Length)
+        Point_3<-tree(Start=c(Point_1), Direction=Direction-(pi/4), Length=0.65*Length)
+    }
+    else {
+        return("ended")
+    }
+}
+
+plot.new()
+plot(x=NULL, ylim=c(-10,20), xlim=c(-10,10))
+fern(c(0,-10), 2*pi, 4)
+
+fern <- function (Start, Direction, Length){
+    if (Length > 0.1){
+        Point_1<-turtle(Start=Start, Direction=Direction, Length=Length)
+        Point_2<-fern(Start=c(Point_1), Direction=Direction-(pi/4), Length=0.38*Length)
+        Point_3<-fern(Start=c(Point_1), Direction=Direction, Length=0.87*Length)
+    }
+    else {
+        return("ended")
+    }
+}
+
+fern_2 <- function (Start, Direction, Length, dir=-1){
+    if (Length > 0.01){
+        Point_1<-turtle(Start=Start, Direction=Direction, Length=Length)
+        if (sign(dir)==-1){
+            Point_2<-fern_2(Start=c(Point_1), Direction=Direction-(pi/4), Length=0.38*Length, dir=1)
+        }
+        else if (sign(dir)==1){
+            Point_3<-fern_2(Start=c(Point_1), Direction=Direction, Length=0.87*Length, dir=-1)
+        }  
+    }
+    else {
+        return("ended")
+    }
+}
+
+plot.new()
+plot(x=NULL, ylim=c(-10,20), xlim=c(-10,10))
+fern_2(c(0,-10), 2*pi, 5)
