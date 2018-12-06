@@ -1,0 +1,83 @@
+\documentclass[11pt]{article}
+\usepackage{lineno}
+\usepackage{pgfgantt}
+
+\renewcommand{\rmdefault}{phv} % Arial
+\renewcommand{\sfdefault}{phv} % Arial
+\renewcommand{\baselinestretch}{1.5}
+\usepackage[margin=2cm]{geometry} 
+\linenumbers
+
+\usepackage[round]{natbib}
+\bibliographystyle{apalike}
+
+\title{\textbf{Project Proposal:} \\Plants under pressure: modelling the global effects of land-use change on local plant communities}
+\author{\Large\textbf{Supervisor:} Prof Andy Purvis$^{1,2}$\\\\\emph{$^1$Imperial College London}\\\emph{$^2$Natural History Museum, andy.purvis@nhm.ac.uk}}
+\date{December 6, 2018}
+
+\raggedbottom
+
+\begin{document}
+	
+\begin{titlepage}
+\Huge\maketitle
+\end{titlepage}
+
+\subsection{Keywords}
+Plants, Community Composition, Land Use, Climate Change, Space-for-time substitution, projections
+
+\section{Introduction}
+The world's biodiversity is currently undergoing massive declines \citep{WWF2016}, the leading cause of which is believed to be habitat loss \citep{GlobalBiodiversityOutlook32010}. Knowing this, it is important to ensure that we have appropriate, forecastable and globally representative measures of biodiversity. It is also important that we know in exactly what ways habitat loss or change affects species. The PREDICTS project was set up to collect massive amounts of global data in an attempt to solve these issues \citep{Hudson2017}. The project has managed to acheive much since its inception, but several areas remain underrepresented and under-explored. One such area is the plants, a clade of ~half a million species \citep{ThePlantList2013}. Currently most of the plant data in PREDICTS is from Europe, and is therefore not geographically representative. In this project I will first aim to replicate the work of \citet{DePalma2016} and see if their findings are mirrored in plants. I will then explore other possible drivers of trends within the data, to be decided after a thorough review of the literature.\\
+\emph{\textbf{Proposed Questions:}}
+\begin{itemize}
+	\item Does the response of plant community diversity to land-use change vary among regions? If so, how much difference does this variation make to predictions?
+	\item How much does machine learning speed up the acquisition of relevant data for the PREDICTS database, and how much does it help to improve geographic representativeness?
+\end{itemize}
+%Additional questions to be explored in the latter half of the project will be developed during the literature review stage.
+
+
+
+\section{Proposed Methods}
+Text mining and machine learning will be used to find studies that may contain suitable data. The authors will then be emailed in an attempt to obtain that data.
+The analysis and data wrangling will be carried out in R. The workflow will aim to be as reproducible as possible. 
+Mixed-effects models will be used to determine if there is a geographical predictor of plant community diversity responses to land-use change. 
+Depending on the direction of the project, it may also involve species distibution modelling, GIS (through either R or Python), and using other measures of diversity (e.g. phylogenetic). 
+
+
+\section{Anticipated Outputs and Outcomes}
+Papers will be produced on the findings of the first proposed question and the secondary research task (yet to be decided). Findings will be presented as a poster presentation or talk at a relavent conference in London. A report is to be submitted to UNEP WCMC alongside a visit to the site in Cambridge. A report of findings is also to be submitted to the overarching PREDICTS project funders (e.g. Prince Albert II of Monaco Foundation). R functions will be added to a package to be later released.
+
+\section{Project Feasibility}
+As there are already ~80,000 plant data sets included within predicts, there is no risk of not having enough data to complete analyses. I will be trained in data handling protocols by technicians Sara Contu who has been working on the project since it began. Given the 9 month timespan of the project, it should give any authors contacted about data collection ample time to respond. The longer project length also allows me to carry out research in two related areas, allowing me to spread the risk across them.\\\\
+                  \textbf{Proposed timeline:}\\
+
+\begin{ganttchart}[y unit chart = 0.6cm, x unit = 1cm, title/.style={draw=none, fill=none}, include title in canvas = false]{1}{9}
+	\gantttitle{Dec}{1}
+	\gantttitle{Jan}{1}
+	\gantttitle{Feb}{1}
+	\gantttitle{Mar}{1}
+	\gantttitle{Apr}{1}
+	\gantttitle{May}{1}
+	\gantttitle{June}{1}
+	\gantttitle{July}{1}
+	\gantttitle{Aug}{1}\\
+	\ganttbar{Literature Review}{1}{2} \\
+	\ganttbar{Data Collection and Input}{2}{5}\\
+	\ganttbar{Geographic Analysis}{2}{5} \\
+	\ganttmilestone{Decide Secondary Project}{4}\\
+	\ganttbar{Secondary Analysis}{5}{7}\\
+	\ganttbar{Final Write up}{7}{9}
+	
+\end{ganttchart}
+
+\section{Budget}
+Total Requested: $\pounds1000$
+\begin{itemize}
+	\item $\pounds850$ Travel costs. This includes both once a week travel into London to the NHM (£18.30 off peak with railcard for approx. 40 weeks) as well as money in case it is required to go in occassionally at peak times or additionally during a week. This will also include travel to UNEP WCMC in Cambridge.
+	\item $\pounds150$ Conference attendance costs (travel and registration fees)
+\end{itemize}
+
+
+\bibliography{Proposal}
+
+\end{document}
