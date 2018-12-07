@@ -4,7 +4,23 @@ DATE CREATED: 15/10/18
 
 This directory contains R scripts used to learn the basics of the R language, as well as example data used to run those scripts.
 
+Bash Version used: 4.3.48(1)
+
+LaTeX Version used: TeX Live 2015
+
+Required LaTeX packages:
+	-graphicx
+
 R Version used: 3.2.3
+
+Required R packages:
+	-reshape2
+	-tidyr
+	-dplyr
+	-maps
+	-ggplot2
+	-lattice
+	-plyr
 
 Sub-Directories:
 

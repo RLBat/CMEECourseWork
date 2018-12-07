@@ -6,7 +6,7 @@ This directory contains Python scripts used to broaden python skills, namely in 
 
 Python Version used: 3.5.2
 
-Required packages:
+Required Python packages:
 	- scipy
 	- networkx
 	- matplotlib
@@ -16,7 +16,7 @@ Required packages:
 	
 R Version used: 3.2.3
 
-Required packages:
+Required R packages:
 	-igraph
 
 Sub-Directories:

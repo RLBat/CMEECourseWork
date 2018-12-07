@@ -6,6 +6,14 @@ This directory contains python scripts used to learn the basics of the python 3 
 
 Python Version used: 3.5.2
 
+Required Python packages:
+	-pandas
+	-csv
+	-sys
+	-pickle
+	-ipdb
+	-doctest 
+
 Sub-Directories:
 
 Code:	 	All code

@@ -4,6 +4,9 @@ CREATED: 02/10/18
 
 This directory contains basic piped code and shell scripts used to learn the linux environment and basic bash commands. It also contains example data and outputs for use with the code.
 
+Bash Version used: 4.3.48(1)
+
+LaTeX Version used: TeX Live 2015
 
 Sub-Directories:
 
