@@ -11,7 +11,7 @@ rm(list=ls())
 
 ## Load Data ##
 
-Trees <- read.csv("../Data/trees.csv")
+# None
 
 ###############
 

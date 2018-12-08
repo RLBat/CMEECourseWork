@@ -1,4 +1,5 @@
-## Runs the stochastic (with gaussian fluctuations) Ricker Eqn .
+## Runs the stochastic (with gaussian fluctuations) Ricker Eqn. using nested loops
+## and without, showing the speed difference.
 
 # Author: Rachel Bates (r.bates18@imperial.ac.uk)
 # Version: 0.0.1

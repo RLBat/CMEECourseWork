@@ -9,4 +9,4 @@
 Rscript get_TreeHeight.R ../Data/trees.csv
 
 # Runs get_TreeHeight.py with an input
-#ipython3 get_TreeHeight.py ../Data/trees.csv
+python3 get_TreeHeight.py ../Data/trees.csv

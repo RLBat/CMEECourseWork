@@ -12,7 +12,7 @@ echo  "Vectorize2.R execution time:"
 time (Rscript Vectorize2.R &>-)
 
 # Calculates running time for the python scripts
-#echo "Vectorize1.py execution time:"
-#time (ipython3 Vectorize1.py &>-)
-#echo  "Vectorize2.py execution time:"
-#time (ipython3 Vectorize2.py &>-)
+echo "Vectorize1.py execution time:"
+time (ipython3 Vectorize1.py &>-)
+echo  "Vectorize2.py execution time:"
+time (ipython3 Vectorize2.py &>-)

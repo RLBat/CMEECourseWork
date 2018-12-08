@@ -22,6 +22,16 @@ Required R packages:
 	-lattice
 	-plyr
 
+Python Version used: 3.5.2
+
+Required Python packages:
+	-sys
+	-pandas
+	-re
+	-math
+	-time
+	-numpy
+
 Sub-Directories:
 
 Code:	 	All code
@@ -49,9 +59,9 @@ DataWrang.R - Using base R functions to wrangle a dataset from wide to long form
 
 DataWrangTidy.R - Wrangles a badly formatted dataset into a long format with correct datatypes using Tidyr and Dplyr
 
-get_TreeHeight.R - This function calculates heights of trees given distance of each tree from its base and angle to its top, using  the trigonometric formula 
+get_TreeHeight.R - This function calculates heights of trees given distance of each tree from its base and angle to its top, using  the trigonometric formula.
 
-get_TreeHeight.py - TO BE ADDED
+get_TreeHeight.py - This function calculates heights of trees given distance of each tree from its base and angle to its top, using  the trigonometric formula.
 
 Girko.R - Generates a girko plot of random data using ggplots
 
@@ -69,7 +79,7 @@ PP_Regress.R - Plots predator mass against prey mass for each feeding interactio
 
 preallocate.R - Script demonstarting the speed benefits of pre-allocating variables
 
-run_get_TreeHeight.sh - Runs get_TreeHeight.sh
+run_get_TreeHeight.sh - Runs get_TreeHeight.R and get_TreeHeight.py
 
 sample.R - Runs a simulation that involves sampling from a population
 
@@ -79,9 +89,13 @@ TreeHeight.R - This function calculates heights of trees given distance of each 
 
 try.R - Demonstrates usage of the try function
 
-Vectorise.sh - IN PROGRESS - Compares R and Python run times for two scripts
+Vectorize.sh - Compares R and Python run times for two scripts
 
-Vectorise1.R - Shows the speed differences between using loops in R and pre-defined functions that call from C
+Vectorize1.R - Shows the speed differences between using loops in R and pre-defined functions that call from C
 
-Vectorize2.R - Runs the stochastic (with gaussian fluctuations) Ricker Eqn .
+Vectorize2.R - Runs the stochastic (with gaussian fluctuations) Ricker Eqn. using nested loops and without, showing the speed difference.
+
+Vectorize1.py - Shows the speed differences between using loops in python and vectorised solutions
+
+Vectorize2.py - Runs the stochastic (with gaussian fluctuations) Ricker Eqn. using nested loops and without, showing the speed difference.
 

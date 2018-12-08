@@ -9,8 +9,10 @@
 rm(list=ls())
 
 ###############
+#Creates a matrix of 1000000 random numbers
 M <- matrix(runif(1000000),1000,1000)
 
+#Sums all numbers in the matrix using nested loops
 SumAllElements <- function(M){
   Dimensions <- dim(M)
   Tot <- 0
@@ -22,7 +24,9 @@ SumAllElements <- function(M){
   return (Tot)
 }
 
-## This on my computer takes about 1 sec
+#Time of nested loop solution
+print("Time for loop solution to run:")
 print(system.time(SumAllElements(M)))
-## While this takes about 0.01 sec
+#Time for vectorised solution
+print("Time for vectorised solution to run:")
 print(system.time(sum(M)))
