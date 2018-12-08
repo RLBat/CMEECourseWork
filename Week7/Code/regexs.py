@@ -27,7 +27,7 @@ match = re.search(r'\d', my_string)
 print(match)
 
 
-match = re.search(r'\w*\s', MyStr) # what pattern is this?
+match = re.search(r'\w*\s', MyStr) #Searches my_string for any word followed by a space
 
 #Simple statement to avoid error messages and give meaningful outputs
 if match:                      
