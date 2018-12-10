@@ -38,6 +38,8 @@ LV1.py - Constructs a Lotka-Volterra Model given default inputs, and produces gr
 
 LV2.py - Constructs a Lotka-Volterra Model given user inputs, and produces graphs of both species over time and both species in relation to each other
 
+LV3.py - Constructs a Lotka-Volterra Model given user inputs, and produces graphs of both species over (discrete) time and both species in relation to each other.
+
 MyFirstJupyterNb.ipynb - Basic Jupyter notebook to demonstate its functionality
 
 Nets.R - Builds a network - used as a template to recreate in Python

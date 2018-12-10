@@ -24,3 +24,5 @@ __version__ = '0.0.1'
 run -p LV1.py
 # Runs LV2 with given inputs for parameters, with profiling
 run -p LV2.py 1 0.1 1.5 0.75
+# Runs LV3 with given inputs for parameters, with profiling
+run -p LV3.py 1 0.1 1.5 0.75
