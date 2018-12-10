@@ -46,6 +46,8 @@ MyFirstJupyterNb.ipynb - Basic Jupyter notebook to demonstate its functionality
 
 Nets.R - Builds a network - used as a template to recreate in Python
 
+Nets.py - Builds a network of links between institutions. Translated from an R script
+
 profileme.py - An example script to show profiling optimisations (pre-optimisation)
 
 profileme2.py - An example script to show profiling optimisations (optimised)
