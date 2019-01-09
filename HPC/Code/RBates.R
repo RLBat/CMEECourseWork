@@ -67,8 +67,9 @@ neutral_time_series <- function(initial=c(1,5,3,7,2,3,1,1,2,1,6), duration=10){
 # Creates a plot of 200 generations of a pop with 100 species
 question_8 <- function(){
     Data<-neutral_time_series(initialise_max(100), 200)
-    plot(seq(length(Data)), Data, xlab="Generations",
-    ylab="Species Richness")
+    par(mar=c(5,5,5,5))
+    p<-plot(seq(length(Data)), Data, xlab="Generations", ylab="Species Richness",
+    main="Neutral Model Simulation", cex.lab=1.6, cex.axis=1.6, cex.main=1.6, cex.sub=1.6)
     return(p)
 }
 
@@ -112,11 +113,19 @@ neutral_time_series_speciation <- function(initial=c(1,5,3,7,2,3,1,1,2,1,6), v=0
 question_12 <- function(){
     Datamax<-neutral_time_series_speciation(initialise_max(100), 0.1, 200)
     Datamin<-neutral_time_series_speciation(initialise_min(100), 0.1, 200)
-    p<-plot(seq(length(Datamax)), Datamax, xlab="Generations", ylab="Species Richness", type="l", col="blue")
+    p<-plot(seq(length(Datamax)), Datamax, xlab="Generations", ylab="Species Richness", ylim=c(0,100),
+    main="Neutral Model Simulation with Speciation (v=0.1)", type="l", col="blue", cex.lab=1.6, cex.axis=1.6, cex.main=1.6, cex.sub=1.6)
     p<-lines(seq(length(Datamax)), Datamin, col="red")
     p<-legend(80,80,legend=c("Max initial richness", "Min initial richness"), col=c("blue", "red"), lty=1:2, cex=1.2)
     return(p)
 }
+
+# pdf("../Output/question_20.pdf", # Open blank pdf page using a relative path
+#     12, 8.3) # These numbers are page dimensions in inches
+# par(oma=c(2,2,2,2))
+# par(mar=c(5,5,5,5))
+# question_20()
+# graphics.off();
 
 species_abundance <- function(community=c(1,5,3,7,2,3,1,1,2,1,6)){
     return(as.vector(table(community)))
@@ -161,7 +170,7 @@ question_16 <- function(initial=initialise_max(100), v=0.1){
     }
     vect<-vect/vect_mean
     names(vect)<- 2^(seq(length(vect)))
-    p <- barplot(vect, xlab = "Abundance", ylab="No. of Species", ylim=c(0, 10))
+    p <- barplot(vect, xlab = "Abundance", ylab="No. of Species", ylim=c(0, 10), cex.lab=1.6, cex.axis=1.6, cex.main=1.6, cex.sub=1.6)
     return(p)
 }
 
@@ -196,10 +205,10 @@ challenge_A <- function(initial=initialise_max(100), v=0.1, rep=10, burn=200, eq
     CI_bott<-mean_rich-CI
     CI_top<-mean_rich+CI
 
-    plot(mean_rich, type="l", xlab="Generations", ylab="Mean Species Richness")
-    lines(CI_top, type="l", col="green")
-    lines(CI_bott, type="l", col="blue")
-    proc.time()
+    p<-plot(mean_rich, type="l", xlab="Generations", ylab="Mean Species Richness", cex.lab=1.6, cex.axis=1.6, cex.main=1.6, cex.sub=1.6)
+    p<-lines(CI_top, type="l", col="green")
+    p<-lines(CI_bott, type="l", col="blue")
+    return(p)
 }
 
 ## CHECK ALL ITERATIVE FUNCTIONS - DO THEY REUSE INITIAL IN A NEW LOOP? ##
@@ -233,13 +242,49 @@ cluster_run <- function(speciation_rate=0.1, wall_time=1, size=100, interval_ric
     save(speciation_rate, size, wall_time, interval_rich, interval_oct, burn_in_generations, end_time, Community, Richness, Octs, file=output_file_name)
 }
 
-iter <- as.numeric(Sys.getenv("PBS_ARRAY_INDEX"))
-set.seed(iter)
-filename=paste("RLB18_", as.character(iter), sep="")
-Speciation_rate <- 0.006621
-J <- c(5000, 500,1000,2500)
-J <- J[iter %% 4 +1]
-cluster_run(speciation_rate=Speciation_rate, wall_time=690, size=J, interval_rich=1, interval_oct=J/10, burn_in_generations=8*J, output_file_name=paste(filename,".rda",sep=""))
+# iter <- as.numeric(Sys.getenv("PBS_ARRAY_INDEX"))
+# set.seed(iter)
+# filename=paste("RLB18_", as.character(iter), sep="")
+# Speciation_rate <- 0.006621
+# J <- c(5000, 500,1000,2500)
+# J <- J[iter %% 4 +1]
+# cluster_run(speciation_rate=Speciation_rate, wall_time=690, size=J, interval_rich=1, interval_oct=J/10, burn_in_generations=8*J, output_file_name=paste(filename,".rda",sep=""))
+
+
+question_20 <- function (){
+    Final_Octs<-list()
+    Vect_mean<-list()
+    for (i in 1:100){
+        load(paste("../Data/100_Runs/RLB18_",i,".rda", sep=""))
+        if (is.null(Final_Octs[[as.character(size)]])){
+            Final_Octs[[as.character(size)]]<-Octs[[1]]
+            Vect_mean[[as.character(size)]]<-length(Octs)
+            for (j in 2:length(Octs)){
+                Final_Octs[[as.character(size)]]<-sum_vect(Final_Octs[[as.character(size)]], Octs[[j]])
+            }
+        }
+        else{
+            Vect_mean[[as.character(size)]]<-Vect_mean[[as.character(size)]]+length(Octs)
+            for (j in 1:length(Octs)){
+                Final_Octs[[as.character(size)]]<-sum_vect(Final_Octs[[as.character(size)]], Octs[[j]])
+            }
+        }
+    }
+    Sizes<-names(Final_Octs)
+    par(mfrow=c(2,2))
+    Finals<-list()
+    for (i in 1:length(Sizes)){
+        Finals[[i]]<-Final_Octs[[i]]/Vect_mean[[i]]
+        p <- barplot(Finals[[i]], main=paste("Population Size = ", Sizes[i]), xlab = "Abundance Octaves", ylab="Mean No. of Species", cex.lab=1.6, cex.axis=1.6, cex.main=1.6, cex.sub=1.6)
+        p
+    }
+    return()
+}
+
+
+############################################
+############      FRACTALS      ###########
+###########################################
 
 chaos_game <- function (A=c(0,0), B=c(3,4), C=c(4,1), X=c(0,0), reps=10000){
     plot.new()
@@ -255,7 +300,9 @@ chaos_game <- function (A=c(0,0), B=c(3,4), C=c(4,1), X=c(0,0), reps=10000){
         X<-c(X_x, X_y)
         points(X[1], X[2], cex=0.01)
     }
+    return(plot)
 }
+
 
 turtle <- function (Start=c(0,0), Direction, Length){
     Angle = Direction
@@ -265,17 +312,16 @@ turtle <- function (Start=c(0,0), Direction, Length){
     return(c(X+Start[1],Y+Start[2]))
 }
 
-plot.new()
-plot(x=NULL, ylim=c(-10,10), xlim=c(-10,10))
+# plot.new()
+# plot(x=NULL, ylim=c(-10,10), xlim=c(-10,10))
+
 elbow <- function (Start, Direction, Length){
     Point_1<-turtle(Start=Start, Direction=Direction, Length=Length)
     Point_2<-turtle(Start=c(Point_1), Direction=Direction+(pi/4), Length=0.95*Length)
 }
 
-
-
-plot.new()
-plot(x=NULL, ylim=c(-10,10), xlim=c(-10,10))
+# plot.new()
+# plot(x=NULL, ylim=c(-10,10), xlim=c(-10,10), xlab="x", ylab="y")
 
 spiral <- function (Start, Direction, Length){
     Point_1<-turtle(Start=Start, Direction=Direction, Length=Length)
@@ -303,9 +349,9 @@ tree <- function (Start, Direction, Length){
     }
 }
 
-plot.new()
-plot(x=NULL, ylim=c(-10,20), xlim=c(-10,10))
-fern(c(0,-10), 2*pi, 4)
+# plot.new()
+# plot(x=NULL, ylim=c(-10,20), xlim=c(-10,10))
+# fern(c(0,-10), 2*pi, 4)
 
 fern <- function (Start, Direction, Length){
     if (Length > 0.1){
@@ -318,13 +364,15 @@ fern <- function (Start, Direction, Length){
     }
 }
 
-fern_2 <- function (Start, Direction, Length, dir=-1){
+fern_2 <- function (Start=c(0,-10), Direction=2*pi, Length=5, dir=-1){
     if (Length > 0.01){
         Point_1<-turtle(Start=Start, Direction=Direction, Length=Length)
-        if (sign(dir)==-1){
-            Point_2<-fern_2(Start=c(Point_1), Direction=Direction-(pi/4), Length=0.38*Length, dir=1)
+        if (dir==-1){
+            Point_2<-fern_2(Start=c(Point_1), Direction=Direction-(pi/4), Length=0.38*Length, dir=-1)
+            Point_3<-fern_2(Start=c(Point_1), Direction=Direction, Length=0.87*Length, dir=1)
         }
-        else if (sign(dir)==1){
+        else if (dir==1){
+            Point_2<-fern_2(Start=c(Point_1), Direction=Direction+(pi/4), Length=0.38*Length, dir=1)
             Point_3<-fern_2(Start=c(Point_1), Direction=Direction, Length=0.87*Length, dir=-1)
         }  
     }
@@ -333,6 +381,7 @@ fern_2 <- function (Start, Direction, Length, dir=-1){
     }
 }
 
+par(mfrow=c(1,1))
 plot.new()
-plot(x=NULL, ylim=c(-10,20), xlim=c(-10,10))
-fern_2(c(0,-10), 2*pi, 5)
+plot(x=NULL, ylim=c(-10,32), xlim=c(-20,20), xlab="x", ylab="y")
+fern_2(c(0,-10), 2*pi, 5, -1)
