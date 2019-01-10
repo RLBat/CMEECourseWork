@@ -120,12 +120,12 @@ question_12 <- function(){
     return(p)
 }
 
-# pdf("../Output/question_20.pdf", # Open blank pdf page using a relative path
-#     12, 8.3) # These numbers are page dimensions in inches
-# par(oma=c(2,2,2,2))
-# par(mar=c(5,5,5,5))
-# question_20()
-# graphics.off();
+pdf("../Output/question_16.pdf", # Open blank pdf page using a relative path
+    12, 8) # These numbers are page dimensions in inches
+par(oma=c(2,2,2,2))
+par(mar=c(5,5,5,5))
+question_16()
+graphics.off();
 
 species_abundance <- function(community=c(1,5,3,7,2,3,1,1,2,1,6)){
     return(as.vector(table(community)))
@@ -170,11 +170,11 @@ question_16 <- function(initial=initialise_max(100), v=0.1){
     }
     vect<-vect/vect_mean
     names(vect)<- 2^(seq(length(vect)))
-    p <- barplot(vect, xlab = "Abundance", ylab="No. of Species", ylim=c(0, 10), cex.lab=1.6, cex.axis=1.6, cex.main=1.6, cex.sub=1.6)
+    p <- barplot(vect, xlab = "Abundance", main="Abundance Octaves (J=100)", ylab="No. of Species", ylim=c(0, 10), cex.lab=1.6, cex.axis=1.6, cex.main=1.6, cex.sub=1.6)
     return(p)
 }
 
-challenge_A <- function(initial=initialise_max(100), v=0.1, rep=10, burn=200, eq=2000){
+challenge_AB <- function(initial=initialise_max(100), v=0.1, rep=10, burn=200, eq=2000){
     Richness<-integer(burn+eq+1)
     Richness_sum <- integer(burn+eq+1)
     Community<-initial
@@ -195,8 +195,14 @@ challenge_A <- function(initial=initialise_max(100), v=0.1, rep=10, burn=200, eq
         Richness <- Richness + Rich
         Richness_sum <- Richness_sum + Rich_sum
     }
-    mean_rich <- Richness/rep
-    Var <- (Richness_sum/rep)-mean_rich^2
+    Outputs<-list(Richness, Richness_sum)
+    return(Outputs)
+}
+
+challenge_A <- function(initial=initialise_max(100), v=0.1, rep=10, burn=200, eq=2000){
+    Outputs<-challenge_AB(initial=initial, v=v, rep=rep, burn=burn, eq=eq)
+    mean_rich <- Outputs[[1]]/rep
+    Var <- (Outputs[[2]]/rep)-mean_rich^2
     SE <- sqrt(Var)/sqrt(rep)
     CI <- integer(length(SE))
     for (i in 1:length(SE)){
@@ -205,10 +211,33 @@ challenge_A <- function(initial=initialise_max(100), v=0.1, rep=10, burn=200, eq
     CI_bott<-mean_rich-CI
     CI_top<-mean_rich+CI
 
-    p<-plot(mean_rich, type="l", xlab="Generations", ylab="Mean Species Richness", cex.lab=1.6, cex.axis=1.6, cex.main=1.6, cex.sub=1.6)
+    p<-plot(mean_rich, type="l", xlab="Generations", main=paste("Mean Species Richness over time. Intial richness=", 
+        max(initial, sep="")), ylab="Mean Species Richness", ylim=c(0,max(mean_rich)+5), xlim=c(0,burn+eq), cex.lab=1.6, cex.axis=1.6, cex.main=1.6, cex.sub=1.6)
     p<-lines(CI_top, type="l", col="green")
     p<-lines(CI_bott, type="l", col="blue")
     return(p)
+}
+
+max(mean_rich)+5
+
+challenge_B <- function(Population=100, v=0.1, rep=10, burn=1, eq=30){
+    p<-plot(x=NULL, ylim=c(0,100), xlim=c(0,30), xlab="Generations", main="Mean Species Richness over time", 
+        ylab="Mean Species Richness", cex.lab=1.6, cex.axis=1.6, cex.main=1.6, cex.sub=1.6)
+    used_rich<-c()
+    for (i in 1:Population){
+        if (Population %% i == 0){
+            run_rich=100/i
+            initial=rep(seq(1,i), run_rich)
+            Outputs<-challenge_AB(initial=initial, v=v, rep=rep, burn=burn, eq=eq)
+            mean_rich <- Outputs[[1]]/rep
+            used_rich<-c(used_rich, i)
+            p<-lines(mean_rich, type="l", col=rainbow(Population/10)[tail(seq(1,length(used_rich)), n=1)])
+        }
+        else{
+            next()
+        }
+    }
+    p<-legend(20,90,legend=used_rich, col=rainbow(Population/10)[seq(1,length(used_rich))], lty=1, title="Species Richness", cex=1.2)
 }
 
 ## CHECK ALL ITERATIVE FUNCTIONS - DO THEY REUSE INITIAL IN A NEW LOOP? ##
@@ -274,13 +303,15 @@ question_20 <- function (){
     par(mfrow=c(2,2))
     Finals<-list()
     for (i in 1:length(Sizes)){
+        names(Final_Octs[[i]])<- 2^(seq(length(Final_Octs[[i]])))
         Finals[[i]]<-Final_Octs[[i]]/Vect_mean[[i]]
-        p <- barplot(Finals[[i]], main=paste("Population Size = ", Sizes[i]), xlab = "Abundance Octaves", ylab="Mean No. of Species", cex.lab=1.6, cex.axis=1.6, cex.main=1.6, cex.sub=1.6)
+        p <- barplot(Finals[[i]], main=paste("Population Size = ", Sizes[i]), xlab = "Abundance Octaves", ylab="Mean No. of Species", cex.lab=1.6, cex.axis=1.6,cex.names=1, cex.main=1.6, cex.sub=1.6)
         p
     }
     return()
 }
 
+dev.off()
 
 ############################################
 ############      FRACTALS      ###########
@@ -381,7 +412,7 @@ fern_2 <- function (Start=c(0,-10), Direction=2*pi, Length=5, dir=-1){
     }
 }
 
-par(mfrow=c(1,1))
-plot.new()
-plot(x=NULL, ylim=c(-10,32), xlim=c(-20,20), xlab="x", ylab="y")
-fern_2(c(0,-10), 2*pi, 5, -1)
+# par(mfrow=c(1,1))
+# plot.new()
+# plot(x=NULL, ylim=c(-10,32), xlim=c(-20,20), xlab="x", ylab="y")
+# fern_2(c(0,-10), 2*pi, 5, -1)
