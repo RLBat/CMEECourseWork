@@ -90,10 +90,11 @@ neutral_step_speciation <- function(community=c(1,5,3,7,2,3,1,1,2,1,6), v=0.2){
 neutral_generation_speciation <- function(community=c(1,5,3,7,2,3,1,1,2,1,6), v=0.2){
     x <- length(community)
     if (x %%2 !=0){ # Checks to see if x is exactly divisible by 2 (i.e. even)
-        x <- x+1
+        x <- x+1 # If not even, +1
     }
-    gen = x/2
+    gen = x/2 #Define generation size
     for (i in 1:gen){
+        # Runs gen no. of time steps with speciation on the commmunity
         community<-neutral_step_speciation(community, v)
     }
     return(community)
@@ -120,12 +121,12 @@ question_12 <- function(){
     return(p)
 }
 
-pdf("../Output/question_16.pdf", # Open blank pdf page using a relative path
-    12, 8) # These numbers are page dimensions in inches
-par(oma=c(2,2,2,2))
-par(mar=c(5,5,5,5))
-question_16()
-graphics.off();
+# pdf("../Output/question_16.pdf", # Open blank pdf page using a relative path
+#     12, 8) # These numbers are page dimensions in inches
+# par(oma=c(2,2,2,2))
+# par(mar=c(5,5,5,5))
+# question_16()
+# graphics.off();
 
 species_abundance <- function(community=c(1,5,3,7,2,3,1,1,2,1,6)){
     return(as.vector(table(community)))
@@ -174,20 +175,14 @@ question_16 <- function(initial=initialise_max(100), v=0.1){
     return(p)
 }
 
-challenge_AB <- function(initial=initialise_max(100), v=0.1, rep=10, burn=200, eq=2000){
-    Richness<-integer(burn+eq+1)
-    Richness_sum <- integer(burn+eq+1)
-    Community<-initial
+challenge_AB <- function(initial=initialise_max(100), v=0.1, rep=10, len=200){
+    Richness<-integer(len+1)
+    Richness_sum <- integer(len+1)
+    Community<-initial 
     for (i in 1:rep){
         Rich <- c(species_richness(initial)) # Adds richness at t=0 to vector
         Rich_sum <- c(Rich^2)
-        for (j in 1:burn){
-            Community <- neutral_generation_speciation(Community, v) # Runs one generation's changes
-            Rich <- c(Rich, species_richness(Community))
-            Rich_sum <- c(Rich_sum, Rich[length(Rich)]^2)
-        }
-        vect_mean=1
-        for (j in 1:eq){
+        for (j in 1:(len)){
             Community <- neutral_generation_speciation(Community, v) # Runs one generation's changes
             Rich <- c(Rich, species_richness(Community))
             Rich_sum <- c(Rich_sum, Rich[length(Rich)]^2)
@@ -199,8 +194,20 @@ challenge_AB <- function(initial=initialise_max(100), v=0.1, rep=10, burn=200, e
     return(Outputs)
 }
 
-challenge_A <- function(initial=initialise_max(100), v=0.1, rep=10, burn=200, eq=2000){
-    Outputs<-challenge_AB(initial=initial, v=v, rep=rep, burn=burn, eq=eq)
+challenge_AB2 <- function(initial=initialise_max(100), v=0.1, rep=10, len=200){
+    Rich<-integer(len+1)
+    Rich_sum<- integer(len+1)
+    for (i in 1:(rep)){
+        time_series<-neutral_time_series_speciation(initial=initial, v=v, duration=len)
+        Rich <- sum_vect(Rich, time_series)
+        Rich_sum <- sum_vect(Rich_sum, (time_series)^2)
+    }
+    Outputs<-list(Rich, Rich_sum)
+    return(Outputs)
+}
+
+challenge_A <- function(initial=initialise_max(100), v=0.1, rep=10, len=200){
+    Outputs<-challenge_AB2(initial=initial, v=v, rep=rep, len=len)
     mean_rich <- Outputs[[1]]/rep
     Var <- (Outputs[[2]]/rep)-mean_rich^2
     SE <- sqrt(Var)/sqrt(rep)
@@ -212,15 +219,14 @@ challenge_A <- function(initial=initialise_max(100), v=0.1, rep=10, burn=200, eq
     CI_top<-mean_rich+CI
 
     p<-plot(mean_rich, type="l", xlab="Generations", main=paste("Mean Species Richness over time. Intial richness=", 
-        max(initial, sep="")), ylab="Mean Species Richness", ylim=c(0,max(mean_rich)+5), xlim=c(0,burn+eq), cex.lab=1.6, cex.axis=1.6, cex.main=1.6, cex.sub=1.6)
+        max(initial, sep="")), ylab="Mean Species Richness", ylim=c(0,max(mean_rich)+5), xlim=c(0,len), cex.lab=1.6, cex.axis=1.6, cex.main=1.6, cex.sub=1.6)
     p<-lines(CI_top, type="l", col="green")
     p<-lines(CI_bott, type="l", col="blue")
     return(p)
 }
 
-max(mean_rich)+5
 
-challenge_B <- function(Population=100, v=0.1, rep=10, burn=1, eq=30){
+challenge_B <- function(Population=100, v=0.1, rep=10, len=200){
     p<-plot(x=NULL, ylim=c(0,100), xlim=c(0,30), xlab="Generations", main="Mean Species Richness over time", 
         ylab="Mean Species Richness", cex.lab=1.6, cex.axis=1.6, cex.main=1.6, cex.sub=1.6)
     used_rich<-c()
@@ -228,7 +234,7 @@ challenge_B <- function(Population=100, v=0.1, rep=10, burn=1, eq=30){
         if (Population %% i == 0){
             run_rich=100/i
             initial=rep(seq(1,i), run_rich)
-            Outputs<-challenge_AB(initial=initial, v=v, rep=rep, burn=burn, eq=eq)
+            Outputs<-challenge_AB(initial=initial, v=v, rep=rep, len=len)
             mean_rich <- Outputs[[1]]/rep
             used_rich<-c(used_rich, i)
             p<-lines(mean_rich, type="l", col=rainbow(Population/10)[tail(seq(1,length(used_rich)), n=1)])
@@ -281,13 +287,14 @@ cluster_run <- function(speciation_rate=0.1, wall_time=1, size=100, interval_ric
 
 
 question_20 <- function (){
+    # Create empty lists for later use
     Final_Octs<-list()
     Vect_mean<-list()
-    for (i in 1:100){
-        load(paste("../Data/100_Runs/RLB18_",i,".rda", sep=""))
-        if (is.null(Final_Octs[[as.character(size)]])){
-            Final_Octs[[as.character(size)]]<-Octs[[1]]
-            Vect_mean[[as.character(size)]]<-length(Octs)
+    for (i in 1:100){ #Loop over each of the 100 runs
+        load(paste("../Data/100_Runs/RLB18_",i,".rda", sep="")) #Load the RData file for each iteration
+        if (is.null(Final_Octs[[as.character(size)]])){ #Runs if no runs for that J have been recorded
+            Final_Octs[[as.character(size)]]<-Octs[[1]] #Places the first octaves from this run into Final_Octs per J
+            Vect_mean[[as.character(size)]]<-length(Octs) #Adds 
             for (j in 2:length(Octs)){
                 Final_Octs[[as.character(size)]]<-sum_vect(Final_Octs[[as.character(size)]], Octs[[j]])
             }
@@ -311,7 +318,53 @@ question_20 <- function (){
     return()
 }
 
-dev.off()
+challenge_C <- function (){
+
+}
+
+coalescence<-function(J=100, v=0.1){
+    lineages<-rep(1, J)
+    abundances<-c()
+    N<-J
+    Theta<-(v*((J-1)/(1-v)))
+    while (N>1){
+        j<-sample(length(lineages), 1)
+        randnum=runif(1)
+        if (randnum<(Theta/(Theta+N-1))){
+            abundances<-c(abundances, lineages[j])
+            lineages<-lineages[-j]
+            N<-N-1
+        }
+        else if (randnum>=(Theta/(Theta+N-1))){
+            i<-sample(length(lineages), 1)
+            while (i==j){
+                i<-sample(length(lineages),1)
+            }
+            lineages[i]<-lineages[i]+lineages[j]
+            lineages<-lineages[-j]
+            N<-N-1
+        }
+    }
+    abundances<-c(abundances, lineages)
+    return(abundances)
+}
+
+challenge_D <- function(J=c(500,1000,2500,5000), v=0.1, runs=25){
+    start<-proc.time()[3]
+    Final_Abunds<-list()
+    for (i in J){
+        Final_Abunds[[as.character(i)]]<-octaves(coalescence(J=i, v=v))
+        for (j in 2:runs){
+            Final_Abun<-octaves(coalescence(J=i, v=v))
+            Final_Abunds[[as.character(i)]]<-sum_vect(Final_Abunds[[as.character(i)]], Final_Abun)
+        }
+        Final_Abunds[[as.character(i)]]<-Final_Abunds[[as.character(i)]]/runs
+    }
+    Final_Abunds[["end_time"]]<-proc.time()[3]-start
+    return(Final_Abunds)
+}
+
+
 
 ############################################
 ############      FRACTALS      ###########
