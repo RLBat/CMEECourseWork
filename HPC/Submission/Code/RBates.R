@@ -325,6 +325,34 @@ question_20 <- function (){
 
 ################################
 
+# Similar to challenge A, but plots a more zoomed view with lines to more clearly
+# demonstrate where dynamic equilibrium is reached.
+challenge_C <- function(initial=initialise_max(100), v=0.1, rep=100, len=70){
+    Outputs<-challenge_AB(initial=initial, v=v, rep=rep, len=len) #Saves outputs from add-on function
+    mean_rich <- Outputs[[1]]/rep # Calculates mean richness over time
+    Var <- (Outputs[[2]]/rep)-mean_rich^2 # Calculates varience over time
+    SE <- sqrt(Var)/sqrt(rep) # Calculates standard error over time
+    CI <- integer(length(SE))
+    for (i in 1:length(SE)){
+         CI[i] <- qnorm(0.986)*SE[i] # Calculates the 1.25% confidence intervals
+    }
+    CI_bott<-mean_rich-CI
+    CI_top<-mean_rich+CI
+    # Creates a line graph of richness over time
+    p<-plot(mean_rich, type="l", xlab="Generations", main=paste("Mean Species Richness over time. Intial richness=", 
+        max(initial, sep="")), ylab="Mean Species Richness", ylim=c(10,40), xlim=c(0,len), cex.lab=1.6, cex.axis=1.6, cex.main=1.6, cex.sub=1.6)
+    # Adds vertical lines to equilibrium points of max and min
+    p<-abline(v=30)
+    p<-abline(v=45)
+    # Adds green line for upper confidence interval
+    p<-lines(CI_top, type="l", col="green")
+    # Adds blue line for lower confidence interval
+    p<-lines(CI_bott, type="l", col="blue")
+    return(p)
+}
+
+################################
+
 # Additional function for Challenge D, calculates species richness at equilibrium using coalescence
 coalescence<-function(J=100, v=0.1){
     lineages<-rep(1, J) #Creates a vector of 1s
