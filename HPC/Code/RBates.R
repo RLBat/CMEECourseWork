@@ -146,12 +146,6 @@ question_12 <- function(){
     return(p)
 }
 
-# pdf("../Output/challenge_B.pdf", # Open blank pdf page using a relative path
-#     12, 8) # These numbers are page dimensions in inches
-# par(oma=c(2,2,2,2))
-# par(mar=c(5,5,5,5))
-# challenge_B(rep=100, len=50)
-# graphics.off();
 ################################
 
 # Calcualates the abundance of each species
@@ -292,48 +286,6 @@ challenge_B <- function(Population=100, v=0.1, rep=10, len=200){
 
 ################################
 
-# Code for running a timed neutral simulation on the HPC
-cluster_run <- function(speciation_rate=0.1, wall_time=1, size=100, interval_rich=10, interval_oct=20, burn_in_generations=200, output_file_name="Test2.rda"){
-    Community <- initialise_min(size) # Generate community
-    # Initialise several objects for later use
-    generation=0
-    iter_oct=0
-    Octs<-list()
-    Richness<-c()
-    wall_time<-wall_time*60 # Convert wall time to seconds
-    start<-proc.time()[3] # Start timer
-    while (proc.time()[3]-start < wall_time){ # While the computing time is less than wall time
-        # Runs one generation's changes on the community
-        Community<-neutral_generation_speciation(community=Community, v=speciation_rate) 
-        generation=generation+1 # Keep a running total of how many generations have passed
-        if (generation<burn_in_generations){ # During burn-in period
-            if (generation %% interval_rich == 0){ # At each burn in interval
-                Richness <- c(Richness, species_richness(Community)) # Store species richness
-            }
-        }
-        else{ # During equilibrium
-            if (generation %% interval_oct == 0){ # At each equilibrium interval
-                iter_oct<- iter_oct+1 # Keep a running total of how many meansurements have been taken
-                Octs[[iter_oct]]<-octaves(species_abundance(Community)) # Save octaves of the abundance of the community
-            }
-        }
-    }
-    wall_time<-wall_time/60 # Change wall time back to minutes
-    end_time<-proc.time()[3]-start # Record duration
-    # Save all parameters and outputs to a .rda file that can be later loaded back in
-    save(speciation_rate, size, wall_time, interval_rich, interval_oct, burn_in_generations, end_time, Community, Richness, Octs, file=output_file_name)
-}
-
-# iter <- as.numeric(Sys.getenv("PBS_ARRAY_INDEX"))
-# set.seed(iter)
-# filename=paste("RLB18_", as.character(iter), sep="")
-# Speciation_rate <- 0.006621
-# J <- c(5000, 500,1000,2500)
-# J <- J[iter %% 4 +1]
-# cluster_run(speciation_rate=Speciation_rate, wall_time=690, size=J, interval_rich=1, interval_oct=J/10, burn_in_generations=8*J, output_file_name=paste(filename,".rda",sep=""))
-
-################################
-
 # Generates average octaves for each value of J from the cluster data
 question_20 <- function (){
     # Create empty lists for later use
@@ -369,12 +321,6 @@ question_20 <- function (){
         p
     }
     return()
-}
-
-################################
-
-challenge_C <- function (){
-
 }
 
 ################################
@@ -479,9 +425,6 @@ challenge_E_tri <- function (A=c(0,0), B=c(3,4), C=c(4,1), X=c(0,0), reps=10000,
     return(plot)
 }
 
-#challenge_E(X=c(0,4)) # Start from different position
-#challenge_E(A=c(0,0), B=c(4,0), C=c(2,3.5), X=c(2,1)) # Equilateral and start from different position
-
 challenge_E_quad <- function (A=c(0,0), B=c(0,4), C=c(4,0), D=c(4,4), X=c(0,0), reps=10000, n=20){
     plot.new() # Opens empty plot
     Points <- list(A, B, C, D)
@@ -520,9 +463,6 @@ turtle <- function (Start=c(0,0), Direction=2*pi, Length=2){
     return(c(X+Start[1],Y+Start[2])) # Returns end coordinates
 }
 
-# plot.new()
-# plot(x=NULL, ylim=c(-10,10), xlim=c(-10,10))
-
 ################################
 
 # Draws a line, then a subsequent shorter line 45 degrees to the right
@@ -533,8 +473,6 @@ elbow <- function (Start=c(0,0), Direction=2*pi, Length=2){
 }
 
 ################################
-# plot.new()
-# plot(x=NULL, ylim=c(-10,10), xlim=c(-10,10), xlab="x", ylab="y")
 
 # Plots a spiral shape using recursive functions
 spiral <- function (Start=c(0,2), Direction=2, Length=2){
@@ -574,10 +512,6 @@ tree <- function (Start=c(0,-10), Direction=2*pi, Length=2){
 
 ################################
 
-# plot.new()
-# plot(x=NULL, ylim=c(-10,20), xlim=c(-10,10))
-# fern(c(0,-10), 2*pi, 4)
-
 # Plots a one-sided fern shape using recursive functions
 fern <- function (Start=c(0,-10), Direction=2*pi, Length=4){
     if (Length > 0.1){ # Stops the function re-calling itself when length reaches a critically small length
@@ -610,8 +544,3 @@ fern_2 <- function (Start=c(0,-10), Direction=2*pi, Length=5, dir=-1){
         return("ended")
     }
 }
-
-# par(mfrow=c(1,1))
-# plot.new()
-# plot(x=NULL, ylim=c(-10,32), xlim=c(-20,20), xlab="x", ylab="y")
-# fern_2(c(0,-10), 2*pi, 5, -1)
