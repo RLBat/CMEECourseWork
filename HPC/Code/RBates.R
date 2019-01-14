@@ -292,31 +292,34 @@ challenge_B <- function(Population=100, v=0.1, rep=10, len=200){
 
 ################################
 
+# Code for running a timed neutral simulation on the HPC
 cluster_run <- function(speciation_rate=0.1, wall_time=1, size=100, interval_rich=10, interval_oct=20, burn_in_generations=200, output_file_name="Test2.rda"){
-    Community <- initialise_min(size)
+    Community <- initialise_min(size) # Generate community
+    # Initialise several objects for later use
     generation=0
     iter_oct=0
     Octs<-list()
     Richness<-c()
-    wall_time<-wall_time*60
-    start<-proc.time()[3]
-    while (proc.time()[3]-start < wall_time){
-        Community<-neutral_generation_speciation(community=Community, v=speciation_rate)
-        generation=generation+1
-        if (generation<burn_in_generations){
-            if (generation %% interval_rich == 0){
-                Richness <- c(Richness, species_richness(Community))
+    wall_time<-wall_time*60 # Convert wall time to seconds
+    start<-proc.time()[3] # Start timer
+    while (proc.time()[3]-start < wall_time){ # While the computing time is less than wall time
+        # Runs one generation's changes on the community
+        Community<-neutral_generation_speciation(community=Community, v=speciation_rate) 
+        generation=generation+1 # Keep a running total of how many generations have passed
+        if (generation<burn_in_generations){ # During burn-in period
+            if (generation %% interval_rich == 0){ # At each burn in interval
+                Richness <- c(Richness, species_richness(Community)) # Store species richness
             }
         }
-        else{
-            if (generation %% interval_oct == 0){
-                iter_oct<- iter_oct+1
-                Octs[[iter_oct]]<-octaves(species_abundance(Community))
+        else{ # During equilibrium
+            if (generation %% interval_oct == 0){ # At each equilibrium interval
+                iter_oct<- iter_oct+1 # Keep a running total of how many meansurements have been taken
+                Octs[[iter_oct]]<-octaves(species_abundance(Community)) # Save octaves of the abundance of the community
             }
         }
     }
-    wall_time<-wall_time/60
-    end_time<-proc.time()[3]-start
+    wall_time<-wall_time/60 # Change wall time back to minutes
+    end_time<-proc.time()[3]-start # Record duration
     # Save all parameters and outputs to a .rda file that can be later loaded back in
     save(speciation_rate, size, wall_time, interval_rich, interval_oct, burn_in_generations, end_time, Community, Richness, Octs, file=output_file_name)
 }
@@ -331,32 +334,37 @@ cluster_run <- function(speciation_rate=0.1, wall_time=1, size=100, interval_ric
 
 ################################
 
+# Generates average octaves for each value of J from the cluster data
 question_20 <- function (){
     # Create empty lists for later use
     Final_Octs<-list()
     Vect_mean<-list()
     for (i in 1:100){ #Loop over each of the 100 runs
-        load(paste("../Data/100_Runs/RLB18_",i,".rda", sep="")) #Load the RData file for each iteration
+        load(paste("../Data/RLB18_",i,".rda", sep="")) #Load the RData file for each iteration
         if (is.null(Final_Octs[[as.character(size)]])){ #Runs if no runs for that J have been recorded
             Final_Octs[[as.character(size)]]<-Octs[[1]] #Places the first octaves from this run into Final_Octs per J
-            Vect_mean[[as.character(size)]]<-length(Octs) #Adds 
+            Vect_mean[[as.character(size)]]<-length(Octs) #Records how many octaves were measured for this run
             for (j in 2:length(Octs)){
+                # Sums all recorded octaves for that run
                 Final_Octs[[as.character(size)]]<-sum_vect(Final_Octs[[as.character(size)]], Octs[[j]])
             }
         }
-        else{
-            Vect_mean[[as.character(size)]]<-Vect_mean[[as.character(size)]]+length(Octs)
+        else{ # If at least one run for that J has already been recorded
+            # Adds to tot. number of recorded octaves for that J
+            Vect_mean[[as.character(size)]]<-Vect_mean[[as.character(size)]]+length(Octs) 
             for (j in 1:length(Octs)){
+                # Sums recorded octaves for that run with total so far from other runs
                 Final_Octs[[as.character(size)]]<-sum_vect(Final_Octs[[as.character(size)]], Octs[[j]])
             }
         }
     }
-    Sizes<-names(Final_Octs)
+    Sizes<-names(Final_Octs) # Records size names for graph
     par(mfrow=c(2,2))
-    Finals<-list()
-    for (i in 1:length(Sizes)){
-        names(Final_Octs[[i]])<- 2^(seq(length(Final_Octs[[i]])))
-        Finals[[i]]<-Final_Octs[[i]]/Vect_mean[[i]]
+    Finals<-list() 
+    for (i in 1:length(Sizes)){ # For each value of J
+        names(Final_Octs[[i]])<- 2^(seq(length(Final_Octs[[i]]))) # Names the octave bins
+        Finals[[i]]<-Final_Octs[[i]]/Vect_mean[[i]] # Generates the mean octave
+        # Makes a barplot of the abundance octaves
         p <- barplot(Finals[[i]], main=paste("Population Size = ", Sizes[i]), xlab = "Abundance Octaves", ylab="Mean No. of Species", cex.lab=1.6, cex.axis=1.6,cex.names=1, cex.main=1.6, cex.sub=1.6)
         p
     }
@@ -371,48 +379,51 @@ challenge_C <- function (){
 
 ################################
 
+# Additional function for Challenge D, calculates species richness at equilibrium using coalescence
 coalescence<-function(J=100, v=0.1){
-    lineages<-rep(1, J)
+    lineages<-rep(1, J) #Creates a vector of 1s
     abundances<-c()
     N<-J
     Theta<-(v*((J-1)/(1-v)))
     while (N>1){
-        j<-sample(length(lineages), 1)
-        randnum=runif(1)
+        j<-sample(length(lineages), 1) # chooses a random position in lineages
+        randnum=runif(1) # chooses a random number between 0 and 1
         if (randnum<(Theta/(Theta+N-1))){
-            abundances<-c(abundances, lineages[j])
-            lineages<-lineages[-j]
-            N<-N-1
+            # Places the value of the selected lineages individual into abundances
+            abundances<-c(abundances, lineages[j]) 
+            lineages<-lineages[-j] # Removes the selected lineages individual from lineages
+            N<-N-1 # Lower the value of N to equal the number of individuals
         }
         else if (randnum>=(Theta/(Theta+N-1))){
-            i<-sample(length(lineages), 1)
-            while (i==j){
+            i<-sample(length(lineages), 1) # Sample a second random position in lineages
+            while (i==j){ # Ensures the numbers aren't the same
                 i<-sample(length(lineages),1)
             }
-            lineages[i]<-lineages[i]+lineages[j]
-            lineages<-lineages[-j]
-            N<-N-1
+            lineages[i]<-lineages[i]+lineages[j] # Adds the values of the randomly selected individuals together
+            lineages<-lineages[-j] # Removes the first selected individual from lineages
+            N<-N-1 # Lower the value of N to equal the number of individuals
         }
     }
-    abundances<-c(abundances, lineages)
+    abundances<-c(abundances, lineages) # Adds the final lineages individual to abundances
     return(abundances)
 }
 
 ################################
 
+# Calculates species richness octaves at equilibrum for any value/s of J, v, and reps.
 challenge_D <- function(J=c(500,1000,2500,5000), v=0.1, runs=25){
-    start<-proc.time()[3]
-    Final_Abunds<-list()
-    for (i in J){
-        Final_Abunds[[as.character(i)]]<-octaves(coalescence(J=i, v=v))
+    start<-proc.time()[3] # Start timer
+    Final_Abunds<-list() # Initialise list
+    for (i in J){ # Runs for each value of J
+        Final_Abunds[[as.character(i)]]<-octaves(coalescence(J=i, v=v)) # Runs the coalescene function and sorts the output into bins
         for (j in 2:runs){
-            Final_Abun<-octaves(coalescence(J=i, v=v))
-            Final_Abunds[[as.character(i)]]<-sum_vect(Final_Abunds[[as.character(i)]], Final_Abun)
+            Final_Abun<-octaves(coalescence(J=i, v=v)) # Runs the coalescene function and sorts the output into bins
+            Final_Abunds[[as.character(i)]]<-sum_vect(Final_Abunds[[as.character(i)]], Final_Abun) # Adds octaves to running total
         }
-        Final_Abunds[[as.character(i)]]<-Final_Abunds[[as.character(i)]]/runs
+        Final_Abunds[[as.character(i)]]<-Final_Abunds[[as.character(i)]]/runs # Calculates mean of the octaves
     }
-    Final_Abunds[["end_time"]]<-proc.time()[3]-start
-    return(Final_Abunds)
+    Final_Abunds[["end_time"]]<-proc.time()[3]-start # Stores duration
+    return(Final_Abunds) # Returns means for all values of J
 }
 
 ############################################
@@ -428,7 +439,7 @@ chaos_game <- function (A=c(0,0), B=c(3,4), C=c(4,1), X=c(0,0), reps=10000){
     points(B[1], B[2], pch=0)
     points(C[1], C[2], pch=0)
     # Defines initial point
-    points(X[1], X[2], cex=0.00001)
+    points(X[1], X[2], cex=0.01)
     for (i in 1:reps){
         D<-sample(Points, 1)[[1]] # Randomly picks one key coordinate
         X_x<-((sqrt((D[1]-X[1])^2))/2)+(min(X[1], D[1])) # Calculates halfway between the two x coordinates
@@ -441,7 +452,8 @@ chaos_game <- function (A=c(0,0), B=c(3,4), C=c(4,1), X=c(0,0), reps=10000){
 
 ################################
 
-challenge_E <- function (A=c(0,0), B=c(3,4), C=c(4,1), X=c(0,0), reps=10000, n=20){
+# Same as chaos game, but with an additonal parameter to highlight the first n points plotted
+challenge_E_tri <- function (A=c(0,0), B=c(3,4), C=c(4,1), X=c(0,0), reps=10000, n=20){
     plot.new() # Opens empty plot
     Points <- list(A, B, C)
     # Defines labels and axes, plots key coordinates
@@ -455,7 +467,7 @@ challenge_E <- function (A=c(0,0), B=c(3,4), C=c(4,1), X=c(0,0), reps=10000, n=2
         X_x<-((sqrt((D[1]-X[1])^2))/2)+(min(X[1], D[1])) # Calculates halfway between the two x coordinates
         X_y<-((sqrt((D[2]-X[2])^2))/2)+(min(X[2], D[2])) # Calculates halfway between the two y coordinates
         X<-c(X_x, X_y) # Assigns new x
-        points(X[1], X[2], cex=1, col="red", pch=16) # Plots new x
+        points(X[1], X[2], cex=1, col="red", pch=16) # Plots new x in red
     }
     for (i in 1:(reps-n)){
         D<-sample(Points, 1)[[1]] # Randomly picks one key coordinate
@@ -470,15 +482,42 @@ challenge_E <- function (A=c(0,0), B=c(3,4), C=c(4,1), X=c(0,0), reps=10000, n=2
 #challenge_E(X=c(0,4)) # Start from different position
 #challenge_E(A=c(0,0), B=c(4,0), C=c(2,3.5), X=c(2,1)) # Equilateral and start from different position
 
+challenge_E_quad <- function (A=c(0,0), B=c(0,4), C=c(4,0), D=c(4,4), X=c(0,0), reps=10000, n=20){
+    plot.new() # Opens empty plot
+    Points <- list(A, B, C, D)
+    # Defines labels and axes, plots key coordinates
+    plot (x=A[1], y=A[2], xlim=c(0,4), ylim=c(0,4), xlab="x", ylab="y", pch=0)
+    points(B[1], B[2], pch=0)
+    points(C[1], C[2], pch=0)
+    points(D[1], D[2], pch=0)
+    # Defines initial point
+    points(X[1], X[2], cex=1, col="red", pch=16)
+    for (i in 1:n){
+        Z<-sample(Points, 1)[[1]] # Randomly picks one key coordinate
+        X_x<-((sqrt((Z[1]-X[1])^2))/2)+(min(X[1], Z[1])) # Calculates halfway between the two x coordinates
+        X_y<-((sqrt((Z[2]-X[2])^2))/2)+(min(X[2], Z[2])) # Calculates halfway between the two y coordinates
+        X<-c(X_x, X_y) # Assigns new x
+        points(X[1], X[2], cex=1, col="red", pch=16) # Plots new x in red
+    }
+    for (i in 1:(reps-n)){
+        Z<-sample(Points, 1)[[1]] # Randomly picks one key coordinate
+        X_x<-((sqrt((Z[1]-X[1])^2))/2)+(min(X[1], Z[1])) # Calculates halfway between the two x coordinates
+        X_y<-((sqrt((Z[2]-X[2])^2))/2)+(min(X[2], Z[2])) # Calculates halfway between the two y coordinates
+        X<-c(X_x, X_y) # Assigns new x
+        points(X[1], X[2], cex=0.01) # Plots new x
+    }
+    return(plot)
+}
+
 ################################
 
-
-turtle <- function (Start=c(0,0), Direction, Length){
+# Draws a like of specified length from a specified point in a specified direction
+turtle <- function (Start=c(0,0), Direction=2*pi, Length=2){
     Angle = Direction
-    Y = cos(Angle)*Length
-    X = sin(Angle)*Length
-    segments(Start[1], Start[2], X+Start[1], Y+Start[2])
-    return(c(X+Start[1],Y+Start[2]))
+    Y = cos(Angle)*Length # Calculates new y coordinate
+    X = sin(Angle)*Length # Calculate new x coordinate
+    segments(Start[1], Start[2], X+Start[1], Y+Start[2]) # Draws the line
+    return(c(X+Start[1],Y+Start[2])) # Returns end coordinates
 }
 
 # plot.new()
@@ -486,15 +525,18 @@ turtle <- function (Start=c(0,0), Direction, Length){
 
 ################################
 
-elbow <- function (Start, Direction, Length){
-    Point_1<-turtle(Start=Start, Direction=Direction, Length=Length)
+# Draws a line, then a subsequent shorter line 45 degrees to the right
+elbow <- function (Start=c(0,0), Direction=2*pi, Length=2){
+    Point_1<-turtle(Start=Start, Direction=Direction, Length=Length) # Draws the initial line
+    # Draws the subsequent line, at pi/4 radians to the right and 5% shorter
     Point_2<-turtle(Start=c(Point_1), Direction=Direction+(pi/4), Length=0.95*Length)
 }
 
 ################################
-plot.new()
-plot(x=NULL, ylim=c(-10,10), xlim=c(-10,10), xlab="x", ylab="y")
+# plot.new()
+# plot(x=NULL, ylim=c(-10,10), xlim=c(-10,10), xlab="x", ylab="y")
 
+# Plots a spiral shape using recursive functions
 spiral <- function (Start=c(0,2), Direction=2, Length=2){
     Point_1<-turtle(Start=Start, Direction=Direction, Length=Length)
     # Plots smaller line at an angle to initial line, by re-calling spiral
@@ -521,8 +563,9 @@ spiral_2 <- function (Start=c(0,2), Direction=2, Length=2){
 tree <- function (Start=c(0,-10), Direction=2*pi, Length=2){
     if (Length > 0.01){ # Stops the function re-calling itself when length reaches a critically small length
         Point_1<-turtle(Start=Start, Direction=Direction, Length=Length)
-        Point_2<-tree(Start=c(Point_1), Direction=Direction+(pi/4), Length=0.65*Length)
-        Point_3<-tree(Start=c(Point_1), Direction=Direction-(pi/4), Length=0.65*Length)
+        # Plots smaller line at an angle to initial line, by re-calling tree
+        Point_2<-tree(Start=c(Point_1), Direction=Direction+(pi/4), Length=0.65*Length) # Right turn
+        Point_3<-tree(Start=c(Point_1), Direction=Direction-(pi/4), Length=0.65*Length) # Left turn
     }
     else {
         return("ended")
@@ -539,8 +582,9 @@ tree <- function (Start=c(0,-10), Direction=2*pi, Length=2){
 fern <- function (Start=c(0,-10), Direction=2*pi, Length=4){
     if (Length > 0.1){ # Stops the function re-calling itself when length reaches a critically small length
         Point_1<-turtle(Start=Start, Direction=Direction, Length=Length)
-        Point_2<-fern(Start=c(Point_1), Direction=Direction-(pi/4), Length=0.38*Length)
-        Point_3<-fern(Start=c(Point_1), Direction=Direction, Length=0.87*Length)
+        # Plots smaller line at an angle to initial line, by re-calling fern
+        Point_2<-fern(Start=c(Point_1), Direction=Direction-(pi/4), Length=0.38*Length) #Left turn
+        Point_3<-fern(Start=c(Point_1), Direction=Direction, Length=0.87*Length) # Straight ahead
     }
     else {
         return("ended")
