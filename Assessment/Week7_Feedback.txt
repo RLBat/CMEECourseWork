@@ -9,7 +9,7 @@ Note that:
 
 ======================================================================
 ======================================================================
-Your Git repo size this week is about 19.33 MiB on disk 
+Your Git repo size this week is about 87.42 MiB on disk 
 
 PART 1: Checking project workflow...
 
@@ -93,7 +93,7 @@ PART 2: Checking weekly code and workflow...
 ======================================================================
 Assessing WEEK7...
 
-Found the following directories: Code, Data, Output, Sandbox, Results
+Found the following directories: Code, Data, Output, Sandbox
 
 Found the following files: README.txt
 
@@ -173,7 +173,9 @@ using_os.py - Uses subprocess and regular expressions to find files/directories 
 
 **********************************************************************
 
-Found following files in results directory: ...
+Results directory missing!
+
+Creating Results directory...
 
 Found 19 code files: TestR.py, regexs.py, LV3.py, profileme2.py, timeitme.py, blackbirds.py, Nets.py, TestR.R, profileme.py, LV4.py, fmr.R, MyFirstJupyterNb.ipynb, using_os.py, LV1.py, DrawFW.py, Nets.R, run_fmr_R.py, run_LV.py, LV2.py
 
@@ -228,7 +230,7 @@ Output (only first 500 characters):
 
 Code ran without errors
 
-Time consumed = 0.11383s
+Time consumed = 0.19085s
 
 ======================================================================
 Inspecting script file regexs.py...
@@ -341,7 +343,7 @@ found a match: an
 
 Code ran without errors
 
-Time consumed = 0.03083s
+Time consumed = 0.02849s
 
 ======================================================================
 Inspecting script file LV3.py...
@@ -445,7 +447,7 @@ ERROR: User did not supply 4 parameters for LV model (r a z e)
 
 Code ran without errors
 
-Time consumed = 0.37770s
+Time consumed = 0.70554s
 
 ======================================================================
 Inspecting script file profileme2.py...
@@ -510,7 +512,7 @@ Output (only first 500 characters):
 
 Code ran without errors
 
-Time consumed = 3.63868s
+Time consumed = 3.62647s
 
 ======================================================================
 Inspecting script file timeitme.py...
@@ -587,7 +589,7 @@ Output (only first 500 characters):
 
 Code ran without errors
 
-Time consumed = 10.00704s
+Time consumed = 10.00518s
 
 ======================================================================
 Inspecting script file blackbirds.py...
@@ -661,7 +663,7 @@ Animalia Chordata Agelaius assimilis
 
 Code ran without errors
 
-Time consumed = 0.03621s
+Time consumed = 0.02906s
 
 ======================================================================
 Inspecting script file Nets.py...
@@ -780,7 +782,7 @@ Output (only first 500 characters):
 
 Code ran without errors
 
-Time consumed = 0.06698s
+Time consumed = 0.08374s
 
 ======================================================================
 Inspecting script file profileme.py...
@@ -847,7 +849,7 @@ Output (only first 500 characters):
 
 Code ran without errors
 
-Time consumed = 6.71145s
+Time consumed = 6.62252s
 
 ======================================================================
 Inspecting script file LV4.py...
@@ -952,7 +954,7 @@ ERROR: User did not supply 4 parameters for LV model (r a z e)
 
 Code ran without errors
 
-Time consumed = 0.46821s
+Time consumed = 0.37970s
 
 ======================================================================
 Inspecting script file fmr.R...
@@ -1010,7 +1012,7 @@ Finished in R!
 
 Code ran without errors
 
-Time consumed = 0.31815s
+Time consumed = 0.15575s
 
 ======================================================================
 Inspecting script file MyFirstJupyterNb.ipynb...
@@ -1219,7 +1221,7 @@ Output (only first 500 characters):
 
 Code ran without errors
 
-Time consumed = 7.66232s
+Time consumed = 10.00654s
 
 ======================================================================
 Inspecting script file LV1.py...
@@ -1313,7 +1315,7 @@ Output (only first 500 characters):
 
 Code ran without errors
 
-Time consumed = 0.85178s
+Time consumed = 0.80311s
 
 ======================================================================
 Inspecting script file DrawFW.py...
@@ -1553,7 +1555,7 @@ Execution Sucessful
 
 Code ran without errors
 
-Time consumed = 0.16240s
+Time consumed = 0.16207s
 
 ======================================================================
 Inspecting script file run_LV.py...
@@ -1708,7 +1710,7 @@ ERROR: User did not supply 4 parameters for LV model (r a z e)
 
 Code ran without errors
 
-Time consumed = 0.38151s
+Time consumed = 0.37377s
 
 ======================================================================
 ======================================================================
