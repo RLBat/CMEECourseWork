@@ -29,7 +29,7 @@ length(unique(help[,2]))
 
 Smaller<-(head(help, 500000))
 #write.csv(Smaller, file="../Data/PREDICTS_Subset.csv")
-Smaller<-as.matrix(read.csv("../Data/PREDICTS_Subset.csv", header=T))
+Smaller<-as.matrix(read.csv("../Data/Raw/PREDICTS_Subset.csv", header=T))
 Smaller<-subset(Smaller, Smaller[,31]!="Cannot decide") 
 Smaller<-subset(Smaller, Smaller[,64]!="") # Remove data points that aren't IDd to species
 colnames(Smaller)
