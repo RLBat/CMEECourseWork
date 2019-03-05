@@ -11,6 +11,7 @@ rm(list=ls())
 
 library(lme4)
 library(ggplot2)
+library(ggpubr)
 #require(car)
 #require(MASS)
 
@@ -18,12 +19,17 @@ library(ggplot2)
 
 Birds <- read.csv("../Data/Birds_diversity.csv")
 
-############
+#################################
+
+## MODEL FITTING AND SELECTION ##
+
+#################################
 
 # Correct a few incorrect data types
 print("Assigning data types")
 Birds$Year<-as.factor(Birds$Year)
 Birds$Latitude<-abs(Birds$Latitude)
+Birds$Predominant_land_use<-as.factor(Birds$Predominant_land_use)
 
 ## Geographic Bias ##
 
@@ -44,9 +50,9 @@ Birds_subset <- subset(Birds_subset, Birds_subset$Habitat_patch_area_square_metr
 with_area<-lmer(log(Richness) ~ log(GDP) + Latitude + Predominant_land_use + log(Habitat_patch_area_square_metres) + (1|Source_ID), data=Birds_subset, weights = Geog_weight)
 without_area<-lmer(log(Richness) ~ log(GDP) + Latitude + Predominant_land_use + (1|Source_ID), data=Birds_subset, weights = Geog_weight)
 
-anova(with_area, without_area)
-
-table(Birds$Predominant_land_use)
+area<-anova(with_area, without_area)
+print("Checking land-use distribution in subset")
+table(Birds_subset$Predominant_land_use)
 
 print("Including habitat patch area does explain more of the data and is significantly different to null model, however the land-use classes are to skewed.")
 
@@ -94,7 +100,6 @@ Shannon_null<-lmer(Shannon ~ (1|Source_ID), data=Birds, weights = Geog_weight)
 Shannon_gdp<-lmer(Shannon ~ log(GDP)+ (1|Source_ID), data=Birds, weights = Geog_weight)
 Shannon_latt<-lmer(Shannon ~ Latitude + (1|Source_ID), data=Birds, weights = Geog_weight)
 Shannon_land<-lmer(Shannon ~ Predominant_land_use + (1|Source_ID), data=Birds, weights = Geog_weight)
-Shannon_area<-lmer(Shannon ~ log(Habitat_patch_area_square_metres) + (1|Source_ID), data=Birds, weights = Geog_weight)
 #two factors
 Shannon_gdp_land<-lmer(Shannon ~ log(GDP) + Predominant_land_use + (1|Source_ID), data=Birds, weights = Geog_weight)
 Shannon_gdp_latt<-lmer(Shannon ~ log(GDP) + Latitude + (1|Source_ID), data=Birds, weights = Geog_weight)
@@ -102,27 +107,80 @@ Shannon_latt_land<-lmer(Shannon ~ Latitude + Predominant_land_use + (1|Source_ID
 
 anov_Shan<-anova(Shannon_max, Shannon_null, Shannon_gdp, Shannon_land, Shannon_latt, Shannon_gdp_land, Shannon_gdp_latt, Shannon_latt_land)
 
-########################################
+#####################
+
+#### PLOTTING ####
+
+#####################
+
+# plot(log(Richness)~log(Habitat_patch_area_square_metres),data=Birds)
+# plot(log(Richness)~Predominant_land_use,data=Birds)
+# plot(log(Richness)~log(GDP),data=Birds)
+
+## Land Use Intensity ##
+
+
+# p1<-ggplot(Birds, aes(x=Predominant_land_use, y=log(Richness), fill=Predominant_land_use)) + geom_boxplot()
+# p1<-p1+scale_fill_manual(values=c("darkcyan","lightskyblue","gold", "orange","firebrick4"))
+# p1<-p1+scale_x_discrete('Predominant land use', labels=c("Primary","Secondary","Plantation","Agriculture","Urban"))
+# p1<-p1+labs(fill='Predominant Land-Use')
+p1<-ggplot(Birds)+aes(x=Predominant_land_use, y=log(Richness), fill=Predominant_land_use) + geom_boxplot()
+p1<-p1+scale_fill_manual(values=c("darkcyan","lightskyblue","gold", "orange","firebrick4"), labels = c("Primary","Secondary","Plantation","Agriculture","Urban"))
+p1<-p1+scale_x_discrete('Predominant land use', labels=c("Primary","Secondary","Plantation","Agriculture","Urban"))
+p1<-p1+scale_y_continuous("Species Richness (log)")
+p1<-p1+theme(axis.text.x = element_text(size=14,angle = 50, vjust = 0.7, hjust=1), 
+    axis.title.x = element_text(size=14,vjust=-7), 
+    axis.title.y = element_text(size=14, vjust=5),
+    axis.text.y = element_text(size=14),
+    plot.margin = margin(10, 10, 40, 30))
+p1<-p1+labs(fill='Predominant Land-Use')
 
 
 
-plot(log(Richness)~log(Habitat_patch_area_square_metres),data=Birds)
-plot(log(Richness)~Predominant_land_use,data=Birds)
-plot(log(Richness)~log(GDP),data=Birds)
+p2<-ggplot(Birds)+aes(x=Predominant_land_use, y=log(Simpson), fill=Predominant_land_use) + geom_boxplot()
+p2<-p2+scale_fill_manual(values=c("darkcyan","lightskyblue","gold", "orange","firebrick4"), labels = c("Primary","Secondary","Plantation","Agriculture","Urban"))
+p2<-p2+scale_x_discrete('Predominant land use', labels=c("Primary","Secondary","Plantation","Agriculture","Urban"))
+p2<-p2+scale_y_continuous("Reciprocal Simpson's Diversity Index (log)")
+p2<-p2+theme(axis.text.x = element_text(size=14,angle = 50, vjust = 0.7, hjust=1), 
+    axis.title.x = element_text(size=14,vjust=-7), 
+    axis.title.y = element_text(size=14, vjust=5),
+    axis.text.y = element_text(size=14),
+    plot.margin = margin(10, 10, 40, 30))
+p2<-p2+labs(fill='Predominant Land-Use')
+
+#c("Primary","Secondary","Plantation","Agriculture","Urban")
+# p3<-ggplot(Birds)+aes(x=Predominant_land_use, y=Shannon, fill=Predominant_land_use) + geom_boxplot()
+# p3<-p3+scale_fill_manual(values=c("darkcyan","lightskyblue","gold", "orange","firebrick4"))
+# p3<-p3+scale_x_discrete('Predominant land use', labels=c("Primary","Secondary","Plantation","Agriculture","Urban"))
+# p3<-p3+labs(fill='Predominant Land-Use')
+p3<-ggplot(Birds)+aes(x=Predominant_land_use, y=Shannon, fill=Predominant_land_use) + geom_boxplot()
+p3<-p3+scale_fill_manual(values=c("darkcyan","lightskyblue","gold", "orange","firebrick4"), labels = c("Primary","Secondary","Plantation","Agriculture","Urban"))
+p3<-p3+scale_x_discrete('Predominant land use', labels=c("Primary","Secondary","Plantation","Agriculture","Urban"))
+p3<-p3+scale_y_continuous("Shannon's Measure of Diversity (log)")
+p3<-p3+theme(axis.text.x = element_text(size=14,angle = 50, vjust = 0.7, hjust=1), 
+    axis.title.x = element_text(size=14,vjust=-7), 
+    axis.title.y = element_text(size=14, vjust=5),
+    axis.text.y = element_text(size=14),
+    plot.margin = margin(10, 10, 40, 30))
+p3<-p3+labs(fill='Predominant Land-Use')
+
+p<-ggarrange(p1, p2,p3, ncol=3, nrow=1, common.legend= TRUE, legend = "bottom")
+
+
+
+## GDP ##
+
+p1<-ggplot(Birds, aes(x=log(GDP), y=log(Richness), colour=log(GDP))) + geom_point()
+p1<-p1+scale_fill_manual(values=c("darkcyan","lightskyblue","gold", "orange","firebrick4"))
+#p<-p+geom_point()
+p1
+
+## Lattitude ##
+
 
 
 
 par(mfrow = c(2,2))
 plot(log(Richness)~Predominant_land_use,data=Birds)
 plot(Shannon~Predominant_land_use,data=Birds)
-plot(Simpson~Predominant_land_use,data=Birds)
 plot(log(Simpson)~Predominant_land_use,data=Birds)
-
-plot(lm(log(Richness)~Predominant_land_use,data=Birds))
-plot(lm(Shannon~Predominant_land_use,data=Birds))
-lm(Simpson~Predominant_land_use,data=Birds)
-
-
-plot(Richness~Latitude,data=Birds)
-
-lm(Richness ~ Predominant_land_use, data=Birds)

@@ -9,3 +9,4 @@
 # Removing points with missing data, and reducing to only birds with abundance data
 python3 Datawrang.py
 python3 Modelbuild.py
+Rscript Modelplot.R

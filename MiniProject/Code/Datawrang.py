@@ -42,6 +42,17 @@ df = df[df.Predominant_land_use != "Cannot decide"]
 print("Removing absent species")
 df = df[df.Measurement != 0]
 
+# Count number of species from each site and stores as series
+sites=df['SSBS'].value_counts()
+print("The number of sites is:", len(sites))
+print("Removing sites with fewer than 5 species...")
+# Removes sites that have fewer than 5 species from overall db
+df['site_counts'] = df.groupby('SSBS')['SSBS'].transform('count')
+df = df[df.site_counts >= 5]
+print("The number of sites is now:", len(df['SSBS'].value_counts()))
+
+
+
 ## Current df has 51,372 species over 3052 sites - much better size for analysis ##
 print("Saving final dataframe to csv")
 df.to_csv('../Data/Birds_abund.csv', index=False) #Save to csv
