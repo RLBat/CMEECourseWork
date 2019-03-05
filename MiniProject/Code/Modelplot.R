@@ -52,7 +52,7 @@ print("Including habitat patch area does explain more of the data and is signifi
 
 print("Calculating AICs for Species Richness models...")
 
-Richness_max<-lmer(log(Richness) ~ log(GDP) + Latitude + Predominant_land_use + log(Habitat_patch_area_square_metres) + (1|Source_ID), data=Birds, weights = Geog_weight)
+Richness_max<-lmer(log(Richness) ~ log(GDP) + Latitude + Predominant_land_use + (1|Source_ID), data=Birds, weights = Geog_weight)
 
 Richness_null<-lmer(log(Richness) ~ (1|Source_ID), data=Birds, weights = Geog_weight)
 
@@ -60,53 +60,33 @@ Richness_null<-lmer(log(Richness) ~ (1|Source_ID), data=Birds, weights = Geog_we
 Richness_gdp<-lmer(log(Richness) ~ log(GDP)+ (1|Source_ID), data=Birds, weights = Geog_weight)
 Richness_latt<-lmer(log(Richness) ~ Latitude + (1|Source_ID), data=Birds, weights = Geog_weight)
 Richness_land<-lmer(log(Richness) ~ Predominant_land_use + (1|Source_ID), data=Birds, weights = Geog_weight)
-Richness_area<-lmer(log(Richness) ~ log(Habitat_patch_area_square_metres) + (1|Source_ID), data=Birds, weights = Geog_weight)
 #two factors
 Richness_gdp_land<-lmer(log(Richness) ~ log(GDP) + Predominant_land_use + (1|Source_ID), data=Birds, weights = Geog_weight)
 Richness_gdp_latt<-lmer(log(Richness) ~ log(GDP) + Latitude + (1|Source_ID), data=Birds, weights = Geog_weight)
 Richness_latt_land<-lmer(log(Richness) ~ Latitude + Predominant_land_use + (1|Source_ID), data=Birds, weights = Geog_weight)
-Richness_area_latt<-lmer(log(Richness) ~ Latitude + log(Habitat_patch_area_square_metres) + (1|Source_ID), data=Birds, weights = Geog_weight)
-Richness_area_land<-lmer(log(Richness) ~ log(Habitat_patch_area_square_metres) + Predominant_land_use + (1|Source_ID), data=Birds, weights = Geog_weight)
-Richness_area_gdp<-lmer(log(Richness) ~ log(Habitat_patch_area_square_metres) + log(GDP) + (1|Source_ID), data=Birds, weights = Geog_weight)
-#three factors
-Richness_area_gdp_land<-lmer(log(Richness) ~ log(Habitat_patch_area_square_metres) + log(GDP) + Predominant_land_use + (1|Source_ID), data=Birds, weights = Geog_weight)
-Richness_area_gdp_latt<-lmer(log(Richness) ~ log(Habitat_patch_area_square_metres) + log(GDP) + Latitude + (1|Source_ID), data=Birds, weights = Geog_weight)
-Richness_area_land_latt<-lmer(log(Richness) ~ log(Habitat_patch_area_square_metres) + Predominant_land_use + Latitude + (1|Source_ID), data=Birds, weights = Geog_weight)
-Richness_gdp_land_latt<-lmer(log(Richness) ~ log(GDP) + Predominant_land_use + Latitude + (1|Source_ID), data=Birds, weights = Geog_weight)
 
-anov_Rich<-anova(Richness_max, Richness_null, Richness_gdp, Richness_land, Richness_latt,Richness_area, Richness_area_gdp, Richness_area_land, Richness_area_latt,
-     Richness_gdp_land, Richness_gdp_latt, Richness_latt_land, Richness_area_gdp_land, Richness_area_gdp_latt, Richness_area_land_latt, Richness_gdp_land_latt)
+anov_Rich<-anova(Richness_max, Richness_null, Richness_gdp, Richness_land, Richness_latt, Richness_gdp_land, Richness_gdp_latt, Richness_latt_land)
 
 print("Calculating AICs for Simpson's Measure models...")
 
-Simpson_max<-lmer((1-Simpson) ~ log(GDP) + Latitude + Predominant_land_use + log(Habitat_patch_area_square_metres) + (1|Source_ID), data=Birds, weights = Geog_weight)
+Simpson_max<-lmer(log(Simpson) ~ log(GDP) + Latitude + Predominant_land_use + (1|Source_ID), data=Birds, weights = Geog_weight)
 
-Simpson_null<-lmer((1-Simpson) ~ (1|Source_ID), data=Birds, weights = Geog_weight)
+Simpson_null<-lmer(log(Simpson) ~ (1|Source_ID), data=Birds, weights = Geog_weight)
 
 #one factor
-Simpson_gdp<-lmer((1-Simpson) ~ log(GDP)+ (1|Source_ID), data=Birds, weights = Geog_weight)
-Simpson_latt<-lmer((1-Simpson) ~ Latitude + (1|Source_ID), data=Birds, weights = Geog_weight)
-Simpson_land<-lmer((1-Simpson) ~ Predominant_land_use + (1|Source_ID), data=Birds, weights = Geog_weight)
-Simpson_area<-lmer((1-Simpson) ~ log(Habitat_patch_area_square_metres) + (1|Source_ID), data=Birds, weights = Geog_weight)
+Simpson_gdp<-lmer(log(Simpson) ~ log(GDP)+ (1|Source_ID), data=Birds, weights = Geog_weight)
+Simpson_latt<-lmer(log(Simpson) ~ Latitude + (1|Source_ID), data=Birds, weights = Geog_weight)
+Simpson_land<-lmer(log(Simpson) ~ Predominant_land_use + (1|Source_ID), data=Birds, weights = Geog_weight)
 #two factors
-Simpson_gdp_land<-lmer((1-Simpson) ~ log(GDP) + Predominant_land_use + (1|Source_ID), data=Birds, weights = Geog_weight)
-Simpson_gdp_latt<-lmer((1-Simpson) ~ log(GDP) + Latitude + (1|Source_ID), data=Birds, weights = Geog_weight)
-Simpson_latt_land<-lmer((1-Simpson) ~ Latitude + Predominant_land_use + (1|Source_ID), data=Birds, weights = Geog_weight)
-Simpson_area_latt<-lmer((1-Simpson) ~ Latitude + log(Habitat_patch_area_square_metres) + (1|Source_ID), data=Birds, weights = Geog_weight)
-Simpson_area_land<-lmer((1-Simpson) ~ log(Habitat_patch_area_square_metres) + Predominant_land_use + (1|Source_ID), data=Birds, weights = Geog_weight)
-Simpson_area_gdp<-lmer((1-Simpson) ~ log(Habitat_patch_area_square_metres) + log(GDP) + (1|Source_ID), data=Birds, weights = Geog_weight)
-#three factors
-Simpson_area_gdp_land<-lmer((1-Simpson) ~ log(Habitat_patch_area_square_metres) + log(GDP) + Predominant_land_use + (1|Source_ID), data=Birds, weights = Geog_weight)
-Simpson_area_gdp_latt<-lmer((1-Simpson) ~ log(Habitat_patch_area_square_metres) + log(GDP) + Latitude + (1|Source_ID), data=Birds, weights = Geog_weight)
-Simpson_area_land_latt<-lmer((1-Simpson) ~ log(Habitat_patch_area_square_metres) + Predominant_land_use + Latitude + (1|Source_ID), data=Birds, weights = Geog_weight)
-Simpson_gdp_land_latt<-lmer((1-Simpson) ~ log(GDP) + Predominant_land_use + Latitude + (1|Source_ID), data=Birds, weights = Geog_weight)
+Simpson_gdp_land<-lmer(log(Simpson) ~ log(GDP) + Predominant_land_use + (1|Source_ID), data=Birds, weights = Geog_weight)
+Simpson_gdp_latt<-lmer(log(Simpson) ~ log(GDP) + Latitude + (1|Source_ID), data=Birds, weights = Geog_weight)
+Simpson_latt_land<-lmer(log(Simpson) ~ Latitude + Predominant_land_use + (1|Source_ID), data=Birds, weights = Geog_weight)
 
-anov_Simp<-anova(Simpson_max, Simpson_null, Simpson_gdp, Simpson_land, Simpson_latt,Simpson_area, Simpson_area_gdp, Simpson_area_land, Simpson_area_latt,
-     Simpson_gdp_land, Simpson_gdp_latt, Simpson_latt_land, Simpson_area_gdp_land, Simpson_area_gdp_latt, Simpson_area_land_latt, Simpson_gdp_land_latt)
+anov_Simp<-anova(Simpson_max, Simpson_null, Simpson_gdp, Simpson_land, Simpson_latt, Simpson_gdp_land, Simpson_gdp_latt, Simpson_latt_land)
 
 print("Calculating AICs for Shannon's Index models...")
 
-Shannon_max<-lmer(Shannon ~ log(GDP) + Latitude + Predominant_land_use + log(Habitat_patch_area_square_metres) + (1|Source_ID), data=Birds, weights = Geog_weight)
+Shannon_max<-lmer(Shannon ~ log(GDP) + Latitude + Predominant_land_use + (1|Source_ID), data=Birds, weights = Geog_weight)
 
 Shannon_null<-lmer(Shannon ~ (1|Source_ID), data=Birds, weights = Geog_weight)
 
@@ -119,17 +99,8 @@ Shannon_area<-lmer(Shannon ~ log(Habitat_patch_area_square_metres) + (1|Source_I
 Shannon_gdp_land<-lmer(Shannon ~ log(GDP) + Predominant_land_use + (1|Source_ID), data=Birds, weights = Geog_weight)
 Shannon_gdp_latt<-lmer(Shannon ~ log(GDP) + Latitude + (1|Source_ID), data=Birds, weights = Geog_weight)
 Shannon_latt_land<-lmer(Shannon ~ Latitude + Predominant_land_use + (1|Source_ID), data=Birds, weights = Geog_weight)
-Shannon_area_latt<-lmer(Shannon ~ Latitude + log(Habitat_patch_area_square_metres) + (1|Source_ID), data=Birds, weights = Geog_weight)
-Shannon_area_land<-lmer(Shannon ~ log(Habitat_patch_area_square_metres) + Predominant_land_use + (1|Source_ID), data=Birds, weights = Geog_weight)
-Shannon_area_gdp<-lmer(Shannon ~ log(Habitat_patch_area_square_metres) + log(GDP) + (1|Source_ID), data=Birds, weights = Geog_weight)
-#three factors
-Shannon_area_gdp_land<-lmer(Shannon ~ log(Habitat_patch_area_square_metres) + log(GDP) + Predominant_land_use + (1|Source_ID), data=Birds, weights = Geog_weight)
-Shannon_area_gdp_latt<-lmer(Shannon ~ log(Habitat_patch_area_square_metres) + log(GDP) + Latitude + (1|Source_ID), data=Birds, weights = Geog_weight)
-Shannon_area_land_latt<-lmer(Shannon ~ log(Habitat_patch_area_square_metres) + Predominant_land_use + Latitude + (1|Source_ID), data=Birds, weights = Geog_weight)
-Shannon_gdp_land_latt<-lmer(Shannon ~ log(GDP) + Predominant_land_use + Latitude + (1|Source_ID), data=Birds, weights = Geog_weight)
 
-anov_Shan<-anova(Shannon_max, Shannon_null, Shannon_gdp, Shannon_land, Shannon_latt,Shannon_area, Shannon_area_gdp, Shannon_area_land, Shannon_area_latt,
-     Shannon_gdp_land, Shannon_gdp_latt, Shannon_latt_land, Shannon_area_gdp_land, Shannon_area_gdp_latt, Shannon_area_land_latt, Shannon_gdp_land_latt)
+anov_Shan<-anova(Shannon_max, Shannon_null, Shannon_gdp, Shannon_land, Shannon_latt, Shannon_gdp_land, Shannon_gdp_latt, Shannon_latt_land)
 
 ########################################
 
@@ -145,7 +116,7 @@ par(mfrow = c(2,2))
 plot(log(Richness)~Predominant_land_use,data=Birds)
 plot(Shannon~Predominant_land_use,data=Birds)
 plot(Simpson~Predominant_land_use,data=Birds)
-plot((1-Simpson)~Predominant_land_use,data=Birds)
+plot(log(Simpson)~Predominant_land_use,data=Birds)
 
 plot(lm(log(Richness)~Predominant_land_use,data=Birds))
 plot(lm(Shannon~Predominant_land_use,data=Birds))

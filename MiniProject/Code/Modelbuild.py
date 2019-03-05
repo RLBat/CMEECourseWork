@@ -40,8 +40,8 @@ def Simp(Community=[2,6,5,3,1,8]):
     simp_tot = 0
     for i in range(0,len(Community)): # Goes through each species of the community
         #Simpson's calculation to get the summed portion of the equation
-        simp_tot = simp_tot + (Community[i]/N)**2 
-    Simpson = 1 - simp_tot # Calc final Simpson's value
+        simp_tot = simp_tot + ((Community[i]/N)**2)
+    Simpson = 1/simp_tot # Calc final Simpson's value
     return(Simpson)
 
 #######################################
