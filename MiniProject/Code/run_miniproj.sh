@@ -8,3 +8,4 @@
 # Reduce the downloaded database to a workable sized data file by
 # Removing points with missing data, and reducing to only birds with abundance data
 python3 Datawrang.py
+python3 Modelbuild.py
