@@ -6,18 +6,19 @@ This directory contains the whole workflow for the miniproject, from data wrangl
 
 ----------------------
 
-R Version Used:
+R Version Used: 3.4.4
 Required R packages:
 	-lme4
 	-ggplot2
+	-ggpubr
 
-Python Version Used:
+Python Version Used: 3.5.2
 Required Python packages:
 	-pandas
 	-numpy
 	-math
 
-Bash version used:
+Bash version used: 4.3.48(1)
 
 ----------------------
 
