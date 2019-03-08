@@ -18,7 +18,7 @@ import pandas
 
 #Extract data from raw database
 print("Reading in initial dataframe")
-df = pandas.read_csv('../Data/PREDICTS.csv', sep = ',', header = 0, low_memory=False)
+df = pandas.read_csv('../Data/resource.csv', sep = ',', header = 0, low_memory=False)
 
 ## df has 3,250,404 species over 17,650 sites. Too large for analysis, need to restrict ##
 

@@ -187,39 +187,39 @@ p1<-ggplot(Birds)+aes(x=Predominant_land_use, y=log(Richness), fill=Predominant_
 p1<-p1+scale_fill_manual(values=c("darkcyan","lightskyblue","gold", "orange","firebrick4"), labels = c("Primary","Secondary","Plantation","Agriculture","Urban"))
 p1<-p1+scale_x_discrete('Predominant land use', labels=c("Primary","Secondary","Plantation","Agriculture","Urban"))
 p1<-p1+scale_y_continuous("Species Richness (log)")
-p1<-p1+theme(axis.text.x = element_text(size=16,angle = 50, vjust = 0.7, hjust=1), 
-    axis.title.x = element_text(size=18,vjust=-9), 
-    axis.title.y = element_text(size=18, vjust=5),
-    axis.text.y = element_text(size=16),
-    legend.title = element_text(size=18),
-    legend.text = element_text(size=16),
-    plot.margin = margin(10, 10, 40, 30))
+p1<-p1+theme(axis.text.x = element_text(size=20,angle = 50, vjust = 0.7, hjust=1), 
+    axis.title.x = element_text(size=22,vjust=-12), 
+    axis.title.y = element_text(size=22, vjust=5),
+    axis.text.y = element_text(size=20),
+    legend.title = element_text(size=22),
+    legend.text = element_text(size=20),
+    plot.margin = margin(10, 10, 70, 50))
 p1<-p1+labs(fill='Predominant Land-Use')
 
 p2<-ggplot(Birds)+aes(x=Predominant_land_use, y=log(Simpson), fill=Predominant_land_use) + geom_boxplot()
 p2<-p2+scale_fill_manual(values=c("darkcyan","lightskyblue","gold", "orange","firebrick4"), labels = c("Primary","Secondary","Plantation","Agriculture","Urban"))
 p2<-p2+scale_x_discrete('Predominant land use', labels=c("Primary","Secondary","Plantation","Agriculture","Urban"))
 p2<-p2+scale_y_continuous("Reciprocal Simpson's Diversity Index (log)")
-p2<-p2+theme(axis.text.x = element_text(size=16,angle = 50, vjust = 0.7, hjust=1), 
-    axis.title.x = element_text(size=18,vjust=-9), 
-    axis.title.y = element_text(size=18, vjust=5),
-    axis.text.y = element_text(size=16),
-    legend.title = element_text(size=18),
-    legend.text = element_text(size=16),
-    plot.margin = margin(10, 10, 40, 30))
+p2<-p2+theme(axis.text.x = element_text(size=20,angle = 50, vjust = 0.7, hjust=1), 
+    axis.title.x = element_text(size=22,vjust=-12), 
+    axis.title.y = element_text(size=22, vjust=5),
+    axis.text.y = element_text(size=20),
+    legend.title = element_text(size=22),
+    legend.text = element_text(size=20),
+    plot.margin = margin(10, 10, 70, 50))
 p2<-p2+labs(fill='Predominant Land-Use')
 
 p3<-ggplot(Birds)+aes(x=Predominant_land_use, y=Shannon, fill=Predominant_land_use) + geom_boxplot()
 p3<-p3+scale_fill_manual(values=c("darkcyan","lightskyblue","gold", "orange","firebrick4"), labels = c("Primary","Secondary","Plantation","Agriculture","Urban"))
 p3<-p3+scale_x_discrete('Predominant land use', labels=c("Primary","Secondary","Plantation","Agriculture","Urban"))
 p3<-p3+scale_y_continuous("Shannon's Measure of Diversity")
-p3<-p3+theme(axis.text.x = element_text(size=16,angle = 50, vjust = 0.7, hjust=1), 
-    axis.title.x = element_text(size=18,vjust=-9), 
-    axis.title.y = element_text(size=18, vjust=5),
-    axis.text.y = element_text(size=16),
-    legend.title = element_text(size=18),
-    legend.text = element_text(size=16),
-    plot.margin = margin(10, 10, 40, 30))
+p3<-p3+theme(axis.text.x = element_text(size=20,angle = 50, vjust = 0.7, hjust=1), 
+    axis.title.x = element_text(size=22,vjust=-12), 
+    axis.title.y = element_text(size=22, vjust=5),
+    axis.text.y = element_text(size=20),
+    legend.title = element_text(size=22),
+    legend.text = element_text(size=20),
+    plot.margin = margin(10, 10, 70, 50))
 p3<-p3+labs(fill='Predominant Land-Use')
 
 p<-ggarrange(p1, p2,p3, ncol=3, nrow=1, common.legend= TRUE, legend = "bottom", labels=c("A","B","C"))
