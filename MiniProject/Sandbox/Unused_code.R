@@ -42,6 +42,7 @@ p3<-p3+theme(axis.text.x = element_text(size=14,angle = 50, vjust = 0.7, hjust=1
 p3<-p3+labs(fill='Predominant Land-Use')
 
 p<-ggarrange(p1, ggarrange(p2,p3, ncol=2, nrow=1, labels=c("B", "C")), nrow=2, common.legend= TRUE, legend = "bottom", labels="A")
+<<<<<<< HEAD
 
 
 
@@ -67,3 +68,5 @@ pdf("../Output/Latitude.pdf", # Open blank pdf page using a relative path
 # Prints the created ggplot to the pdf
 print(p)
 graphics.off()
+=======
+>>>>>>> c9cb7a3da5f6331a18b5b6081d48c0a7bb59f156
