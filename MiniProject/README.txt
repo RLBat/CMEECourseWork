@@ -11,6 +11,7 @@ Required R packages:
 	-lme4
 	-ggplot2
 	-ggpubr
+	-xtable
 
 Python Version Used: 3.5.2
 Required Python packages:

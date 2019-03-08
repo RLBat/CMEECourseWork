@@ -15,9 +15,28 @@ python3 Datawrang.py
 printf "\nRunning ModelBuild.py\n"
 python3 Modelbuild.py
 printf "\nRunning Modelplot.R\n"
-#Rscript Modelplot.R
+Rscript Modelplot.R
 printf "\nCompiling LaTeX document\n"
+cd ../WriteUp
+yes '' | pdflatex Miniproj.tex > /dev/null 2>&1
+bibtex Miniproj > /dev/null 2>&1
+yes '' | pdflatex Miniproj.tex > /dev/null 2>&1
+yes '' | pdflatex Miniproj.tex > /dev/null 2>&1
 
-echo "Workflow complete. Please see WriteUp directory for finished report."
+mv Miniproj.pdf ../Output/
+
+rm -f *~
+rm -f *.aux
+rm -f *.dvi
+rm -f *.log
+rm -f *.nav
+rm -f *.out
+rm -f *.snm
+rm -f *.toc
+rm -f *.xml
+rm -f *.bcf
+rm -f *.gz
+
+echo "Workflow complete. Please see Output directory for finished report."
 secs=$((SECONDS-start))
 printf '%02dh:%02dm:%02ds elapsed\n' $(($secs/3600)) $(($secs%3600/60)) $(($secs%60))

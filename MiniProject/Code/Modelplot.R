@@ -29,7 +29,7 @@ Birds <- read.csv("../Data/Birds_diversity.csv")
 print("Assigning data types")
 Birds$Year<-as.factor(Birds$Year)
 Birds$Latitude<-abs(Birds$Latitude)
-Birds$Predominant_land_use<-as.factor(Birds$Predominant_land_use)
+Birds$Predominant_land_use<-as.integer(Birds$Predominant_land_use)
 
 ## Check normality ##
 
@@ -83,14 +83,16 @@ area<-anova(with_area, without_area)
 print("Checking land-use distribution in subset")
 table(Birds_subset$Predominant_land_use)#Non-even land-use pattern
 
-print("Including habitat patch area does explain more of the data and is significantly different to null model,\n however the land-use classes are too skewed for it to be useable.")
+print("Including habitat patch area does explain more of the data and is significantly different to null model,
+\n however the land-use classes are too skewed for it to be useable.")
 
 ## Diversity Metrics ##
 
 print("Model fitting and selection")
 
 #Create empty df with variable combinations as index
-AIC_Values<- data.frame(row.names = c("Null Model", "GDP", "Land-use", "Latitude", "GDP + Land-use", "GDP + Latitude", "Latitude + Land-use", "Maximal Model"), check.rows = FALSE, check.names = TRUE, stringsAsFactors = default.stringsAsFactors())
+AIC_Values<- data.frame(row.names = c("Null Model", "GDP", "Land-use", "Latitude", "GDP + Land-use", "GDP + Latitude",
+ "Latitude + Land-use", "Maximal Model"), check.rows = FALSE, check.names = TRUE, stringsAsFactors = default.stringsAsFactors())
 
 print("Calculating AICs for Species Richness models")
 
@@ -159,12 +161,16 @@ AIC_min<-min(AIC_Values)
 AIC_Values<-AIC_Values-AIC_min #Make all values relative
 AIC_Values<-round(AIC_Values)
 #Add an "*" to the best fitting model for each metric
+simp_min=which.min(AIC_Values$Simpson)
+shan_min=which.min(AIC_Values$Shannon)
 AIC_Values$Richness[which.min(AIC_Values$Richness)]=paste(AIC_Values$Richness[which.min(AIC_Values$Richness)],"*",sep="")
-AIC_Values$Simpson[which.min(AIC_Values$Simpson)]=paste(AIC_Values$Simpson[which.min(AIC_Values$Simpson)],"*",sep="")
-AIC_Values$Shannon[which.min(AIC_Values$Shannon)]=paste(AIC_Values$Shannon[which.min(AIC_Values$Shannon)],"*",sep="")
+AIC_Values$Simpson=paste(round(AIC_Values$Simpson),"(",round(AIC_Values$Simpson-min(AIC_Values$Simpson)),")",sep="")
+AIC_Values$Simpson[simp_min]=paste(AIC_Values$Simpson[simp_min],"*",sep="")
+AIC_Values$Shannon=paste(round(AIC_Values$Shannon),"(",round(AIC_Values$Shannon-min(AIC_Values$Shannon)),")",sep="")
+AIC_Values$Shannon[shan_min]=paste(AIC_Values$Shannon[shan_min],"*",sep="")
 
-print(xtable(AIC_Values, type = "latex"), file = "../Output/AIC_table.tex")
-print(xtable(AIC_Values),floating=FALSE,latex.environments=NULL,booktabs=TRUE)
+AIC_table<-print(xtable(AIC_Values),floating=FALSE,latex.environments=NULL,booktabs=TRUE)
+
 #####################
 
 #### PLOTTING ####
@@ -172,6 +178,10 @@ print(xtable(AIC_Values),floating=FALSE,latex.environments=NULL,booktabs=TRUE)
 #####################
 
 ## Land Use Intensity ##
+
+print("Creating graphics")
+
+Birds$Predominant_land_use<-as.factor(Birds$Predominant_land_use)
 
 p1<-ggplot(Birds)+aes(x=Predominant_land_use, y=log(Richness), fill=Predominant_land_use) + geom_boxplot()
 p1<-p1+scale_fill_manual(values=c("darkcyan","lightskyblue","gold", "orange","firebrick4"), labels = c("Primary","Secondary","Plantation","Agriculture","Urban"))
@@ -212,7 +222,7 @@ p3<-p3+theme(axis.text.x = element_text(size=16,angle = 50, vjust = 0.7, hjust=1
     plot.margin = margin(10, 10, 40, 30))
 p3<-p3+labs(fill='Predominant Land-Use')
 
-p<-ggarrange(p1, p2,p3, ncol=3, nrow=1, common.legend= TRUE, legend = "bottom")
+p<-ggarrange(p1, p2,p3, ncol=3, nrow=1, common.legend= TRUE, legend = "bottom", labels=c("A","B","C"))
 
 pdf("../Output/Land_use.pdf", # Open blank pdf page using a relative path
     16, 9)
@@ -220,26 +230,4 @@ pdf("../Output/Land_use.pdf", # Open blank pdf page using a relative path
 print(p)
 graphics.off()
 
-## Latitude ##
-
-p<-ggplot(Birds)+aes(x=Latitude, y=log(Richness)) + geom_point(aes(colour=Predominant_land_use))
-p<-p+scale_colour_manual(values=c("darkcyan","lightskyblue","gold", "orange","firebrick4"), labels = c("Primary","Secondary","Plantation","Agriculture","Urban"))
-p<-p+geom_vline(xintercept = 23.5, linetype="dashed",size=0.2)+  geom_text(aes(x=23.5, label="\nTropics", y=5), colour="black", angle=90, size=5, fontface="italic")
-p<-p+scale_x_continuous('Latitude', breaks=seq(0,60,10))
-p<-p+scale_y_continuous("Species Richness (log)")
-p<-p+theme(axis.text.x = element_text(size=16,angle = 50, vjust = 0.7, hjust=1), 
-    axis.title.x = element_text(size=18,vjust=-9), 
-    axis.title.y = element_text(size=18, vjust=5),
-    axis.text.y = element_text(size=16),
-    legend.title = element_text(size=16),
-    legend.text = element_text(size=14),
-    plot.margin = margin(20, 20, 40, 20))
-p<-p+labs(fill='Predominant Land-Use')
-
-
-pdf("../Output/Latitude.pdf", # Open blank pdf page using a relative path
-    16, 12)
-# Prints the created ggplot to the pdf
-print(p)
-graphics.off()
-
+print("Finished model fitting and plotting")
