@@ -18,7 +18,7 @@ import pandas
 
 #Extract data from raw database
 print("Reading in initial dataframe")
-df = pandas.read_csv('../Data/Raw/resource.csv', sep = ',', header = 0, low_memory=False)
+df = pandas.read_csv('../Data/PREDICTS.csv', sep = ',', header = 0, low_memory=False)
 
 ## df has 3,250,404 species over 17,650 sites. Too large for analysis, need to restrict ##
 
@@ -41,6 +41,17 @@ df = df[df.Predominant_land_use != "Cannot decide"]
 #Removing all species with abundance values of 0
 print("Removing absent species")
 df = df[df.Measurement != 0]
+
+# Count number of species from each site and stores as series
+sites=df['SSBS'].value_counts()
+print("The number of sites is:", len(sites))
+print("Removing sites with fewer than 5 species...")
+# Removes sites that have fewer than 5 species from overall db
+df['site_counts'] = df.groupby('SSBS')['SSBS'].transform('count')
+df = df[df.site_counts >= 5]
+print("The number of sites is now:", len(df['SSBS'].value_counts()))
+
+
 
 ## Current df has 51,372 species over 3052 sites - much better size for analysis ##
 print("Saving final dataframe to csv")

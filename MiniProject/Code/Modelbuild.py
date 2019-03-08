@@ -55,15 +55,6 @@ print("Running script to calculate site level diversity metrics and geographic b
 print("Reading in csv")
 birds = pandas.read_csv('../Data/Birds_abund.csv', sep = ',', header = 0, low_memory=False)
 
-# Count number of species from each site and stores as series
-sites=birds['SSBS'].value_counts()
-print("The number of sites is:", len(sites))
-print("Removing sites with fewer than 5 species...")
-# Removes sites that have fewer than 5 species from overall db
-birds['site_counts'] = birds.groupby('SSBS')['SSBS'].transform('count')
-birds = birds[birds.site_counts >= 5]
-print("The number of sites is now:", len(birds['SSBS'].value_counts()))
-
 # Make a subsetted df with pertinent information for each site
 print("Creating dataframe for site level diversity metrics...")
 birds_sites=birds.loc[:,['Source_ID','SSBS','Sample_midpoint','Habitat_patch_area_square_metres',\
@@ -134,7 +125,6 @@ max = weights.iloc[weights['Value'].idxmax(),1]
 for i in range(len(birds_sites)):
     #Add weight from weights to main df
     birds_sites.iloc[i,18] = max/weights.loc[weights['Realm']==birds_sites.iloc[i,13]].iloc[0,1]
-
 
 # Save csv
 print("Saving to csv")
