@@ -112,8 +112,8 @@ Richness_latt_land<-lmer(log(Richness) ~ Latitude + Predominant_land_use + (1|So
 
 #Create list of models and calculate AIC of each
 Richness_lm <- list(Richness_null, Richness_gdp, Richness_land, Richness_latt, Richness_gdp_land, Richness_gdp_latt, Richness_latt_land, Richness_max)
+# Add richness AIC values to df
 AIC_Values['Richness'] =  sapply(X = Richness_lm, FUN = AIC)
-#anov_Rich<-anova(Richness_max, Richness_null, Richness_gdp, Richness_land, Richness_latt, Richness_gdp_land, Richness_gdp_latt, Richness_latt_land)
 
 print("Calculating AICs for Simpson's Measure models")
 
@@ -133,6 +133,7 @@ Simpson_latt_land<-lmer(log(Simpson) ~ Latitude + Predominant_land_use + (1|Sour
 
 #Create list of models and calculate AIC of each
 Simpson_lm<-list(Simpson_null, Simpson_gdp, Simpson_land, Simpson_latt, Simpson_gdp_land, Simpson_gdp_latt, Simpson_latt_land, Simpson_max)
+# Add Simpson AIC values to df
 AIC_Values['Simpson'] = sapply(X = Simpson_lm, FUN = AIC)
 
 print("Calculating AICs for Shannon's Index models")
@@ -153,22 +154,28 @@ Shannon_latt_land<-lmer(Shannon ~ Latitude + Predominant_land_use + (1|Source_ID
 
 #Create list of models and calculate AIC of each
 Shannon_lm<-list(Shannon_null, Shannon_gdp, Shannon_land, Shannon_latt, Shannon_gdp_land, Shannon_gdp_latt, Shannon_latt_land, Shannon_max)
+# Add Shannon AIC values to df
 AIC_Values['Shannon'] = sapply(X = Shannon_lm, FUN = AIC)
 
 print("Making table of AIC values")
-#AIC_Values1=AIC_Values
-AIC_min<-min(AIC_Values)
+AIC_min<-min(AIC_Values) #Find minimum AIC value
 AIC_Values<-AIC_Values-AIC_min #Make all values relative
-AIC_Values<-round(AIC_Values)
-#Add an "*" to the best fitting model for each metric
+AIC_Values<-round(AIC_Values) #Round AIC values to nearest int
+#Find index of minimum value for Shannon and Simpson
 simp_min=which.min(AIC_Values$Simpson)
 shan_min=which.min(AIC_Values$Shannon)
+#Add an "*" to the best fitting model for Richness 
 AIC_Values$Richness[which.min(AIC_Values$Richness)]=paste(AIC_Values$Richness[which.min(AIC_Values$Richness)],"*",sep="")
+#Place Simpson relative values in brackets after the overall relative value
 AIC_Values$Simpson=paste(round(AIC_Values$Simpson),"(",round(AIC_Values$Simpson-min(AIC_Values$Simpson)),")",sep="")
+#Add an "*" to the best fitting model for Simpson 
 AIC_Values$Simpson[simp_min]=paste(AIC_Values$Simpson[simp_min],"*",sep="")
+#Place Shannon relative values in brackets after the overall relative value
 AIC_Values$Shannon=paste(round(AIC_Values$Shannon),"(",round(AIC_Values$Shannon-min(AIC_Values$Shannon)),")",sep="")
+#Add an "*" to the best fitting model for Shannon 
 AIC_Values$Shannon[shan_min]=paste(AIC_Values$Shannon[shan_min],"*",sep="")
 
+#Create AIC values table
 AIC_table<-print(xtable(AIC_Values),floating=FALSE,latex.environments=NULL,booktabs=TRUE)
 
 #####################
@@ -181,8 +188,10 @@ AIC_table<-print(xtable(AIC_Values),floating=FALSE,latex.environments=NULL,bookt
 
 print("Creating graphics")
 
+#Set land-use intensity as a factor for plotting
 Birds$Predominant_land_use<-as.factor(Birds$Predominant_land_use)
 
+# Create bar plot of land-use intensity for species richness 
 p1<-ggplot(Birds)+aes(x=Predominant_land_use, y=log(Richness), fill=Predominant_land_use) + geom_boxplot()
 p1<-p1+scale_fill_manual(values=c("darkcyan","lightskyblue","gold", "orange","firebrick4"), labels = c("Primary","Secondary","Plantation","Agriculture","Urban"))
 p1<-p1+scale_x_discrete('Predominant land use', labels=c("Primary","Secondary","Plantation","Agriculture","Urban"))
@@ -196,6 +205,7 @@ p1<-p1+theme(axis.text.x = element_text(size=20,angle = 50, vjust = 0.7, hjust=1
     plot.margin = margin(10, 10, 70, 50))
 p1<-p1+labs(fill='Predominant Land-Use')
 
+# Create bar plot of land-use intensity for Simpson's reciprocal index 
 p2<-ggplot(Birds)+aes(x=Predominant_land_use, y=log(Simpson), fill=Predominant_land_use) + geom_boxplot()
 p2<-p2+scale_fill_manual(values=c("darkcyan","lightskyblue","gold", "orange","firebrick4"), labels = c("Primary","Secondary","Plantation","Agriculture","Urban"))
 p2<-p2+scale_x_discrete('Predominant land use', labels=c("Primary","Secondary","Plantation","Agriculture","Urban"))
@@ -209,6 +219,7 @@ p2<-p2+theme(axis.text.x = element_text(size=20,angle = 50, vjust = 0.7, hjust=1
     plot.margin = margin(10, 10, 70, 50))
 p2<-p2+labs(fill='Predominant Land-Use')
 
+# Create bar plot of land-use intensity for Shannon's diversity measure 
 p3<-ggplot(Birds)+aes(x=Predominant_land_use, y=Shannon, fill=Predominant_land_use) + geom_boxplot()
 p3<-p3+scale_fill_manual(values=c("darkcyan","lightskyblue","gold", "orange","firebrick4"), labels = c("Primary","Secondary","Plantation","Agriculture","Urban"))
 p3<-p3+scale_x_discrete('Predominant land use', labels=c("Primary","Secondary","Plantation","Agriculture","Urban"))
@@ -222,6 +233,7 @@ p3<-p3+theme(axis.text.x = element_text(size=20,angle = 50, vjust = 0.7, hjust=1
     plot.margin = margin(10, 10, 70, 50))
 p3<-p3+labs(fill='Predominant Land-Use')
 
+#Create composite plot
 p<-ggarrange(p1, p2,p3, ncol=3, nrow=1, common.legend= TRUE, legend = "bottom", labels=c("A","B","C"))
 
 pdf("../Output/Land_use.pdf", # Open blank pdf page using a relative path

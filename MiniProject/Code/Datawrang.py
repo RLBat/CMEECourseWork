@@ -51,8 +51,6 @@ df['site_counts'] = df.groupby('SSBS')['SSBS'].transform('count')
 df = df[df.site_counts >= 5]
 print("The number of sites is now:", len(df['SSBS'].value_counts()))
 
-
-
 ## Current df has 51,372 species over 3052 sites - much better size for analysis ##
 print("Saving final dataframe to csv")
 df.to_csv('../Data/Birds_abund.csv', index=False) #Save to csv

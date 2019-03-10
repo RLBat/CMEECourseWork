@@ -9,7 +9,6 @@ __version__ = '0.0.1'
 ## IMPORTS ##
 
 import pandas
-import math
 import numpy as np
 
 ##########################################################
@@ -27,7 +26,7 @@ def Shan(Community=[2,6,5,3,1,8]):
     shan_tot = 0
     for i in range(0,len(Community)): # For each species in the community
         # Calculates shannon value for each species and sums
-        shan_tot = shan_tot + ((Community[i]/N)*math.log((Community[i]/N)))
+        shan_tot = shan_tot + ((Community[i]/N)*np.log((Community[i]/N)))
     Shannon = -shan_tot
     return(Shannon)
 
